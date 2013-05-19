@@ -1,0 +1,10 @@
+<?xml version='1.0' standalone='yes'?>
+<configuration>
+    <connection>
+        <host>localhost</host>
+        <username>root</username>
+        <password>ductrunglk89</password>
+        <database>ProductTracking</database>
+        <mod_rewrite>on</mod_rewrite>
+    </connection>
+</configuration>

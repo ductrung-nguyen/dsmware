@@ -1,0 +1,9 @@
+<?xml version='1.0' standalone='yes'?>
+<configuration>
+    <modules>
+        <amazon>
+            <active>true</active>
+            <codepool>amazon</codepool>
+        </amazon>
+    </modules>
+</configuration>
