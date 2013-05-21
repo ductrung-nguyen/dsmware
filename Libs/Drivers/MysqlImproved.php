@@ -1,12 +1,12 @@
 <?php
 /**
- * File : mysqlimproved.php
+ * File : MysqlImproved.php
  * User : loveallufev
  * Date:  5/17/13
  * Group: Hieu-Trung
 */
 
-class MysqlImproved_Driver extends Database_Library{
+class Lib_Driver_MysqlImproved extends Lib_Database{
     /**
      * Connection holds MySQLi resource
      */

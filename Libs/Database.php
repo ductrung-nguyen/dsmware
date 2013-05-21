@@ -1,6 +1,6 @@
 <?php
 /**
- * File : database.php
+ * File : Database.php
  * User : loveallufev
  * Date:  5/17/13
  * Group: Hieu-Trung
@@ -9,7 +9,7 @@
 /**
  * The Database Library handles database interaction for the application
  */
-abstract class Database_Library
+abstract class Lib_Database
 {
     abstract protected function connect();
     abstract protected function disconnect();

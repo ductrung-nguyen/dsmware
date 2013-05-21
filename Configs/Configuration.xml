@@ -5,6 +5,6 @@
         <username>root</username>
         <password>ductrunglk89</password>
         <database>ProductTracking</database>
-        <mod_rewrite>on</mod_rewrite>
     </connection>
+    <mod_rewrite>on</mod_rewrite>
 </configuration>

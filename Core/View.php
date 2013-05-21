@@ -1,6 +1,6 @@
 <?php
 /**
- * File : view.php
+ * File : View.php
  * User : loveallufev
  * Date:  5/19/13
  * Group: Hieu-Trung
@@ -8,7 +8,7 @@
 
 defined('APP') or die('Access denied');
 
-class View_Core {
+class Core_View {
 
     /**
      * @var var: data of view
@@ -44,7 +44,7 @@ class View_Core {
 
     public function setTemplate($template){
         //compose file name
-        $file = SERVER_ROOT . '/views/' . strtolower($template) . '.php';
+        $file = SERVER_ROOT . '/Views/' . $template . '.php';
 
         if (file_exists($file))
         {
@@ -88,8 +88,6 @@ class View_Core {
             return ob_get_clean();
         }
     }
-
-
 
     public function __destruct(){
     }

@@ -1,13 +1,13 @@
 <?php
 /**
- * File : model.php
+ * File : Model.php
  * User : loveallufev
  * Date:  5/19/13
  * Group: Hieu-Trung
 */
 
 
-class Model_Core {
+class Core_Model {
     /**
      * Holds instance of database connection
      */
@@ -18,6 +18,6 @@ class Model_Core {
      */
     function __construct()
     {
-        $this->db = new MysqlImproved_Driver(Core::$config);
+        $this->db = new Lib_Driver_MysqlImproved(Core::$config['connection']);
     }
 }

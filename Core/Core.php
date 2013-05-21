@@ -1,6 +1,6 @@
 <?php
 /**
- * File : core.php
+ * File : Core.php
  * User : loveallufev
  * Date:  5/19/13
  * Group: Hieu-Trung
@@ -18,7 +18,7 @@ class Core {
     public static function init($config){
         self::$config = $config;
         spl_autoload_register(array('Core', 'autoload'));
-        Router_Core::loader();
+        Core_Router::loader();
     }
 
     //Automatically includes files containing classes that are called
@@ -31,46 +31,34 @@ class Core {
         $suffix = strrev($suffix);
         $folder = '';
 
+        //$classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $className)));
+        $arr = explode(DS, ucwords(str_replace('_', DS, $className)));
+        if ($arr[0] != 'Core')
+            $arr[0] = $arr[0] . 's';
+        $classFile = implode(DS , $arr);
+
+        //$classFile = str_replace('controller'.DS, 'Controllers'.DS, $classFile);
+        //$classFile = str_replace('model'.DS, 'models'.DS, $classFile);
+        //$classFile = str_replace('view'.DS, 'Views'.DS, $classFile);
+        $classFile = SERVER_ROOT . DS . $classFile . '.php';
+
         //select the folder where class should be located based on suffix
-        switch (strtolower($suffix))
-        {
-            case 'model':
-                $folder = DS. 'models' . DS;
-                break;
-
-            case 'library':
-                $folder = DS .'libraries'  . DS;
-                break;
-
-            case 'driver':
-                $folder = DS. 'libraries' .DS . 'drivers' . DS;
-                break;
-
-            case 'controller':
-                $folder = DS . 'controllers' . DS;
-                break;
-
-            case 'core':
-                $folder = DS . 'core' . DS ;
-                break;
-        }
-
 
         //compose file name
         $file = SERVER_ROOT . $folder . strtolower($filename) . '.php';
 
         //fetch file
-        if (file_exists($file))
+        if (file_exists($classFile))
         {
             //get file
-            include_once($file);
+            include_once($classFile);
         }
         else
         {
             //file does not exist!
             header('Location: ' . Core::site_url());
 
-            die("File '$filename' containing class '$className' not found.");
+            die("File '$classFile' containing class '$className' not found.");
         }
     } // end of __autoload
 
@@ -79,12 +67,20 @@ class Core {
         if(self::$config['mod_rewrite'] == 'on') {
             $url = BASE_URL . $uri;
         } else {
-            $url = BASE_URL . 'index.php/' . $uri;
+            $url = BASE_URL . 'Index.php/' . $uri;
         }
         if($uri == '') {
             return $url;
         } else {
             return $url . self::$config;
+        }
+    }
+
+    public static function includeConfigFile($url_pattern){
+        $url_pattern = ucwords(str_replace('_', DS, $url_pattern));
+        $classFile = SERVER_ROOT . DS . $url_pattern . '.php';
+        if (is_file($classFile)){
+            include $classFile;
         }
     }
 

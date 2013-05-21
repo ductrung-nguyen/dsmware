@@ -13,7 +13,7 @@
 <?=$data['header'];?>
 
 ...body stuff...
-<?=Core::$config['debug']?>
+<? if (isset(Core::$config['debug'])) echo Core::$config['debug'];?>
 
 <?=$data['footer'];?>
 </body>
