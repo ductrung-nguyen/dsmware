@@ -129,5 +129,23 @@
 		<p style="margin-left: 40px;">
 			<em>$this-&gt;view-&gt;header = (new Core_View(&#39;header&#39;))-&gt;render(FALSE);</em> will create new Core_View instance with template is &#39;header.php&#39; in View directory and then call function &#39;render&#39; of this function. Parameter FALSE means: don&#39;t output into screen, keep it and return value for whom called it.</p>
 		<p style="margin-left: 40px;">
-			In render function, the template will be load (by call &#39;include&#39;), all variables will be replaced with its value.</p></body>
+			In render function, the template will be load (by call &#39;include&#39;), all variables will be replaced by its value.</p>
+		<p>
+			<strong>SEARCHING MODULE</strong></p>
+		<p style="margin-left: 40px;">
+			All searching module will have its MVC model. The controller will inherit from <strong>Controller_SearchingAbstract</strong>, implements &#39;indexFunction&#39; and &#39;searchingFunction&#39;.</p>
+		<p style="margin-left: 40px;">
+			When <em>localhost/index.php/site/search?s=amazon&amp;sq=alice </em>is requested, the application will call &#39;<strong>searchingFunction</strong>&#39; of <strong>Controller_Site</strong> class (Controller/Site.php). In this function, we will check if parameter &#39;s&#39; exists or not. If yes, create new instance Controller of amazon module. But, how can we know what controller class of this module ? Oh, it&#39;s declared at <strong><em>Config/Amazon/Amazon.xml</em></strong> and loaded automacally at the begging of application (in Index.php)</p>
+		<p style="margin-left: 40px;">
+			<em>&lt;amazon&gt;<br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;active&gt;true&lt;/active&gt;<br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>&lt;class&gt;Controller_Amazon_Home&lt;/class&gt;</strong><br />
+			&lt;/amazon&gt;</em></p>
+		<p style="margin-left: 40px;">
+			OK, so the searchingFunction of Controller_Amazon_Home will be called. In this function, we will use web services of amazon to get data. That&#39;s all.</p>
+		<p style="margin-left: 40px;">
+			&nbsp;</p>
+		<p style="margin-left: 40px;">
+			So, whenever well need to add new searching website, write it by MVC, and copy into application, create new config file. It&#39;s ok. We don&#39;t need to modify any existing code.</p>
+	</body>
 </html>
