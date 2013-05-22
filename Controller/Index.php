@@ -8,7 +8,7 @@
 
 
 class Controller_Index extends Core_Controller {
-    public function indexAction(){
+    public function indexAction($param){
 
         // set title for page
         // this operation will done by function __set of Core_View whether title_url hasn't declared before

@@ -1,12 +1,12 @@
 <?php
 /**
- * File : Configs.php
+ * File : Config.php
  * User : loveallufev
  * Date:  5/19/13
  * Group: Hieu-Trung
 */
 
-require_once SERVER_ROOT . '/Libs/' . 'XmlHelper.php';
+require_once SERVER_ROOT . '/Lib/' . 'XmlHelper.php';
 
 /**
  * @param int $pattern
@@ -28,18 +28,18 @@ function rglob($pattern='*', $flags = 0, $path='')
 }
 
 // Load system configuration
-$xml = simplexml_load_file(SERVER_ROOT . '/Configs/' . 'Configuration.xml');
+$xml = simplexml_load_file(SERVER_ROOT . '/Config/' . 'Configuration.xml');
 //var_dump($xml);
 
 $config = XmlToArray($xml);
-$config['Modules'] = array();
+$config['modules'] = array();
 
 // Load configuration from all module files and combine them
-$module_config_file = rglob('*.xml',0, SERVER_ROOT . '/Configs/Modules/' );
-//$module_config_file = glob(SERVER_ROOT . '/Configs/Modules/' . '*.xml');
+$module_config_file = rglob('*.xml',0, SERVER_ROOT . '/Config/Modules/' );
+//$module_config_file = glob(SERVER_ROOT . '/Config/Modules/' . '*.xml');
 
 foreach ($module_config_file as $f) {
     $temp = XmlToArray(simplexml_load_file($f))['modules'];
-    $config['Modules'] = array_merge($config['Modules'] , $temp);
+    $config['modules'] = array_merge($config['modules'] , $temp);
 }
 

@@ -44,7 +44,7 @@ class Core_View {
 
     public function setTemplate($template){
         //compose file name
-        $file = SERVER_ROOT . '/Views/' . $template . '.php';
+        $file = SERVER_ROOT . '/View/' . $template . '.php';
 
         if (file_exists($file))
         {

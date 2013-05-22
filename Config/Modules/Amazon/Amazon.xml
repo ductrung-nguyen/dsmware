@@ -1,0 +1,16 @@
+<?xml version='1.0' standalone='yes'?>
+<configuration>
+    <modules>
+        <searching>
+            <amazon>
+                <active>true</active>
+                <codepool>amazon</codepool>
+                <class>Controller_Amazon_Home</class>
+                <AWS_API_KEY>AKIAJFPRH7S6FI6JM32Q</AWS_API_KEY>
+                <AWS_API_SECRET_KEY>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</AWS_API_SECRET_KEY>
+                <AWS_ASSOCIATE_TAG>mmifas-20</AWS_ASSOCIATE_TAG>
+                <AWS_ANOTHER_ASSOCIATE_TAG></AWS_ANOTHER_ASSOCIATE_TAG>
+            </amazon>
+        </searching>
+    </modules>
+</configuration>

@@ -13,25 +13,28 @@
 
 // only allow to access Index.php
 define('APP', TRUE);
-
 define('DS', DIRECTORY_SEPARATOR);
-
-//define('SERVER_ROOT' , '/var/www');
-//define('SERVER_ROOT', '/home/loveallufev/PhpstormProjects/dsmware');
 define('SERVER_ROOT', realpath(dirname(__FILE__)));
 
 // absolute path
-//$base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('Index.php', '', $_SERVER['SCRIPT_NAME']);
-define('BASE_URL' , 'http://localhost/');
+if (!isset( $_SERVER['HTTP_HOST'])){
+    $_SERVER['HTTP_HOST'] = '';
+}
 
+// For testing
 if (is_null($_SERVER['SCRIPT_NAME']))
     $_SERVER['SCRIPT_NAME'] = SERVER_ROOT . '/index.php';
 
 
-if (is_null($_SERVER['REQUEST_URI']))
-    $_SERVER['REQUEST_URI'] = SERVER_ROOT. '/index.php/amazon/home/search?sq=Nikon D7000';
+if (!isset($_SERVER['REQUEST_URI']) || is_null($_SERVER['REQUEST_URI']))
+    $_SERVER['REQUEST_URI'] = SERVER_ROOT. '/index.php/site/search?s=amazon&sq=test';
 
-//$_SERVER['QUERY_STRING']='';
+// End for testing
+
+$base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);
+
+define('BASE_URL' , $base_url);
+
 
 // Include configuration file
 require_once SERVER_ROOT . DS . 'config.php';

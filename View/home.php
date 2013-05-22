@@ -7,14 +7,9 @@
 */
 ?>
 
-<html>
-<head></head>
-<body>
 <?=$data['header'];?>
 
-...body stuff...
+...body stuff - index - main page...
 <? if (isset(Core::$config['debug'])) echo Core::$config['debug'];?>
 
 <?=$data['footer'];?>
-</body>
-</html>

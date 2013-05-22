@@ -30,11 +30,15 @@ class Core_Router {
     /**
      * namespace
      */
-    public static $namespace;
+    public static $module;
 
     public static function loader(){
         self::getController();
-        $classname = 'Controller_' . ucfirst(self::$namespace) . '_' . ucfirst(self::$controller);// . '_Controller';
+        $classname = '';
+
+        // if in config file, no controller class was declared
+        $classname = 'Controller_' . ucfirst(self::$controller);// . '_Controller';
+
         $controller = new $classname();
 
         // if the action function isn't exist in controller object
@@ -77,9 +81,12 @@ class Core_Router {
 
         $uri = str_replace($_SERVER['SCRIPT_NAME'] . DS, '', $_SERVER['REQUEST_URI']);
 
+        // The uri will be like: /controller/action?param1=x&param2=y
+
+        // split uri by '/'
         $parsed = explode('/' , $uri);
 
-        self::$namespace = array_shift($parsed);
+        //self::$module = array_shift($parsed);
 
         $control = array_shift($parsed);
         self::$controller = (empty($control)) ? 'index' : $control;
@@ -89,6 +96,7 @@ class Core_Router {
 
         self::$action = (empty($action)) ? 'index' : $action;
 
+        $parsed = explode('&' , array_shift($parsed));
         self::$param = array();
         foreach ($parsed as $argument)
         {
@@ -99,7 +107,7 @@ class Core_Router {
 
         /*
         $uri = str_replace($_SERVER['SCRIPT_NAME'], '', $_SERVER['PHP_SELF']);
-        Core::$Configs['debug'] = '<uri>' . $uri . '</uri>';
+        Core::$Config['debug'] = '<uri>' . $uri . '</uri>';
         $control = $action = $param = '';
         if(preg_match('#^/?(?P<control>[\w]+)?(?:/(?P<action>[\w]+))?(?:/(?P<param>[\d]+))?#', $uri, $matches)) {
             extract($matches);

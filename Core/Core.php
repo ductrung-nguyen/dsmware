@@ -26,26 +26,16 @@ class Core {
     {
         // Parse out filename where class should be located
         // This supports names like 'Example_Model' as well as 'Example_Two_Model'
-        list($suffix, $filename) = preg_split('/_/', strrev($className), 2);
-        $filename = strrev($filename);
-        $suffix = strrev($suffix);
-        $folder = '';
 
         //$classFile = str_replace(' ', DS, ucwords(str_replace('_', ' ', $className)));
         $arr = explode(DS, ucwords(str_replace('_', DS, $className)));
-        if ($arr[0] != 'Core')
-            $arr[0] = $arr[0] . 's';
         $classFile = implode(DS , $arr);
 
-        //$classFile = str_replace('controller'.DS, 'Controllers'.DS, $classFile);
+        //$classFile = str_replace('controller'.DS, 'Controller'.DS, $classFile);
         //$classFile = str_replace('model'.DS, 'models'.DS, $classFile);
-        //$classFile = str_replace('view'.DS, 'Views'.DS, $classFile);
+        //$classFile = str_replace('view'.DS, 'View'.DS, $classFile);
         $classFile = SERVER_ROOT . DS . $classFile . '.php';
 
-        //select the folder where class should be located based on suffix
-
-        //compose file name
-        $file = SERVER_ROOT . $folder . strtolower($filename) . '.php';
 
         //fetch file
         if (file_exists($classFile))

@@ -8,7 +8,7 @@
 defined('APP') or die('Access Denied');
 
 abstract class Core_Controller {
-    protected $view;
+    protected  $view;
 
     public function __construct(){
         $this->view = new Core_View();
