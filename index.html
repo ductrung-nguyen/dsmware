@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Dsmware : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Dsmware</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/loveallufev/dsmware">View on GitHub</a>
+
+          <h1 id="project_title">Dsmware</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/loveallufev/dsmware/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/loveallufev/dsmware/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>
+    </p>
+        Product Tracking<p>
+            <strong>This is the project of DSMWare course of group formed by LUONG Trong Hieu &amp; NGUYEN Duc Trung.</strong></p>
+        <p>
+            <strong><a href="#setup">SET UP ENVIRONMENT FOR DEVELOPMENT</a></strong></p>
+        <p>
+            1. You can use some php IDEs such as Eclipse, <a href="http://www.jetbrains.com/phpstorm/">phpStorm</a> (recommended) to develop</p>
+        <ul>
+<li>
+                If you use phpStorm, the configuration file puted in responsitory might be useful.</li>
+            <li>
+                Install xdebug for debugging</li>
+        </ul><p>
+            2. Install php5 &amp; Apache server by following <a href="http://www.howtogeek.com/howto/ubuntu/installing-php5-and-apache-on-ubuntu/">this instruction</a> (for ubuntu users) and <a href="http://php.net/manual/en/install.php">this instruction</a> for general users.</p>
+        <ul>
+<li>
+                You should choose another directory for storing root directory of server (default is /var/www) because the other IDEs difficultly wirte into these directory. You can choose /home/www/.</li>
+        </ul><p>
+            3. Install phpmyAdmin by following <a href="https://www.digitalocean.com/community/articles/how-to-install-and-secure-phpmyadmin-on-ubuntu-12-04">this instruction</a> or <a href="https://help.ubuntu.com/community/phpMyAdmin">this</a> (for ubuntu users).</p>
+        <p>
+            After installation, you can navigate your browser to http://localhost/phpmyadmin to work on</p>
+        <p>
+            4. Install Git (if not any)</p>
+        <p>
+            <strong><a href="#structure">PROJECT STRUCTURE</a></strong></p>
+        <p>
+            The project is based on MVC Model: (written by following <a href="http://johnsquibb.com/tutorials/mvc-framework-in-1-hour-part-one">this tutorial</a> and <a href="http://www.vn-zoom.com/f139/tutorial-mo-hinh-mvc-autoload-controller-va-model-1930595.html">this</a> , but who care ?)</p>
+        <p>
+            <img alt="" src="http://cdn.phpmaster.com/files/2013/03/MVC-Process.png" width="200"></p>
+        <p>
+            The directories structure:</p>
+        <p>
+            ├── Config                : all configuration of website<br>
+            │   └── Modules        : contain config file of each module<br>
+            │       └── Amazon<br>
+            ├── Controller          : all controllers<br>
+            │   └── Amazon         : controllers of module 'Amazon'<br>
+            ├── Core                   : all core classes<br>
+            ├── design                 : all stuff related to 'how do users look'<br>
+            │   ├── css<br>
+            │   ├── images<br>
+            │   └── js<br>
+            ├── Lib                      : all libraries<br>
+            │   ├── Amazon         : library from Amazon<br>
+            │   └── Drivers          : class to connect and access mySQL data<br>
+            ├── samples              : sample codes to test libraries (often download from tutorials)<br>
+            └── View                   : all view html templates (with some php variables) for filling up data<br>
+                └── Amazon          : templates of module amazon</p>
+        <p>
+            <strong><a href="#url_processing">THE URL PROCESSING</a></strong></p>
+        <p>
+            The first, let see the structure of URL when user request. The well-form URL is:</p>
+        <p>
+            <em><a href="http://example.com/index.php/">http://example.com/index.php/</a>controller/action?param1=value1&amp;param2=value2</em></p>
+        <p>
+            So, with url http://localhost, when passed to our application, we will check and fill up to: <strong>http://localhost/index.php/index/index</strong>  (if controller or action is missing)</p>
+        <p>
+            <strong>What is index.php ?</strong></p>
+        <p>
+            Well, index.php is the only one entrance of the application. All request will pass to this file. Therefore, we only need to load configurations &amp; some pre-processing here. It will make our application easier to maintain.</p>
+        <p>
+            <strong>What is the first /index ?</strong></p>
+        <p>
+            This is the name of controller will handle the request. Our application will capitalize the first letter, and add prefix 'Controller_' to forming 'Controller_Index'. It's the name of controller class will process request.</p>
+        <p>
+            <strong>What is the second /index ?</strong></p>
+        <p>
+            This is the name of action will be done.</p>
+        <p>
+            After create a new instance of class Controller_Index, we will call function <strong>'index</strong>Function'.</p>
+        <p>
+             </p>
+        <p>
+            OK, for another example, the url: <em>localhost/index.php/site/search?s=amazon&amp;sq=alice</em> will be broken, and splitted to call function 'searchAction' and pass parameters $params['s']='amazon' and $params['sq']='alice'  ($params is the name of input parameters of this function)</p>
+        <p>
+             </p>
+        <p>
+            <strong><a href="#autoload">AUTOLOAD CLASS</a></strong></p>
+        <p>
+            Whenever you call $x = new Class_X(); but the php file contains class X is never included, php will consider to auto include and load this file.</p>
+        <p>
+            But, how can php know where this file locates ?</p>
+        <p>
+            We can guild for php by function 'autoload' in Core/Core.php.</p>
+        <p>
+            Every unknown class name will be broken into directory form. For example, class 'Controller_Amazon_home' will located at Controller/Amazon/Home.php</p>
+
+<pre><code>    &lt;p&gt;
+        &lt;strong&gt;[HOW DOES IT WORK ?](#how_does_it_work)&lt;/strong&gt;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        Class &amp;#39;Controller&amp;#39; and all class inherit it have a field named &amp;#39;view&amp;#39; (an instance of Core_View class) and this field will render the interface.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        When the instance of controller is created, it will create new view.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        When we call function , let say, indexAction, every&amp;nbsp; Model instances (which will get data from database) will be declared here and launch them.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        After that, the view will be initialized and filled up with data.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        &lt;em&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;view-&amp;gt;title_url = &amp;quot;Homepage&amp;quot;;&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;view-&amp;gt;header = (new Core_View(&amp;#39;header&amp;#39;))-&amp;gt;render(FALSE);&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;view-&amp;gt;footer = (new Core_View(&amp;#39;footer&amp;#39;))-&amp;gt;render(FALSE);&lt;br /&gt;
+        &lt;br /&gt;
+        &lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; // set template is home.php and render&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;view-&amp;gt;setTemplate(&amp;#39;home&amp;#39;);&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;view-&amp;gt;render();&lt;/em&gt;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        The interesting thing is title_url, header... is never declared in view class ! when &lt;em&gt;$this-&amp;gt;view-&amp;gt;title_url = &amp;quot;Homepage&amp;quot;; &lt;/em&gt;&lt;br /&gt;
+        is involked, the view will assgin $data[&amp;#39;title_url&amp;#39;]=&amp;quot;Homepage&amp;quot; via function:&lt;/p&gt;
+    &lt;p style="margin-left: 80px;"&gt;
+        &lt;em&gt;public function __set($index, $value){&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; $this-&amp;gt;data[$index] = $value;&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp; }&lt;/em&gt;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        we overrided the default function of php for class Core_View.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        So, write any field you want: $this-&amp;gt;view-&amp;gt;name, $this-&amp;gt;view-&amp;gt;XXX...&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        and it will be pass into $data[&amp;#39;name&amp;#39;], $data[&amp;#39;XXX&amp;#39;]... and be used in tempated file (you can see in View/home.php)&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        &lt;em&gt;$this-&amp;gt;view-&amp;gt;header = (new Core_View(&amp;#39;header&amp;#39;))-&amp;gt;render(FALSE);&lt;/em&gt; will create new Core_View instance with template is &amp;#39;header.php&amp;#39; in View directory and then call function &amp;#39;render&amp;#39; of this function. Parameter FALSE means: don&amp;#39;t output into screen, keep it and return value for whom called it.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        In render function, the template will be load (by call &amp;#39;include&amp;#39;), all variables will be replaced by its value.&lt;/p&gt;
+    &lt;p&gt;
+        &lt;strong&gt;[SEARCHING MODULE](#searching_module)&lt;/strong&gt;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        All searching module will have its MVC model. The controller will inherit from &lt;strong&gt;Controller_SearchingAbstract&lt;/strong&gt;, implements &amp;#39;indexFunction&amp;#39; and &amp;#39;searchingFunction&amp;#39;.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        When &lt;em&gt;localhost/index.php/site/search?s=amazon&amp;amp;sq=alice &lt;/em&gt;is requested, the application will call &amp;#39;&lt;strong&gt;searchingFunction&lt;/strong&gt;&amp;#39; of &lt;strong&gt;Controller_Site&lt;/strong&gt; class (Controller/Site.php). In this function, we will check if parameter &amp;#39;s&amp;#39; exists or not. If yes, create new instance Controller of amazon module. But, how can we know what controller class of this module ? Oh, it&amp;#39;s declared at &lt;strong&gt;&lt;em&gt;Config/Amazon/Amazon.xml&lt;/em&gt;&lt;/strong&gt; and loaded automacally at the begging of application (in Index.php)&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        &lt;em&gt;&amp;lt;amazon&amp;gt;&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;lt;active&amp;gt;true&amp;lt;/active&amp;gt;&lt;br /&gt;
+        &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;strong&gt;&amp;lt;class&amp;gt;Controller_Amazon_Home&amp;lt;/class&amp;gt;&lt;/strong&gt;&lt;br /&gt;
+        &amp;lt;/amazon&amp;gt;&lt;/em&gt;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        OK, so the searchingFunction of Controller_Amazon_Home will be called. In this function, we will use web services of amazon to get data. That&amp;#39;s all.&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        &amp;nbsp;&lt;/p&gt;
+    &lt;p style="margin-left: 40px;"&gt;
+        So, whenever well need to add new searching website, write it by MVC, and copy into application, create new config file. It&amp;#39;s ok. We don&amp;#39;t need to modify any existing code.&lt;/p&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Dsmware maintained by <a href="https://github.com/loveallufev">loveallufev</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
