@@ -16,6 +16,7 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      */
     public function indexAction($param)
     {
+        echo "<pre>" . "index action of amazon" . "</pre>";
         $this->view->title = 'Amazons Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
@@ -31,6 +32,7 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      */
     public function searchAction($param)
     {
+        echo "<pre>". "search action of amazon" . "</pre>";
         $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
         $this->view->setTemplate('Amazon/search_result');
 

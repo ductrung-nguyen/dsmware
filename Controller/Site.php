@@ -32,6 +32,8 @@ class Controller_Site extends Core_Controller {
     public function searchAction($param){
         // the right parameters such as s=searchingSite & sq=keyword
 
+        echo "<pre>". "search of site". "</pre>";
+
         // doesn't declare searching site
         if ((!isset($param['s'])) && (!isset($param['s2']))){
             $this->indexAction($param);
