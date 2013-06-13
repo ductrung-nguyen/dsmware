@@ -7,7 +7,7 @@
 */
 
 
-class Controller_Amazon_Home extends Controller_MerchantAbstract {
+class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
     /**
      * Display index page
@@ -16,12 +16,12 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      */
     public function indexAction($param)
     {
-        echo "<pre>" . "index action of amazon" . "</pre>";
-        $this->view->title = 'Amazons Product Tracking';
+        echo "<pre>" . "index action of ebay" . "</pre>";
+        $this->view->title = 'Ebay Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
         $this->view->body = 'Some stuff';
-        $this->view->setTemplate('Amazon/Home');
+        $this->view->setTemplate('Ebay/Home');
         $this->view->render();
     }
 
@@ -32,19 +32,19 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      */
     public function searchAction($param)
     {
-        echo "<pre>". "search action of amazon" . "</pre>";
+        echo "<pre>". "search action of ebay" . "</pre>";
         $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
-        $this->view->setTemplate('Amazon/search_result');
+        $this->view->setTemplate('Ebay/search_result');
 
-        $this->view->title = 'Amazons Product Tracking';
+        $this->view->title = 'Ebay Product Tracking';
 
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
 
-        $amazon_model = new Model_Amazon_Product();
+        $amazon_model = new Model_Ebay_Product();
         $result = $amazon_model->search($keyword);
 
-        $this->view->result = (new Model_Amazon_Product())->search($keyword);
+        $this->view->result = (new Model_Ebay_Product())->search($keyword);
 
         $this->view->keyword = $keyword;
         $this->view->data = str_replace('\\"','\\\\"', json_encode($this->view->result,JSON_FORCE_OBJECT | JSON_HEX_APOS));
@@ -80,11 +80,11 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
             // get product from session data (we've already saved it before)
             $product = $_SESSION['product'][$param['id']];
         } else {
-            $product = (new Model_Amazon_Product())->lookup($param['id']);
+            $product = (new Model_Ebay_Product())->lookup($param['id']);
         }
 
         // And prepare data for displaying
-        $this->view->setTemplate('Amazon/Product');
+        $this->view->setTemplate('Ebay/Product');
         $this->view->product = $product;
         $this->view->render();
     }

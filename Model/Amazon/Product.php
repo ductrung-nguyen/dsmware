@@ -13,6 +13,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
     {
         Core::includeConfigFile('Configs_Modules_Amazon_Settings');
         require_once SERVER_ROOT . DS . 'Lib/Amazon/AmazonECS.php';
+        //echo SERVER_ROOT . DS . 'Lib/Amazon/AmazonECS.php'; die;
         try{
             // get a new object with API Key and secret key. Lang is optional.
             // if you leave lang blank it will be US.

@@ -1,0 +1,12 @@
+<?xml version='1.0' standalone='yes'?>
+<configuration>
+    <modules>
+        <merchant>
+            <ebay>
+                <active>true</active>
+                <codepool>ebay</codepool>
+                <class>Controller_Ebay_Home</class>
+            </ebay>
+        </merchant>
+    </modules>
+</configuration>
