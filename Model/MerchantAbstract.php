@@ -23,6 +23,13 @@ abstract class Model_MerchantAbstract extends Core_Model {
     abstract public function lookup($productID);
 
     /**
+     * Add a product for tracking
+     * @param $product
+     * @return mixed
+     */
+    abstract public function track($product);
+
+    /**
      * Update new price of products which users have already added into database
      * @return mixed
      */

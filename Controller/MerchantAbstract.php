@@ -39,6 +39,8 @@ abstract class Controller_MerchantAbstract extends Core_Controller{
      */
     abstract public function viewAction($param);
 
+    abstract public function trackAction($param);
+
     /**
      * Update price for all tracked products of this merchant
      * @return mixed
