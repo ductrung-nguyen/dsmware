@@ -9,7 +9,7 @@
 
 class Controller_Site extends Core_Controller {
 
-    private  $searching_controller;
+    private  $merchant_controller;
 
     /**
      * Display the default page of Site control (such as show the main homepage...)
@@ -37,24 +37,23 @@ class Controller_Site extends Core_Controller {
             $this->indexAction($param);
             return;
         }
-        $param['s'] = $param['s'] . $param['s2'];
 
         // key keyword from textbox has id='sq' OR id='sq2'
         $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
 
         // if there is a searching site in config file
-        if (isset(Core::$config['modules']['searching'][$param['s']]['class'])){
-            $this->searching_controller = new Core::$config['modules']['searching'][$param['s']]['class']();
+        if (isset(Core::$config['modules']['merchant'][$param['s']]['class'])){
+            $this->merchant_controller = new Core::$config['modules']['merchant'][$param['s']]['class']();
         }
 
         // if no keyword, load the default search page
         if (empty($keyword)){
-            if (is_callable(array($this->searching_controller , 'indexAction'))){
-                    $this->searching_controller->indexAction($param);
+            if (is_callable(array($this->merchant_controller , 'indexAction'))){
+                    $this->merchant_controller->indexAction($param);
             }
             return;
         }
 
-        $this->searching_controller->searchAction($param);
+        $this->merchant_controller->searchAction($param);
     }
 }

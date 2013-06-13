@@ -7,9 +7,15 @@
 */
 
 
-class Controller_Amazon_Home extends Controller_SearchingAbstract {
+class Controller_Amazon_Home extends Controller_MerchantAbstract {
 
-    public function IndexAction($param){
+    /**
+     * Display index page
+     * @param $param
+     * @return mixed
+     */
+    public function indexAction($param)
+    {
         $this->view->title = 'Amazons Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
@@ -18,51 +24,60 @@ class Controller_Amazon_Home extends Controller_SearchingAbstract {
         $this->view->render();
     }
 
-    public function SearchAction($param){
-
-        Core::includeConfigFile('Configs_Modules_Amazon_Settings');
-
-        require SERVER_ROOT . DS . 'Lib/Amazon/AmazonECS.php';
+    /**
+     * Search products by keyword
+     * @param $param : array of parameters (depend on the interface, such as $param['textbox1']...)
+     * @return mixed
+     */
+    public function searchAction($param)
+    {
+        $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
+        $this->view->setTemplate('Amazon/search_result');
 
         $this->view->title = 'Amazons Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
 
-        try{
-            // get a new object with API Key and secret key. Lang is optional.
-            // if you leave lang blank it will be US.
-            $amazonEcs = new Lib_Amazon_AmazonECS(
-                Core::$config['modules']['searching']['amazon']['AWS_API_KEY'],
-                Core::$config['modules']['searching']['amazon']['AWS_API_SECRET_KEY'],
-                'fr',
-                Core::$config['modules']['searching']['amazon']['AWS_ASSOCIATE_TAG']);
-
-            // If you are at min version 1.3.3 you can enable the requestdelay.
-            // This is usefull to get rid of the api requestlimit.
-            // It depends on your current associate status and it is disabled by default.
-            // $amazonEcs->requestDelay(true);
-
-            $amazonEcs->associateTag(Core::$config['modules']['searching']['amazon']['AWS_ASSOCIATE_TAG']);
-
-            // from now on you want to have pure arrays as response
-            $amazonEcs->returnType(Lib_Amazon_AmazonECS::RETURN_TYPE_ARRAY);
-
-            // searching
-            $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
-            $response = $amazonEcs->category('All')->responseGroup('Large,Images')->search($keyword);
-
-            // make sure the keyword is included
-            $response['Items']['Request']['ItemSearchRequest']['Keywords'] = $keyword;
-            $this->view->search_result = $response['Items'];
-
-        }
-        catch(Exception $e)
-        {
-            echo $e->getMessage();
-        }
+        $this->view->result = (new Model_Amazon_Product())->search($keyword);
+        $this->view->keyword = $keyword;
+        $this->view->data = str_replace('\\"','\\\\"', json_encode($this->view->result,JSON_FORCE_OBJECT | JSON_HEX_APOS));
 
         // set default template for result page
-        $this->view->setTemplate('Amazon/search_result');
+
+        $this->view->render();
+    }
+
+    /**
+     * Look up a product by given product code
+     * @param $param
+     * @return mixed
+     */
+    protected function lookupAction($param)
+    {
+        // TODO: Implement lookup() method.
+    }
+
+    /**
+     * View detail of a product (include graph of prices)
+     * @param $param['id'] : product code
+     * @return mixed
+     */
+    public function viewAction($param)
+    {
+        if (!isset($param['id'])){
+            return indexAction($param);
+        }
+
+        if (isset($_SESSION['product'][$param['id']])){
+            // get product from session data (we've already saved it before)
+            $product = $_SESSION['product'][$param['id']];
+        } else {
+            $product = (new Model_Amazon_Product())->lookup($param['id']);
+        }
+
+        // And prepare data for displaying
+        $this->view->setTemplate('Amazon/Product');
+        $this->view->product = $product;
         $this->view->render();
     }
 }

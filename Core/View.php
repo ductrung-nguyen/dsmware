@@ -26,6 +26,18 @@ class Core_View {
     }
 
     /**
+     * This is an override function
+     * Get element has key '$index'
+     * @param $index : index of array
+     */
+    public function __get($index){
+        if(isset($this->data[$index])){
+            return $this->data[$index];
+        }
+        return null;
+    }
+
+    /**
      * Holds render status of view.
      */
     private $render = FALSE;

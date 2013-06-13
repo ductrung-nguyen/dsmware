@@ -8,13 +8,73 @@
 
 
 class Controller_Product extends Core_Controller{
+
+    /**
+     * @var : the real controller to handle action of each merchant
+     */
+    private $merchant_controller;
+
+    /**
+     * Action display index page
+     * @param $param
+     */
     public function indexAction($param){
         $this->view->title = 'Amazons Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
-        $this->view->body = 'Some stuff';
+        $this->view->body = 'Index page here';
         $this->view->setTemplate('product');
         $this->view->render();
+    }
+
+    /**
+     * Action view detail of a product
+     * @param $param
+     */
+    public function viewAction($param){
+        if (!isset($param['active']) || !isset($param['id'])){
+            return $this->indexAction($param);
+        }
+
+
+        $this->merchant_controller = new Core::$config['modules']['merchant'][$param['active']]['class']();
+        $this->merchant_controller->viewAction($param);
+
+        // check if product has been tracked or not
+        // if yes, display the information from database
+        // if no, display the information from amazon or ebay...
+        //$this->view->title = 'Product Tracking';
+        //$this->view->setTemplate('');
+
+
+    }
+
+    /**
+     * Tracking a product
+     * @param $param : containt ID of product we want to keep track
+     */
+    public function trackAction($param){
+        if (!isset($param['id'])){
+            return;
+        }
+
+        $product_code = $param['id'];
+        $merchant = $param['site'];
+
+        $product_name = $param['name'];
+
+        // if we've already tracked this product, simply skip it
+        if (Model_Product::checkExistProductByID($product_code, $merchant)){
+            echo 'Already tracked';
+            return 'Already tracked';
+        }
+
+        Model_Product::trackProduct();
+
+
+
+
+
     }
 
 

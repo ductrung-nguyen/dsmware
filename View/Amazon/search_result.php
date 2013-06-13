@@ -201,8 +201,8 @@
 
 </div>
 <div id="pagetitle" itemscope itemtype="http://data-vocabulary.org/Breadcrumb" style="margin-bottom: 10px;">
-    <a href="/index.php/amazon/home/search?sq=<?=$data['search_result']['Request']['ItemSearchRequest']['Keywords']?>" itemprop="url">
-        <span itemprop="title">Search Results for &quot;<?=$data['search_result']['Request']['ItemSearchRequest']['Keywords']?>&quot;</span>
+    <a href="/index.php/amazon/home/search?sq=<?=$data['keyword']?>" itemprop="url">
+        <span itemprop="title">Search Results for &quot;<?=$data['keyword']?>&quot;</span>
     </a>
 </div>
 
@@ -211,13 +211,13 @@
     <p>Find products to track by keyword, manufacturer, or Amazon URL.
 
 
-        <strong>This page searches Amazon directly.  To search our local database, <a href="/index.php/amazon/home/searchlocal?id=<?=$data['search_result']['Request']['ItemSearchRequest']['Keywords']?>">go here</a>.</strong>
+        <strong>This page searches Amazon directly.  To search our local database, <a href="/index.php/amazon/home/searchlocal?id=<?=$data['keyword'] ?>">go here</a>.</strong>
 
     </p>
 
     <form onsubmit="return(check_sq($('sq2')));" action="/index.php/site/search" method='get'>
         <input id="s" name="s" type="hidden" value="amazon" />
-        <input type="text" name="sq2" id="sq2" value="<?=$data['search_result']['Request']['ItemSearchRequest']['Keywords']?>">
+        <input type="text" name="sq2" id="sq2" value="<?=$data['keyword']?>">
         <input type="submit" value="Find Products">
     </form>
 
@@ -357,23 +357,28 @@
 
         <input type="submit" value="Update" />
 
-        <input type="hidden" name="q" id="sq" value="<?=$data['search_result']['Request']['ItemSearchRequest']['Keywords']?>" size="50">
+        <input type="hidden" name="q" id="sq" value="<?=$data['keyword']?>" size="50">
     </form>
 </div>
 
-
+<script type="text/javascript">
+    var data = JSON.parse('<?php echo $data["data"];?>');
+    function checkBeforeTrack(index){
+        $.post('/');
+    }
+</script>
 
 <div id="products_list">
 <table>
 <tbody>
-<? foreach ($data['search_result']['Item'] as $result) {
+<? foreach ($data['result'] as $item) {
 ?>
 <tr>
     <td class="product_image">
 
-        <a href="<?echo '/product/' . $result['ASIN'];?>">
+        <a href="<? echo BASE_URL . DS . 'index.php/product/view?active=amazon&id='. $item->ASIN; ?>">
 
-            <img src="<?=(isset($result['MediumImage']) ? $result['MediumImage']['URL'] : BASE_URL . DS . 'design/images/not-available.png'  )?>" class="product_small"  alt="<?=$result['ItemAttributes']['Title']?>"></a>
+            <img src="<?=(isset($item->images) ? $item->images : BASE_URL . DS . 'design/images/not-available.png'  )?>" class="product_small"  alt="<?=$item->name ?>"></a>
 
 
     </td>
@@ -381,13 +386,13 @@
 
         <div class="product_title">
 
-            <a title="<?=$result['ItemAttributes']['Title']?>" href="<?=$result['DetailPageURL']?>"><?=$result['ItemAttributes']['Title']?></a>
+            <a title="<?=$item->name?>" href="<? echo BASE_URL . DS . 'index.php/product/view?active=amazon&id='. $item->ASIN; ?>"><?=$item->name?></a>
 
         </div>
 
         <div class="breadcrumbs">
 
-            <b>In:</b> <a title="<?echo 'Search for\'' . $data['search_result']['Request']['ItemSearchRequest']['Keywords'] . '\'';?>" href='http://camelcamelcamel.com/search?sq=nikon+D7000+photography'>Photography</a> &raquo; <a title="Search for 'nikon D7000' in category 'Camera'" href='http://camelcamelcamel.com/search?sq=nikon+D7000+camera'>Camera</a> &raquo; Nikon
+            <b>In:</b> <a title="<?echo 'Search for\'' . $data['keyword'] . '\'';?>" href='http://camelcamelcamel.com/search?sq=nikon+D7000+photography'>Photography</a> &raquo; <a title="Search for 'nikon D7000' in category 'Camera'" href='http://camelcamelcamel.com/search?sq=nikon+D7000+camera'>Camera</a> &raquo; Nikon
         </div>
 
         <div>
@@ -402,7 +407,7 @@
                     <div>
 
                         <b>EAN:</b>
-                        5052883992106
+                        <?= $item->ASIN?>
 
                     </div>
 
@@ -410,7 +415,7 @@
                     <div>
 
                         <b>Model:</b>
-                        25468
+                        <?= $item->ASIN?>
 
                     </div>
 
@@ -425,45 +430,54 @@
     <td class="price_type">
         <div class="title">Price Type</div>
 
+        <?  if (isset($item->price['amazon'])) { ?>
+            <div class="price0">
+                <a title="View the Amazon price product page for <?= $item->name?>" href="/product/B0042X9LC4?active=amazon">Amazon</a>
+            </div>
+        <? } ?>
 
-        <div class="price0">
-            <a title="View the Amazon price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=amazon">Amazon</a>
-        </div>
+        <?  if (isset($item->price['new'])) { ?>
+            <div class="price1">
+                <a title="View the 3rd party new price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=new">3rd Party New</a>
+            </div>
+        <? } ?>
 
+        <?  if (isset($item->price['used'])) { ?>
+            <div class="price2">
+                <a title="View the 3rd party used price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=used">3rd Party Used</a>
+            </div>
+        <? } ?>
 
-        <div class="price1">
-            <a title="View the 3rd party new price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=new">3rd Party New</a>
-        </div>
-
-
-        <div class="price2">
-            <a title="View the 3rd party used price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=used">3rd Party Used</a>
-        </div>
 
     </td>
-
 
     <td class="current_price last">
 
         <div class="title">Current Price</div>
+        <?  if (isset($item->price['amazon'])) { ?>
+            <div class="price_amazon">
 
-        <div class="price_amazon">
+                <span class="green"><?=$item->price['amazon']['FormattedPrice']; ?>
+                </span>
 
-            <span class="green">$896.95</span>
+            </div>
+        <? } ?>
+        <?  if (isset($item->price['new'])) { ?>
+            <div class="price_new">
 
-        </div>
+                 <span class="green"><?=$item->price['new']['FormattedPrice']; ?>
+                </span>
 
-        <div class="price_new">
+            </div>
+        <? } ?>
 
-            Not In Stock
+        <?  if (isset($item->price['used'])) { ?>
+            <div class="price_used">
 
-        </div>
+                <span class="green"><?=$item->price['used']['FormattedPrice']; ?></span>
 
-        <div class="price_used">
-
-            <span class="green">$670.00</span>
-
-        </div>
+            </div>
+        <? } ?>
 
     </td>
 

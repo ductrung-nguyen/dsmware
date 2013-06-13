@@ -40,7 +40,8 @@ class Lib_Amazon_AmazonECS
   private $responseConfig = array(
     'returnType'          => self::RETURN_TYPE_OBJECT,
     'responseGroup'       => 'Small',
-    'optionalParameters'  => array()
+    'optionalParameters'  => array(),
+      'country' => 'fr'
   );
 
   /**

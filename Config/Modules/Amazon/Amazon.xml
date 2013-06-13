@@ -1,7 +1,7 @@
 <?xml version='1.0' standalone='yes'?>
 <configuration>
     <modules>
-        <searching>
+        <merchant>
             <amazon>
                 <active>true</active>
                 <codepool>amazon</codepool>
@@ -11,6 +11,6 @@
                 <AWS_ASSOCIATE_TAG>mmifas-20</AWS_ASSOCIATE_TAG>
                 <AWS_ANOTHER_ASSOCIATE_TAG></AWS_ANOTHER_ASSOCIATE_TAG>
             </amazon>
-        </searching>
+        </merchant>
     </modules>
 </configuration>

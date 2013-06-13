@@ -35,7 +35,9 @@
 
 <link rel="shortcut icon" href="http://d1i0o2gnhzh6dj.cloudfront.net/favicon.ico" />
 <link title="camelcamelcamel Product Search" rel="search" type="application/opensearchdescription+xml" href="http://d1i0o2gnhzh6dj.cloudfront.net/camelcamelcamel-open_search.xml">
+
 <script type="text/javascript" src="<?=BASE_URL . DS ?>design/js/google.js"></script>
+<script type="text/javascript" src="<?=BASE_URL . DS ?>design/js/jquery-1.10.0.min.js"></script>
 <script type="text/javascript">var NREUMQ=NREUMQ||[];NREUMQ.push(["mark","firstbyte",new Date().getTime()]);</script></head>
 <body>
 <div id="page">
