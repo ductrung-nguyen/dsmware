@@ -16,6 +16,7 @@ class Model_Product {
     public $ASIN;
     public $manufacture;
     public $price;
+    public $currency;
 
     public function setName($name){
         $this->name = $name;
@@ -60,6 +61,11 @@ class Model_Product {
     public function addPrice($key, $price){
         $this->price[$key] = $price;
         return $this;
+    }
+
+    public function setCurrency($cur){
+        $this->currency=$cur;
+        return this;
     }
 
     static public function checkExistProductByID($product_code, $merchant){

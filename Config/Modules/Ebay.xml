@@ -6,6 +6,9 @@
                 <active>true</active>
                 <codepool>ebay</codepool>
                 <class>Controller_Ebay_Home</class>
+                <devid>9084c4d6-44fd-4e72-907a-d54d28d26ed8</devid>
+                <appid>EURECOM05-8ed2-494b-8ec0-863730020c7</appid>
+                <certid>f8e74c93-05e6-4fbb-a87c-0333043945e1</certid>
             </ebay>
         </merchant>
     </modules>

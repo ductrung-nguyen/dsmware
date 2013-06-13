@@ -41,10 +41,10 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
 
-        $amazon_model = new Model_Ebay_Product();
-        $result = $amazon_model->search($keyword);
+        $ebay_model = new Model_Ebay_Product();
+        $result = $ebay_model->search($keyword);
 
-        $this->view->result = (new Model_Ebay_Product())->search($keyword);
+        $this->view->result = $result;
 
         $this->view->keyword = $keyword;
         $this->view->data = str_replace('\\"','\\\\"', json_encode($this->view->result,JSON_FORCE_OBJECT | JSON_HEX_APOS));
@@ -83,10 +83,13 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
             $product = (new Model_Ebay_Product())->lookup($param['id']);
         }
 
+        //TODO: ADD Tracking
+
         // And prepare data for displaying
         $this->view->setTemplate('Ebay/Product');
         $this->view->product = $product;
         $this->view->render();
+
     }
 
     /**
