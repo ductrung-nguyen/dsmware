@@ -158,7 +158,14 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
      */
     public function track($product)
     {
-        // TODO: Implement track() method.
+        $model = new Core_Model();
+        $model->getDB()->connect();
+
+        $model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ($product->ASIN, $product->name, 'amazon')");
+        $model->getDB()->query();
+
+        $model->getDB()->disconnect();
+
     }
 
     /**

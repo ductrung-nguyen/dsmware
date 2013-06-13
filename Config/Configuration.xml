@@ -3,8 +3,8 @@
     <connection>
         <host>localhost</host>
         <username>root</username>
-        <password>abc123</password>
-        <database>dsmware</database>
+        <password>ductrunglk89</password>
+        <database>ProductTracking</database>
     </connection>
     <mod_rewrite>on</mod_rewrite>
 </configuration>

@@ -20,4 +20,12 @@ class Core_Model {
     {
         $this->db = new Lib_Driver_MysqlImproved(Core::$config['connection']);
     }
+
+    /**
+     * Get database instance
+     * @return Lib_Driver_MysqlImproved
+     */
+    public function getDB(){
+        return $this->db;
+    }
 }

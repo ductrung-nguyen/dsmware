@@ -73,10 +73,12 @@ class Controller_Product extends Core_Controller{
         }
 
         // create controller of merchant (which has already declared in config file)
-        $this->merchant_controller = new Core::$config['modules']['merchant'][$param['active']]['class']();
+        $this->merchant_controller = new Core::$config['modules']['merchant'][$param['site']]['class']();
 
-        $this->merchant_controller->updateDBAction($param);
-
+        $param['name'] = $_POST['name'];
+        $param['ASIN'] = $_POST['ASIN'];
+        $this->merchant_controller->trackAction($param);
+        echo "<pre>". "Track OK" ."</pre>";
     }
 
 

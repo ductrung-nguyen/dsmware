@@ -100,6 +100,12 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
 
     public function trackAction($param)
     {
-        // TODO: Implement trackAction() method.
+        $model = new Model_Amazon_Product();
+        $product = (new Model_Product())
+            ->setName($param['name'])
+            ->setASIN($param['ASIN'])
+        ;
+
+        $model->track($product);
     }
 }

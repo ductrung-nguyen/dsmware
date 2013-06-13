@@ -943,6 +943,24 @@ input.highlight {
 
 </style>
 
+<script src="<? echo BASE_URL . DS . 'design/js/jquery-1.10.0.min.js' ?>" ></script>
+
+<script type="text/javascript">
+    function track(productID, name, site, information){
+        alert('Track');
+        $.post("<? echo BASE_URL . DS . 'index.php/product/track'?>",
+            {
+                name:name,
+                ASIN:productID,
+                site: site,
+                info: information
+            },
+            function(data,status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+    }
+</script>
+
 <script type="text/javascript">
 var g_camel_loaded = false;
 var g_clear_def = "Enter Amazon URL or keywords to find products";
@@ -1889,9 +1907,9 @@ _gaq.push(['_trackPageLoadTime']);
 
 <? if (isset($data['product']->price['amazon'])) {?>
 <tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
+    <!--form method="post" action="/camels/new/111801202X?locale=US" >
         <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="amazon" id="typeprice_amazon" />
+        <input type="hidden" name="type[]" value="amazon" id="typeprice_amazon" /-->
 
         <td class="text_left"><div class="pricetype pricetype0 on square"><!-- // --></div> Amazon</td>
         <td>$ <input class="price " type="text" name="price" id="dp_amazon" onfocus="change_sub_tab('amazon');" value="" />
@@ -2052,8 +2070,9 @@ _gaq.push(['_trackPageLoadTime']);
         </td>
 
 
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1638);">Start Tracking</button></td>
-    </form>
+        <td colspan="2"><a href='<? echo BASE_URL . DS ."index.php/product/track/id=" . $data['product']->ASIN . "&name=" ?>'>
+                <button class="full blue");">Start Tracking</button></a></td>
+    <!--/form-->
 </tr>
 <? }?>
 

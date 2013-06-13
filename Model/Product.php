@@ -63,7 +63,7 @@ class Model_Product {
     }
 
     static public function checkExistProductByID($product_code, $merchant){
-
-        return TRUE;
+        // TODO: Implement check product exist
+        return FALSE;
     }
 }
