@@ -16,8 +16,15 @@ abstract class Model_MerchantAbstract extends Core_Model {
     abstract public function search($keyword);
 
     /**
+     * Look up a given product on Merchant site
      * @param $productID
      * @return mixed
      */
     abstract public function lookup($productID);
+
+    /**
+     * Update new price of products which users have already added into database
+     * @return mixed
+     */
+    abstract static function updateDB();
 }

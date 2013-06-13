@@ -37,7 +37,10 @@ class Controller_Product extends Core_Controller{
         }
 
 
+        // create controller of merchant (which has already declared in config file)
         $this->merchant_controller = new Core::$config['modules']['merchant'][$param['active']]['class']();
+
+        // call viewAction of each merchant's controller
         $this->merchant_controller->viewAction($param);
 
         // check if product has been tracked or not
@@ -69,11 +72,10 @@ class Controller_Product extends Core_Controller{
             return 'Already tracked';
         }
 
-        Model_Product::trackProduct();
+        // create controller of merchant (which has already declared in config file)
+        $this->merchant_controller = new Core::$config['modules']['merchant'][$param['active']]['class']();
 
-
-
-
+        $this->merchant_controller->updateDBAction($param);
 
     }
 

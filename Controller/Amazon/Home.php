@@ -80,4 +80,13 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
         $this->view->product = $product;
         $this->view->render();
     }
+
+    /**
+     * Update price for all tracked products of this merchant
+     * @return mixed
+     */
+    public function updateDBAction($param)
+    {
+        // TODO: Implement updateDBAction() method.
+    }
 }
