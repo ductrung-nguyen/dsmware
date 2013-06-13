@@ -113,7 +113,7 @@ class Core_Router {
             extract($matches);
         }
         */
-
+        echo "<pre>" . $control . "+" . $action .var_dump(self::$param) ."</pre>";
 
 
 

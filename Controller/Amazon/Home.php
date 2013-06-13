@@ -89,4 +89,9 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
     {
         // TODO: Implement updateDBAction() method.
     }
+
+    public function trackAction($param)
+    {
+        // TODO: Implement trackAction() method.
+    }
 }

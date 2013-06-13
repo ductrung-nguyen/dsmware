@@ -149,4 +149,23 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
             echo $e->getMessage();
         }
     }
+
+    /**
+     * Add a product for tracking
+     * @param $product
+     * @return mixed
+     */
+    public function track($product)
+    {
+        // TODO: Implement track() method.
+    }
+
+    /**
+     * Update new price of products which users have already added into database
+     * @return mixed
+     */
+    static function updateDB()
+    {
+        // TODO: Implement updateDB() method.
+    }
 }
