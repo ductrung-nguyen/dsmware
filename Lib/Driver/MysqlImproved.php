@@ -43,8 +43,8 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
         $database = $this->config['database'];
 
         //your implementation may require these...
-        $port = $this->config['port'];
-        $socket = $this->config['socket'];
+        $port = isset($this->config['port']) ? $this->config['port'] : null;
+        $socket = isset($this->config['socket']) ? $this->config['socket'] : null;
 
         //create new mysqli connection
         $this->connection = new mysqli

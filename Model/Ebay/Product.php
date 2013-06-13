@@ -30,18 +30,20 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
         $apicall .= "&keywords=$safequery";
         $apicall .= "&paginationInput.entriesPerPage=3";
 
-        return $apicall;
+        //return $apicall;
 
         $resp = simplexml_load_file($apicall);
 
         // Check to see if the request was successful, else print an error
         if ($resp->ack == "Success") {
-            $results = array();
+            $result = array();
             // If the response was loaded, parse it and build links
             foreach($resp->searchResult->item as $item) {
                 $p = new Model_Product();
                 $p->setName($item->title)
-                    ->setASIN($item->itemID);
+                    ->setASIN($item->itemID)
+                    ->setMerchant('ebay');
+                ;
 
 
                 if (isset($item->galleryURL)){
@@ -62,7 +64,6 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
 
                 array_push($result, $p);
             }
-
             return $result;
         }
         // If the response does not indicate 'Success,' print an error

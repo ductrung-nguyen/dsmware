@@ -17,6 +17,7 @@ class Model_Product {
     public $manufacture;
     public $price;
     public $currency;
+    public $merchant;
 
     public function setName($name){
         $this->name = $name;
@@ -65,11 +66,34 @@ class Model_Product {
 
     public function setCurrency($cur){
         $this->currency=$cur;
-        return this;
+        return $this;
+    }
+
+    public function setMerchant($merchant){
+        $this->merchant = $merchant;
     }
 
     static public function checkExistProductByID($product_code, $merchant){
-        // TODO: Implement check product exist
-        return FALSE;
+        try{
+            $model = new Core_Model();
+            $model->getDB()->connect();
+
+            //$model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon')");
+            $model->getDB()->prepare("SELECT * FROM Product WHERE ProductCode='$product_code' and Website='$merchant'");
+
+            $model->getDB()->query();
+
+            $result = $model->getDB()->fetch();
+
+            $model->getDB()->disconnect();
+            if (isset($result))
+                return TRUE;
+            else
+                return FALSE;
+        }
+        catch (Exception $e)
+        {
+            return FALSE;
+        }
     }
 }

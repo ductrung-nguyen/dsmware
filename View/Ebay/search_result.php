@@ -6,7 +6,7 @@
  * Group: Hieu-Trung
  */
 ?>
-<?echo $data['header'];?>
+<?echo $data['header']; ?>
 
     <div id="um_parent">
         <div id="um">
@@ -216,7 +216,7 @@
         </p>
 
         <form onsubmit="return(check_sq($('sq2')));" action="/index.php/site/search" method='get'>
-            <input id="s" name="s" type="hidden" value="amazon" />
+            <input id="s" name="s" type="hidden" value="ebay" />
             <input type="text" name="sq2" id="sq2" value="<?=$data['keyword']?>">
             <input type="submit" value="Find Products">
         </form>

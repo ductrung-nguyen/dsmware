@@ -57,6 +57,7 @@ class Controller_Product extends Core_Controller{
      * @param $param : containt ID of product we want to keep track
      */
     public function trackAction($param){
+        echo "Tracking of Product";
         if (!isset($param['id'])){
             return;
         }
@@ -64,7 +65,7 @@ class Controller_Product extends Core_Controller{
         $product_code = $param['id'];
         $merchant = $param['site'];
 
-        $product_name = $param['name'];
+        $product_name = rawurldecode($param['name']);
 
         // if we've already tracked this product, simply skip it
         if (Model_Product::checkExistProductByID($product_code, $merchant)){
@@ -75,10 +76,12 @@ class Controller_Product extends Core_Controller{
         // create controller of merchant (which has already declared in config file)
         $this->merchant_controller = new Core::$config['modules']['merchant'][$param['site']]['class']();
 
-        $param['name'] = $_POST['name'];
-        $param['ASIN'] = $_POST['ASIN'];
-        $this->merchant_controller->trackAction($param);
-        echo "<pre>". "Track OK" ."</pre>";
+        //$param['name'] = $_POST['name'];
+        //$param['ASIN'] = $_POST['ASIN'];
+        if ($this->merchant_controller->trackAction($param))
+            echo "<pre>". "Track OK" ."</pre>";
+        else
+            echo "Add product to track fail";
     }
 
 

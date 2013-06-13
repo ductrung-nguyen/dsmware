@@ -100,12 +100,13 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
 
     public function trackAction($param)
     {
+        echo "Tracking of Amazon";
         $model = new Model_Amazon_Product();
         $product = (new Model_Product())
             ->setName($param['name'])
-            ->setASIN($param['ASIN'])
+            ->setASIN($param['id'])
         ;
 
-        $model->track($product);
+        return $model->track($product);
     }
 }

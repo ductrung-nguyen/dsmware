@@ -42,7 +42,9 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
             foreach ($response['Items']['Item'] as $item){
                 $p = new Model_Product();
                 $p->setName($item['ItemAttributes']['Title'])
-                    ->setASIN($item['ASIN']);
+                    ->setASIN($item['ASIN'])
+                    ->setMerchant('amazon');
+                ;
 
 
                 if (isset($item['Offers']['Offer']['OfferListing']['Price'])){
@@ -54,7 +56,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
                 }
 
                 if (isset($item['OfferSummary']['LowestUsedPrice'])){
-                    $p->addPrice('used',$item['OfferSummary']['LowestNewPrice'] );
+                    $p->addPrice('used',$item['OfferSummary']['LowestUsedPrice'] );
                 }
 
                 if (isset($item['MediumImage'])){
@@ -115,7 +117,9 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
             $item = $response['Items']['Item'];
                 $p = new Model_Product();
                 $p->setName($item['ItemAttributes']['Title'])
-                    ->setASIN($item['ASIN']);
+                    ->setASIN($item['ASIN'])
+                    ->setMerchant('amazon');
+                ;
 
 
                 if (isset($item['Offers']['Offer']['OfferListing']['Price'])){
@@ -158,13 +162,22 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
      */
     public function track($product)
     {
-        $model = new Core_Model();
-        $model->getDB()->connect();
+        try{
+            $model = new Core_Model();
+            $model->getDB()->connect();
 
-        $model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ($product->ASIN, $product->name, 'amazon')");
-        $model->getDB()->query();
+            //$model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon')");
+            $model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('$product->ASIN', '$product->name', 'amazon')");
 
-        $model->getDB()->disconnect();
+            $model->getDB()->query();
+
+            $model->getDB()->disconnect();
+            return TRUE;
+        }
+        catch (Exception $e)
+        {
+            return FALSE;
+        }
 
     }
 

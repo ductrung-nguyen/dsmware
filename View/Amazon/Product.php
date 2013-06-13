@@ -2070,8 +2070,8 @@ _gaq.push(['_trackPageLoadTime']);
         </td>
 
 
-        <td colspan="2"><a href='<? echo BASE_URL . DS ."index.php/product/track/id=" . $data['product']->ASIN . "&name=" ?>'>
-                <button class="full blue");">Start Tracking</button></a></td>
+        <td colspan="2"><a href='<? echo BASE_URL . DS ."index.php/product/track?site=". $data['product']->merchant. "&id=" . $data['product']->ASIN . "&name=" . $data['product']->name ?>'>
+                <button class="full blue">Start Tracking</button></a></td>
     <!--/form-->
 </tr>
 <? }?>
