@@ -115,9 +115,5 @@ class Core_Router {
         */
         echo "<pre>" . $control . "+" . $action .var_dump(self::$param) ."</pre>";
 
-
-
-
-
     }
 }

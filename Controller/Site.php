@@ -33,6 +33,7 @@ class Controller_Site extends Core_Controller {
         // the right parameters such as s=searchingSite & sq=keyword
 
         echo "<pre>". "search of site". "</pre>";
+        //echo $param['s']; die;
 
         // doesn't declare searching site
         if ((!isset($param['s'])) && (!isset($param['s2']))){
@@ -40,12 +41,15 @@ class Controller_Site extends Core_Controller {
             return;
         }
 
+
         // key keyword from textbox has id='sq' OR id='sq2'
         $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
 
         // if there is a searching site in config file
+        //var_dump(Core::$config['modules']); die;
         if (isset(Core::$config['modules']['merchant'][$param['s']]['class'])){
             $this->merchant_controller = new Core::$config['modules']['merchant'][$param['s']]['class']();
+            //echo "aa"; die;
         }
 
         // if no keyword, load the default search page

@@ -35,11 +35,26 @@ $config = XmlToArray($xml);
 $config['modules'] = array();
 
 // Load configuration from all module files and combine them
-$module_config_file = rglob('*.xml',0, SERVER_ROOT . '/Config/Modules/' );
+//$module_config_file = rglob('*.xml',0, SERVER_ROOT . '/Config/Modules/' );
 //$module_config_file = glob(SERVER_ROOT . '/Config/Modules/' . '*.xml');
+$module_config_file = glob(SERVER_ROOT . '/Config/Modules/*.xml' );
+//var_dump($module_config_file); die;
 
+$first = true;
 foreach ($module_config_file as $f) {
+    $temp = "";
     $temp = XmlToArray(simplexml_load_file($f))['modules'];
-    $config['modules'] = array_merge($config['modules'] , $temp);
-}
 
+    //var_dump($temp['merchant']); echo "<br /> </br />";
+
+    //array_push($config['modules']['merchant'], $temp['merchant']);
+    if ($first = false){
+//    var_dump($temp); die;
+    } else {
+        $first = false;
+    }
+
+    $config['modules'] = array_merge_recursive($config['modules'] , $temp);
+
+}
+//var_dump($config['modules']['merchant']); die;

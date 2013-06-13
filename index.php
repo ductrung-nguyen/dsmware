@@ -27,7 +27,7 @@ if (is_null($_SERVER['SCRIPT_NAME']))
 
 
 if (!isset($_SERVER['REQUEST_URI']) || is_null($_SERVER['REQUEST_URI']))
-    $_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/product/view?active=amazon&id=B005DOKDQO';
+    $_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/site/search?s=amazon&sq=test';
 
 // End for testing
 
