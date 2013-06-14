@@ -41,10 +41,8 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
 
-        $amazon_model = new Model_Amazon_Product();
-        $result = $amazon_model->search($keyword);
-
         $this->view->result = (new Model_Amazon_Product())->search($keyword);
+        //echo var_dump($this->view->result);die;
 
         $this->view->keyword = $keyword;
         $this->view->data = str_replace('\\"','\\\\"', json_encode($this->view->result,JSON_FORCE_OBJECT | JSON_HEX_APOS));
@@ -60,9 +58,13 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      * @param $param
      * @return mixed
      */
-    protected function lookupAction($param)
+    public function lookupAction($param)
     {
-        // TODO: Implement lookup() method.
+        if (!isset($param['id'])){
+            return null;
+        }
+
+        return (new Model_Amazon_Product())->lookup($param['id']);
     }
 
     /**
@@ -76,11 +78,20 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
             return indexAction($param);
         }
 
-        if (isset($_SESSION['product'][$param['id']])){
+        if (isset($_SESSION['products'][$param['id']])){
             // get product from session data (we've already saved it before)
-            $product = $_SESSION['product'][$param['id']];
+            $product = $_SESSION['products'][$param['id']];
         } else {
             $product = (new Model_Amazon_Product())->lookup($param['id']);
+            $_SESSION['product'] = $product;
+        }
+
+        // this product was already tracked
+        if ($param['tracked']){
+            $this->view->tracked = TRUE;
+        }
+        else {
+            $this->view->tracked = FALSE;
         }
 
         // And prepare data for displaying
@@ -98,15 +109,10 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
         // TODO: Implement updateDBAction() method.
     }
 
-    public function trackAction($param)
+    public function trackAction($product)
     {
         echo "Tracking of Amazon";
         $model = new Model_Amazon_Product();
-        $product = (new Model_Product())
-            ->setName($param['name'])
-            ->setASIN($param['id'])
-        ;
-
         return $model->track($product);
     }
 }

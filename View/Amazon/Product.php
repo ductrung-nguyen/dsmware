@@ -4,7 +4,7 @@
  * User : loveallufev
  * Date:  5/29/13
  * Group: Hieu-Trung
-*/
+ */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -1846,13 +1846,13 @@ _gaq.push(['_trackPageLoadTime']);
 
         <span class="" style="font-size: 2em;" style="display: block:">
             <?  if (isset($data['product']->price['amazon'])) { ?>
-              <span class="green"><? echo $data['product']->price['amazon']['FormattedPrice']?></span></span>
-                <span class="smalltext grey" style="display: block;">Amazon Price</span>
+            <span class="green"><? echo $data['product']->price['amazon']->formattedPrice?></span></span>
+            <span class="smalltext grey" style="display: block;">Amazon Price</span>
             <? } elseif (isset($data['product']->price['amazon'])) { ?>
-                <span class="green"><? echo $data['product']->price['new']['FormattedPrice'] ?></span></span>
+                <span class="green"><? echo $data['product']->price['new']->formattedPrice ?></span></span>
                 <span class="smalltext grey" style="display: block;">3rd Party New Price</span>
             <? } elseif (isset($data['product']->price['amazon'])) { ?>
-                <span class="green"><? echo $data['product']->price['used']['FormattedPrice'] ?></span></span>
+                <span class="green"><? echo $data['product']->price['used']->formattedPrice ?></span></span>
                 <span class="smalltext grey" style="display: block;">3rd Party Used Price</span>
             <? } ?>
 
@@ -1870,6 +1870,22 @@ _gaq.push(['_trackPageLoadTime']);
                 </a>
                 <div class="clearfix"><!-- // --></div>
             </div>
+
+            <? if ($data['tracked']) {?>
+                <div class="button retailer_link">
+                    <a title="This product has been tracked"  >
+                        Tracked
+                    </a>
+                    <div class="clearfix"><!-- // --></div>
+                </div>
+            <? } else {?>
+                <div class="button retailer_link">
+                    <a title="Track this product" href='<? echo BASE_URL . DS ."index.php/product/track?site=". $data['product']->merchant. "&id=" . $data['product']->ASIN . "&name=" . str_replace("'", "&#39;",$data['product']->name) ?>' >
+                        Track
+                    </a>
+                    <div class="clearfix"><!-- // --></div>
+                </div>
+            <? } ?>
 
 
             <div class="clearfix"><!-- // --></div>
@@ -1891,552 +1907,84 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 <div id="header_tracker">
-<div id="watch_forms">
-<table>
-<thead>
+    <div id="watch_forms">
+        <table>
+            <thead>
 
-<tr><th class="text_left">Price Type</th><th>Desired Price</th><th>Current Price</th><th>Email</th><th>Twitter</th><th>Public / Direct (<a href="/features#twitter">?</a>)</th><th colspan="2">Submit</th></tr>
+            <tr><th class="text_left">Price Type</th><th>Current Price</th></tr>
 
-</thead>
-<tbody>
+            </thead>
+            <tbody>
+
+            <? if (isset($data['product']->price['amazon'])) {?>
+                <tr>
+                    <!--form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="amazon" id="typeprice_amazon" /-->
+
+                    <td class="text_left"><div class="pricetype pricetype0 on square"><!-- // --></div> Amazon</td>
+                    <td>
+                        <span class="green"><? echo $data['product']->price['amazon']->formattedPrice; ?></span>
+                        <span id="sss_amazon" class="sss"><a href="/support/sss">SSS</a></span>
+
+                    </td>
+                    <!--/form-->
+                </tr>
+            <? }?>
 
 
 
 
 
 
-<? if (isset($data['product']->price['amazon'])) {?>
-<tr>
-    <!--form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="amazon" id="typeprice_amazon" /-->
-
-        <td class="text_left"><div class="pricetype pricetype0 on square"><!-- // --></div> Amazon</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_amazon" onfocus="change_sub_tab('amazon');" value="" />
 
 
+            <? if (isset($data['product']->price['new'])) {?>
+                <tr>
+                    <form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="new" id="typeprice_new" />
 
-            <a href="#" id="tip_link_dp_amazon"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_amazon" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>Amazon Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.62" onclick="$('dp_amazon').value = '14.62'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=16.37" onclick="$('dp_amazon').value = '16.37'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.74" onclick="$('dp_amazon').value = '14.74'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.29" onclick="$('dp_amazon').value = '12.29'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=8.19" onclick="$('dp_amazon').value = '8.19'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=4.09" onclick="$('dp_amazon').value = '4.09'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.64" onclick="$('dp_amazon').value = '1.64'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.62" onclick="$('dp_amazon').value = '14.62'; return(false);">
-                                $14.62
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=16.37" onclick="$('dp_amazon').value = '16.37'; return(false);">
-                                $16.37
-                            </a>
+                        <td class="text_left"><div class="pricetype pricetype1 on square"><!-- // --></div> 3rd Party New</td>
+                        <td>
+                            <span class="green"><? echo $data['product']->price['new']->formattedPrice; ?></span>
 
                         </td>
+                    </form>
+                </tr>
+            <? } ?>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=14.74" onclick="$('dp_amazon').value = '14.74'; return(false);">
-                                $14.74
-                            </a>
 
-                        </td>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=12.29" onclick="$('dp_amazon').value = '12.29'; return(false);">
-                                $12.29
-                            </a>
 
-                        </td>
 
-                        <td class="centerAlign">
+            <? if (isset($data['product']->price['used'])) { ?>
+                <tr>
+                    <form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="used" id="typeprice_used" />
 
-                            <a href="?active=amazon&price=8.19" onclick="$('dp_amazon').value = '8.19'; return(false);">
-                                $8.19
-                            </a>
+                        <td class="text_left"><div class="pricetype pricetype2 on square"><!-- // --></div> 3rd Party Used</td>
+                        <td>
+                            <span class="green"><? echo $data['product']->price['used']->formattedPrice;?></span>
 
-                        </td>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=4.09" onclick="$('dp_amazon').value = '4.09'; return(false);">
-                                $4.09
-                            </a>
+
+                            <span id="sss_used" class="sss"><a href="/support/sss">SSS</a></span>
 
                         </td>
+                    </form>
+                </tr>
+            <? } ?>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=1.64" onclick="$('dp_amazon').value = '1.64'; return(false);">
-                                $1.64
-                            </a>
 
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['amazon']['FormattedPrice']; ?></span>
-            <span id="sss_amazon" class="sss"><a href="/support/sss">SSS</a></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_amazon_0" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_amazon_0" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_amazon_0" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_amazon_0" value="false"  />
-        </td>
-
-
-        <td colspan="2"><a href='<? echo BASE_URL . DS ."index.php/product/track?site=". $data['product']->merchant. "&id=" . $data['product']->ASIN . "&name=" . $data['product']->name ?>'>
-                <button class="full blue">Start Tracking</button></a></td>
-    <!--/form-->
-</tr>
-<? }?>
-
-
-
-
-
-
-
-
-<? if (isset($data['product']->price['new'])) {?>
-<tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="new" id="typeprice_new" />
-
-        <td class="text_left"><div class="pricetype pricetype1 on square"><!-- // --></div> 3rd Party New</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_new" onfocus="change_sub_tab('new');" value="" />
-
-
-
-            <a href="#" id="tip_link_dp_new"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_new" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>3rd Party New Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.48" onclick="$('dp_new').value = '7.48'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.29" onclick="$('dp_new').value = '14.29'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.87" onclick="$('dp_new').value = '12.87'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=10.72" onclick="$('dp_new').value = '10.72'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.15" onclick="$('dp_new').value = '7.15'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=3.58" onclick="$('dp_new').value = '3.58'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.43" onclick="$('dp_new').value = '1.43'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.48" onclick="$('dp_new').value = '7.48'; return(false);">
-                                $7.48
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.29" onclick="$('dp_new').value = '14.29'; return(false);">
-                                $14.29
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=12.87" onclick="$('dp_new').value = '12.87'; return(false);">
-                                $12.87
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=10.72" onclick="$('dp_new').value = '10.72'; return(false);">
-                                $10.72
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.15" onclick="$('dp_new').value = '7.15'; return(false);">
-                                $7.15
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=3.58" onclick="$('dp_new').value = '3.58'; return(false);">
-                                $3.58
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=1.43" onclick="$('dp_new').value = '1.43'; return(false);">
-                                $1.43
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['new']['FormattedPrice']; ?></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_new_1" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_new_1" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_new_1" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_new_1" value="false"  />
-        </td>
-
-
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1430);">Start Tracking</button></td>
-    </form>
-</tr>
-<? } ?>
-
-
-
-
-
-
-
-<? if (isset($data['product']->price['used'])) { ?>
-<tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="used" id="typeprice_used" />
-
-        <td class="text_left"><div class="pricetype pricetype2 on square"><!-- // --></div> 3rd Party Used</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_used" onfocus="change_sub_tab('used');" value="" />
-
-
-
-            <a href="#" id="tip_link_dp_used"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_used" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>3rd Party Used Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=9.99" onclick="$('dp_used').value = '9.99'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.42" onclick="$('dp_used').value = '14.42'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.99" onclick="$('dp_used').value = '12.99'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=10.82" onclick="$('dp_used').value = '10.82'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.21" onclick="$('dp_used').value = '7.21'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=3.61" onclick="$('dp_used').value = '3.61'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.44" onclick="$('dp_used').value = '1.44'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=9.99" onclick="$('dp_used').value = '9.99'; return(false);">
-                                $9.99
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.42" onclick="$('dp_used').value = '14.42'; return(false);">
-                                $14.42
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=12.99" onclick="$('dp_used').value = '12.99'; return(false);">
-                                $12.99
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=10.82" onclick="$('dp_used').value = '10.82'; return(false);">
-                                $10.82
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.21" onclick="$('dp_used').value = '7.21'; return(false);">
-                                $7.21
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=3.61" onclick="$('dp_used').value = '3.61'; return(false);">
-                                $3.61
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=1.44" onclick="$('dp_used').value = '1.44'; return(false);">
-                                $1.44
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['used']['FormattedPrice'];?></span>
-
-
-
-
-            <span id="sss_used" class="sss"><a href="/support/sss">SSS</a></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_used_2" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_used_2" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_used_2" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_used_2" value="false"  />
-        </td>
-
-
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1443);">Start Tracking</button></td>
-    </form>
-</tr>
-<? } ?>
-
-
-
-</tbody>
-</table>
-</div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <style>.popup_tooltip_icon { margin-bottom: -3px; }</style>
@@ -2659,35 +2207,35 @@ _gaq.push(['_trackPageLoadTime']);
 <div class="tabs" id="pricetabs">
 
     <? if (isset($data['data']->price['amazon'])) { ?>
-    <a href="?active=amazon" title="Detailed Amazon price history for the Amazon Price" class="selected pricetype pricetype0 on" id="toggle_active_sub_amazon">
-        Amazon
+        <a href="?active=amazon" title="Detailed Amazon price history for the Amazon Price" class="selected pricetype pricetype0 on" id="toggle_active_sub_amazon">
+            Amazon
 
-        -
-        <? echo $data['product']->price['amazon']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['amazon']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 
     <? if (isset($data['data']->price['new'])) { ?>
-    <a href="?active=new" title="Detailed Amazon price history for the 3rd Party New Price" class=" pricetype pricetype1 off" id="toggle_active_sub_new">
-        3rd Party New
+        <a href="?active=new" title="Detailed Amazon price history for the 3rd Party New Price" class=" pricetype pricetype1 off" id="toggle_active_sub_new">
+            3rd Party New
 
-        -
-        <? echo $data['product']->price['new']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['new']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 
     <? if (isset($data['data']->price['amazon'])) { ?>
-    <a href="?active=used" title="Detailed Amazon price history for the 3rd Party Used Price" class=" pricetype pricetype2 off" id="toggle_active_sub_used">
-        3rd Party Used
+        <a href="?active=used" title="Detailed Amazon price history for the 3rd Party Used Price" class=" pricetype pricetype2 off" id="toggle_active_sub_used">
+            3rd Party Used
 
-        -
-        <? echo $data['product']->price['used']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['used']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 

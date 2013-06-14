@@ -48,25 +48,24 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
 
 
                 if (isset($item['Offers']['Offer']['OfferListing']['Price'])){
-                    $p->addPrice('amazon', $item['Offers']['Offer']['OfferListing']['Price']);
+                    $p->addPrice('amazon', new Model_Price($item['Offers']['Offer']['OfferListing']['Price']['Amount'],$item['Offers']['Offer']['OfferListing']['Price']['FormattedPrice']));
                 }
 
                 if (isset($item['OfferSummary']['LowestNewPrice'])){
-                    $p->addPrice('new',$item['OfferSummary']['LowestNewPrice'] );
+                    $p->addPrice('new',new Model_Price($item['OfferSummary']['LowestNewPrice']['Amount'], $item['OfferSummary']['LowestNewPrice']['FormattedPrice']) );
                 }
 
                 if (isset($item['OfferSummary']['LowestUsedPrice'])){
-                    $p->addPrice('used',$item['OfferSummary']['LowestUsedPrice'] );
-                }
-
-                if (isset($item['MediumImage'])){
-                    $p->setImages($item['MediumImage']['URL']);
+                    $p->addPrice('used',new Model_Price($item['OfferSummary']['LowestNewPrice']['Amount'], $item['OfferSummary']['LowestNewPrice']['FormattedPrice']) );
                 }
 
                 if (isset($item['SmallImage'])){
                     $p->setImages($item['SmallImage']['URL']);
                 }
 
+                if (isset($item['MediumImage'])){
+                    $p->setImages($item['MediumImage']['URL']);
+                }
 
                 if (isset($item['DetailPageURL'])){
                     $p->setDetailURL($item['DetailPageURL']);
@@ -123,29 +122,28 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
 
 
                 if (isset($item['Offers']['Offer']['OfferListing']['Price'])){
-                    $p->addPrice('amazon', $item['Offers']['Offer']['OfferListing']['Price']);
+                    $p->addPrice('amazon', new Model_Price($item['Offers']['Offer']['OfferListing']['Price']['Amount'],$item['Offers']['Offer']['OfferListing']['Price']['FormattedPrice']));
                 }
 
                 if (isset($item['OfferSummary']['LowestNewPrice'])){
-                    $p->addPrice('new',$item['OfferSummary']['LowestNewPrice'] );
+                    $p->addPrice('new',new Model_Price($item['OfferSummary']['LowestNewPrice']['Amount'], $item['OfferSummary']['LowestNewPrice']['FormattedPrice']) );
                 }
 
                 if (isset($item['OfferSummary']['LowestUsedPrice'])){
-                    $p->addPrice('used',$item['OfferSummary']['LowestNewPrice'] );
-                }
-
-                if (isset($item['MediumImage'])){
-                    $p->setImages($item['MediumImage']['URL']);
+                    $p->addPrice('used',new Model_Price($item['OfferSummary']['LowestNewPrice']['Amount'], $item['OfferSummary']['LowestNewPrice']['FormattedPrice']) );
                 }
 
                 if (isset($item['SmallImage'])){
                     $p->setImages($item['SmallImage']['URL']);
                 }
 
+                if (isset($item['MediumImage'])){
+                    $p->setImages($item['MediumImage']['URL']);
+                }
+
                 if (isset($item['DetailPageURL'])){
                     $p->setDetailURL($item['DetailPageURL']);
                 }
-
             return $p;
 
         }
@@ -166,10 +164,28 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
             $model = new Core_Model();
             $model->getDB()->connect();
 
+            // add product into table Product
             //$model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon')");
             $model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('$product->ASIN', '$product->name', 'amazon')");
-
             $model->getDB()->query();
+
+            $price_categories = array('amazon'=>'amazon', 'new' => 'amazon-new', 'used'=>'amazon-used');
+            // add current price into table Tracking
+            foreach (array_keys($price_categories) as $price_key)
+            {
+                if (isset($product->price[$price_key])){
+                    $query = sprintf("INSERT INTO Tracking(ProductID, PriceType, Price, FormattedPrice)".
+                        " VALUE ('%s', '%s' , %f, '%s')",
+                        $product->ASIN,
+                        $price_categories[$price_key],
+                        $product->price[$price_key]->price/100.0,
+                        $product->price[$price_key]->formattedPrice
+                    );
+
+                    $model->getDB()->prepare($query);
+                    $model->getDB()->query();
+                }
+            }
 
             $model->getDB()->disconnect();
             return TRUE;

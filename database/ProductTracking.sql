@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 13, 2013 at 02:57 AM
+-- Generation Time: Jun 14, 2013 at 04:03 AM
 -- Server version: 5.5.31-0ubuntu0.13.04.1
 -- PHP Version: 5.4.9-4ubuntu2.1
 
@@ -52,7 +52,7 @@ INSERT INTO `PriceType` (`ID`, `Keyword`, `Name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `Product` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductCode` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `ProductCode` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `Name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `Website` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `Information` date DEFAULT NULL,
@@ -62,7 +62,22 @@ CREATE TABLE IF NOT EXISTS `Product` (
   UNIQUE KEY `ID_2` (`ID`),
   UNIQUE KEY `ID_3` (`ID`),
   UNIQUE KEY `ID_4` (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+
+--
+-- Dumping data for table `Product`
+--
+
+INSERT INTO `Product` (`ID`, `ProductCode`, `Name`, `Website`, `Information`) VALUES
+(1, 'B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon', NULL),
+(2, 'B008BEYEL8', 'Apple%2013-inch%20MacBook%20Pro%20(Intel%20Dual%20Core%20i5%202.5GHz,%204GB%20RAM,%20500GB%20HDD,%20', 'amazon', NULL),
+(3, 'B008BEYQ2A', 'Apple%2013-inch%20MacBook%20Pro%20(Intel%20Dual%20Core%20i7%202.9GHz,%208GB%20RAM,%20750GB%20HDD,%20', 'amazon', NULL),
+(4, 'B0026RQ75W', 'One%20Step%2010miu%20Ultra%20Early%20Pregnancy%20Strip%20Tests%20-%20Pack%20of%2015%20Strips', 'amazon', NULL),
+(6, 'B000JQV3QA', 'Alice%27s%20Adventures%20in%20Wonderland', 'amazon', NULL),
+(7, 'B004LNSFMM', 'Alice%20%20[Blu-ray]%20[1988]', 'amazon', NULL),
+(8, 'B00505QA5Y', 'Conan%20the%20Barbarian%20[DVD]', 'amazon', NULL),
+(9, 'B004UPZRTA', 'Conan%20The%20Barbarian%20[Blu-ray]%20[1982]', 'amazon', NULL),
+(20, 'B00004Y3Q8', 'Conan the Destroyer [DVD] [1984]', 'amazon', NULL);
 
 -- --------------------------------------------------------
 
@@ -72,13 +87,28 @@ CREATE TABLE IF NOT EXISTS `Product` (
 
 CREATE TABLE IF NOT EXISTS `Tracking` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductID` int(11) NOT NULL,
-  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Saved as timestamp',
+  `ProductID` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Saved as timestamp',
   `PriceType` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `Price` float NOT NULL,
   `FormattedPrice` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `Tracking`
+--
+
+INSERT INTO `Tracking` (`ID`, `ProductID`, `Time`, `PriceType`, `Price`, `FormattedPrice`) VALUES
+(6, 'B00004Y3Q8', '2013-06-14 01:34:03', 'amazon', 6.74, 'Â£6.74'),
+(7, 'B00004Y3Q8', '2013-06-14 01:34:03', 'amazon-new', 4.02, 'Â£4.02'),
+(8, 'B00004Y3Q8', '2013-06-14 01:34:03', 'amazon-used', 4.02, 'Â£4.02'),
+(10, 'B00004Y3Q8', '2013-06-15 01:34:03', 'amazon', 10.74, 'Â£10.74'),
+(11, 'B00004Y3Q8', '2013-06-16 01:34:03', 'amazon', 10.01, 'Â£10.01'),
+(12, 'B00004Y3Q8', '2013-06-16 10:34:03', 'amazon', 8.01, 'Â£8.01'),
+(13, 'B00004Y3Q8', '2013-06-17 01:34:03', 'amazon', 6.01, 'Â£6.01'),
+(14, 'B00004Y3Q8', '2013-06-15 01:34:03', 'amazon-new', 6.02, 'Â£6.02'),
+(15, 'B00004Y3Q8', '2013-06-17 01:34:03', 'amazon-new', 3.02, 'Â£3.02');
 
 -- --------------------------------------------------------
 

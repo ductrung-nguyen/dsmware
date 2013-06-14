@@ -30,7 +30,7 @@ abstract class Controller_MerchantAbstract extends Core_Controller{
      * @param $param
      * @return mixed
      */
-    abstract protected  function lookupAction($param);
+    abstract public  function lookupAction($param);
 
     /**
      * View detail of a product (include graph of prices)
@@ -39,7 +39,7 @@ abstract class Controller_MerchantAbstract extends Core_Controller{
      */
     abstract public function viewAction($param);
 
-    abstract public function trackAction($param);
+    abstract public function trackAction($product);
 
     /**
      * Update price for all tracked products of this merchant

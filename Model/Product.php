@@ -73,13 +73,20 @@ class Model_Product {
         $this->merchant = $merchant;
     }
 
+
+    /**
+     * Checking a product was tracked or not
+     * @param $product_code : product ID
+     * @param $merchant : amazon or ebay...
+     * @return bool
+     */
     static public function checkExistProductByID($product_code, $merchant){
         try{
             $model = new Core_Model();
             $model->getDB()->connect();
 
             //$model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon')");
-            $model->getDB()->prepare("SELECT * FROM Product WHERE ProductCode='$product_code' and Website='$merchant'");
+            $model->getDB()->prepare("SELECT * FROM Product WHERE ProductCode='$product_code'");
 
             $model->getDB()->query();
 
@@ -94,6 +101,50 @@ class Model_Product {
         catch (Exception $e)
         {
             return FALSE;
+        }
+    }
+
+    public static function getTrackedPrices($productID){
+        try{
+            $model = new Core_Model();
+            $model->getDB()->connect();
+
+            //$model->getDB()->prepare("INSERT INTO Product(ProductCode, Name, Website) VALUES ('B000KKI1F6', 'Clearblue Digital Pregnancy Test Kit with Conception Indicator - Twin-Pack', 'amazon')");
+            $model->getDB()->prepare("SELECT * FROM Tracking, Product WHERE ProductID='$productID' and ProductID = ProductCode ORDER BY PriceType, Time ASC");
+
+            $model->getDB()->query();
+
+            $results = $model->getDB()->fetch('array');
+
+            $model->getDB()->disconnect();
+            if (isset($results)){
+                $last_type_price = "";
+                $p = new Model_Product();;
+                $price = array();
+                /* $price = {
+                    amazon=>{1212=> $9,4, 123124=>$10.5},
+                    amazon-new=> {112 => $1.2, 2332=>$3.2}
+                 }
+                */
+
+                foreach($results as $row){
+                    if (!isset($p->name)){
+                        $p->setName($row['Name'])->setASIN($row['ProductID']);
+                    }
+                    $price[$row['PriceType']][$row['Time']] =$row['Price'];
+                }
+
+                $p->setPrice($price);
+
+                return $p;
+
+            }
+            else
+                return null;
+        }
+        catch (Exception $e)
+        {
+            return null;
         }
     }
 }

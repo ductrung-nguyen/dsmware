@@ -457,7 +457,7 @@
         <?  if (isset($item->price['amazon'])) { ?>
             <div class="price_amazon">
 
-                <span class="green"><?=$item->price['amazon']['FormattedPrice']; ?>
+                <span class="green"><?=$item->price['amazon']->formattedPrice; ?>
                 </span>
 
             </div>
@@ -465,7 +465,7 @@
         <?  if (isset($item->price['new'])) { ?>
             <div class="price_new">
 
-                 <span class="green"><?=$item->price['new']['FormattedPrice']; ?>
+                 <span class="green"><?=$item->price['new']->formattedPrice; ?>
                 </span>
 
             </div>
@@ -474,7 +474,7 @@
         <?  if (isset($item->price['used'])) { ?>
             <div class="price_used">
 
-                <span class="green"><?=$item->price['used']['FormattedPrice']; ?></span>
+                <span class="green"><?=$item->price['used']->formattedPrice; ?></span>
 
             </div>
         <? } ?>

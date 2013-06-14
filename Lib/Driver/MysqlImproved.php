@@ -109,7 +109,11 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
                 case 'array':
 
                     //fetch a row as array
-                    $row = $this->result->fetch_array();
+                    //$row = mysqli_fetch_array($this->result, MYSQLI_NUM);
+                    while($row = mysqli_fetch_array($this->result, MYSQLI_ASSOC))
+                    {
+                        $rows[] = $row;
+                    }
 
                     break;
 
@@ -120,12 +124,12 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
                 default:
 
                     //fetch a row as object
-                    $row = $this->result->fetch_object();
+                    $rows = $this->result->fetch_object();
 
                     break;
             }
 
-            return $row;
+            return $rows;
         }
 
         return FALSE;

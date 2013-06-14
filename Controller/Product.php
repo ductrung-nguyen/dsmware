@@ -40,11 +40,19 @@ class Controller_Product extends Core_Controller{
         // create controller of merchant (which has already declared in config file)
         $this->merchant_controller = new Core::$config['modules']['merchant'][$param['active']]['class']();
 
+        // check if product has been tracked or not
+        // if yes, display the information from database
+        $param['tracked'] = FALSE;
+        if (Model_Product::checkExistProductByID($param['id'], $param['active'])){
+            $param['tracked'] = TRUE;
+            Controller_Product::getTrackedPriceOfProduct($param['id']);
+        }
+
         // call viewAction of each merchant's controller
         $this->merchant_controller->viewAction($param);
 
-        // check if product has been tracked or not
-        // if yes, display the information from database
+
+
         // if no, display the information from amazon or ebay...
         //$this->view->title = 'Product Tracking';
         //$this->view->setTemplate('');
@@ -69,21 +77,33 @@ class Controller_Product extends Core_Controller{
 
         // if we've already tracked this product, simply skip it
         if (Model_Product::checkExistProductByID($product_code, $merchant)){
-            echo 'Already tracked';
-            return 'Already tracked';
+            $param['tracked'] = TRUE;
+        }
+        else
+        {
+            // create controller of merchant (which has already declared in config file)
+            $this->merchant_controller = new Core::$config['modules']['merchant'][$param['site']]['class']();
+
+            if (isset($_SESSION['product'])){
+                $product = $_SESSION['product'];
+            }
+            else{
+                $product = $this->merchant_controller->lookupAction($param);
+            }
+
+            if ($this->merchant_controller->trackAction($product)){
+                echo "<pre>". "Track OK" ."</pre>";
+            }
+            else
+                echo "Add product to track fail";
         }
 
-        // create controller of merchant (which has already declared in config file)
-        $this->merchant_controller = new Core::$config['modules']['merchant'][$param['site']]['class']();
-
-        //$param['name'] = $_POST['name'];
-        //$param['ASIN'] = $_POST['ASIN'];
-        if ($this->merchant_controller->trackAction($param))
-            echo "<pre>". "Track OK" ."</pre>";
-        else
-            echo "Add product to track fail";
+        $param['active']=$merchant;
+        $this->viewAction($param);
     }
 
-
+    public static function getTrackedPriceOfProduct($productID){
+        Model_Product::getTrackedPrices($productID);
+    }
 
 }

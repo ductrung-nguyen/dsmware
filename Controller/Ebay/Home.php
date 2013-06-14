@@ -60,7 +60,7 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
      * @param $param
      * @return mixed
      */
-    protected function lookupAction($param)
+    public function lookupAction($param)
     {
         // TODO: Implement lookup() method.
     }
@@ -101,7 +101,7 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
         // TODO: Implement updateDBAction() method.
     }
 
-    public function trackAction($param)
+    public function trackAction($product)
     {
         // TODO: Implement trackAction() method.
     }
