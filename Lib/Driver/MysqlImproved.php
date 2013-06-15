@@ -6,6 +6,8 @@
  * Group: Hieu-Trung
 */
 
+require_once(dirname(__FILE__) . "/../Database.php");
+
 class Lib_Driver_MysqlImproved extends Lib_Database{
     /**
      * Connection holds MySQLi resource
@@ -36,23 +38,30 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
      */
     public function connect()
     {
-        //connection parameters
-        $host = $this->config['host'];
-        $user = $this->config['username'];
-        $password = $this->config['password'];
-        $database = $this->config['database'];
+        try{
+            //connection parameters
+            $host = $this->config['host'];
+            $user = $this->config['username'];
+            $password = $this->config['password'];
+            $database = $this->config['database'];
 
-        //your implementation may require these...
-        $port = isset($this->config['port']) ? $this->config['port'] : null;
-        $socket = isset($this->config['socket']) ? $this->config['socket'] : null;
+            //your implementation may require these...
+            $port = isset($this->config['port']) ? $this->config['port'] : null;
+            $socket = isset($this->config['socket']) ? $this->config['socket'] : null;
 
-        //create new mysqli connection
-        $this->connection = new mysqli
-        (
-            $host , $user , $password , $database , $port , $socket
-        );
+            //create new mysqli connection
+            $this->connection = new mysqli
+            (
+                $host , $user , $password , $database , $port , $socket
+            );
 
-        return TRUE;
+            if (empty($this->connection->connect_error))
+                return TRUE;
+            return FALSE;
+        }
+        catch (Exception $e){
+            return FALSE;
+        }
     }
 
     /**

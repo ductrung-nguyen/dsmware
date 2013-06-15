@@ -116,15 +116,16 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
                     if (isset($item->CurrentPrice)) {
                         $p->addPrice('ebay',
                             new Model_Price($item->CurrentPrice,
-                                $item->CurrentPrice . "USD"));
+                                $item->CurrentPrice . " USD"));
                     }
-                    /*
+
+            /*
                     if (isset($item->BuyItNowPrice)) {
-                        $p->addPrice('ebay',
+                        $p->addPrice('ebay-buyitnow',
                             new Model_Price($item->BuyItNowPrice,
-                                $item->BuyItNowPrice . "USD"));
+                                $item->BuyItNowPrice . " USD"));
                     }
-                    */
+            */
 
 
 
