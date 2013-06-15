@@ -14,9 +14,9 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="Author" content="Daniel Green / Cosmic Shovel, Inc." />
-    <meta name="description" content="camelcamelcamel: Amazon price tracker, Amazon price history charts, price watches, and price drop alerts." />
-    <meta name="keywords" content="Amazon,price watch,price tracking,price history charts,price drop alerts,product,tracking,price,changes,alerts,notifications,notify,tracker,products,prices,watch,watching,track,history" />
-    <meta name="title" content="Amazon price tracker, Amazon price history charts, price watches, and price drop alerts. | camelcamelcamel.com" />
+    <meta name="description" content="camelcamelcamel: Ebay price tracker, Ebay price history charts, price watches, and price drop alerts." />
+    <meta name="keywords" content="Ebay,price watch,price tracking,price history charts,price drop alerts,product,tracking,price,changes,alerts,notifications,notify,tracker,products,prices,watch,watching,track,history" />
+    <meta name="title" content="Ebay price tracker, Ebay price history charts, price watches, and price drop alerts. | camelcamelcamel.com" />
 
     <meta property="og:site_name" content="camelcamelcamel.com"/>
 
@@ -26,13 +26,13 @@
 
 
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Amazon price tracker, Amazon price history charts, price watches, and price drop alerts."/>
+    <meta property="og:title" content="Ebay price tracker, Ebay price history charts, price watches, and price drop alerts."/>
     <meta property="og:image" content="http://s3.camelcamelcamel.com/images/amazon-header.png"/>
     <meta property="og:description"
-          content="camelcamelcamel: Amazon price tracker, Amazon price history charts, price watches, and price drop alerts."/>
+          content="camelcamelcamel: Ebay price tracker, Ebay price history charts, price watches, and price drop alerts."/>
 
 
-    <title>Amazon price tracker, Amazon price history charts, price watches, and price drop alerts. | camelcamelcamel.com</title>
+    <title>Ebay price tracker, Ebay price history charts, price watches, and price drop alerts. | camelcamelcamel.com</title>
 
     <meta http-equiv="last-modified" content="Sun May 19 23:56:10 UTC 2013" />
     <meta name="google-site-verification" content="bqUwKhoYeT_MzX9y98lARmF4Q1ZfE8Wl_V9h6sSLleo" />
@@ -83,7 +83,7 @@
 
     <script type="text/javascript">
         var g_camel_loaded = false;
-        var g_clear_def = "Enter Amazon URL or keywords to find products";
+        var g_clear_def = "Enter Ebay URL or keywords to find products";
         var g_user_msg_updater = null;
         var g_delayed_images = new Array();
         var g_onload = new Array();
@@ -307,12 +307,12 @@
     <div id="um">
         <div class="yui3-g">
             <div class="yui3-u-1-8">
-                <h1 id="h1al"><a id="h1a" href="/" title="Amazon price tracker, Amazon price history charts, price watches, and price drop alerts. | camelcamelcamel.com">Amazon price tracker, Amazon price history charts, price watches, and price drop alerts. | camelcamelcamel.com</a></h1>
+                <h1 id="h1al"><a id="h1a" href="/" title="Ebay price tracker, Ebay price history charts, price watches, and price drop alerts. | camelcamelcamel.com">Ebay price tracker, Ebay price history charts, price watches, and price drop alerts. | camelcamelcamel.com</a></h1>
             </div>
             <div class="yui3-u-1-2 grey smalltext leftAlign retailer_tabs">
 
 
-                <a href="http://camelcamelcamel.com/" class="selected"><span class="flagsprite-z-amazon" title="camelcamelcamel: Free Amazon price tracker, price history charts, and price drop alerts.">Amazon Price Tracker</span></a>
+                <a href="http://camelcamelcamel.com/" class="selected"><span class="flagsprite-z-amazon" title="camelcamelcamel: Free Ebay price tracker, price history charts, and price drop alerts.">Ebay Price Tracker</span></a>
 
                 <a href="http://camelbuy.com/" class=""><span class="flagsprite-z-bestbuy" title="camelbuy: Free Best Buy price tracker, price history charts, and price drop alerts.">BestBuy Price Tracker</span></a>
 
@@ -327,23 +327,23 @@
                     <li><a title="You are viewing the U.S. locale" class="qmparent" href="/locales" style="padding-top: 10px; padding-left: 10px; padding-right: 10px;"><span class="flagsprite-US"><!-- // --></span></a>
                         <ul class="nobullets flagsprites" style="margin-top: -3px; line-height: 30px;">
 
-                            <li><a href="http://ca.camelcamelcamel.com/" title="Track products from Amazon Canada"><span class="flagsprite-CA"><!-- // --></span> Canada</a></li>
+                            <li><a href="http://ca.camelcamelcamel.com/" title="Track products from Ebay Canada"><span class="flagsprite-CA"><!-- // --></span> Canada</a></li>
 
-                            <li><a href="http://cn.camelcamelcamel.com/" title="Track products from Amazon China"><span class="flagsprite-CN"><!-- // --></span> China</a></li>
+                            <li><a href="http://cn.camelcamelcamel.com/" title="Track products from Ebay China"><span class="flagsprite-CN"><!-- // --></span> China</a></li>
 
-                            <li><a href="http://fr.camelcamelcamel.com/" title="Track products from Amazon France"><span class="flagsprite-FR"><!-- // --></span> France</a></li>
+                            <li><a href="http://fr.camelcamelcamel.com/" title="Track products from Ebay France"><span class="flagsprite-FR"><!-- // --></span> France</a></li>
 
-                            <li><a href="http://de.camelcamelcamel.com/" title="Track products from Amazon Germany"><span class="flagsprite-DE"><!-- // --></span> Germany</a></li>
+                            <li><a href="http://de.camelcamelcamel.com/" title="Track products from Ebay Germany"><span class="flagsprite-DE"><!-- // --></span> Germany</a></li>
 
-                            <li><a href="http://it.camelcamelcamel.com/" title="Track products from Amazon Italy"><span class="flagsprite-IT"><!-- // --></span> Italy</a></li>
+                            <li><a href="http://it.camelcamelcamel.com/" title="Track products from Ebay Italy"><span class="flagsprite-IT"><!-- // --></span> Italy</a></li>
 
-                            <li><a href="http://jp.camelcamelcamel.com/" title="Track products from Amazon Japan"><span class="flagsprite-JP"><!-- // --></span> Japan</a></li>
+                            <li><a href="http://jp.camelcamelcamel.com/" title="Track products from Ebay Japan"><span class="flagsprite-JP"><!-- // --></span> Japan</a></li>
 
-                            <li><a href="http://es.camelcamelcamel.com/" title="Track products from Amazon Spain"><span class="flagsprite-ES"><!-- // --></span> Spain</a></li>
+                            <li><a href="http://es.camelcamelcamel.com/" title="Track products from Ebay Spain"><span class="flagsprite-ES"><!-- // --></span> Spain</a></li>
 
-                            <li><a href="http://uk.camelcamelcamel.com/" title="Track products from Amazon United Kingdom"><span class="flagsprite-UK"><!-- // --></span> United Kingdom</a></li>
+                            <li><a href="http://uk.camelcamelcamel.com/" title="Track products from Ebay United Kingdom"><span class="flagsprite-UK"><!-- // --></span> United Kingdom</a></li>
 
-                            <li><a href="http://camelcamelcamel.com/" title="Track products from Amazon United States"><span class="flagsprite-US"><!-- // --></span> United States</a></li>
+                            <li><a href="http://camelcamelcamel.com/" title="Track products from Ebay United States"><span class="flagsprite-US"><!-- // --></span> United States</a></li>
 
                         </ul></li>
 
@@ -413,7 +413,7 @@
                     <ul id="qm0" class="qmmc flagsprites">
 
 
-                        <li><a class="qmparent " href="/products" title="Find products to track">Amazon Products</a>
+                        <li><a class="qmparent " href="/products" title="Find products to track">Ebay Products</a>
 
                             <ul id="productsdrop">
                                 <li><a href="/products" title="Find products to track">Browse</a></li>
@@ -492,9 +492,9 @@
 
 <div id="carousel_slides" style="display: none;">
     <div id="slide_leaves">
-        <h1 class="notopmargin">Amazon Price Tracker</h1>
+        <h1 class="notopmargin">Ebay Price Tracker</h1>
         <p>
-            Synchronize your Amazon Wishlist, and find products using our built-in Amazon search.  <a href="/browse">Browse products</a> by <a href="/popular">Popularity</a> and <a href="/top_drops">Price Drop</a>.
+            Synchronize your Ebay Wishlist, and find products using our built-in Ebay search.  <a href="/browse">Browse products</a> by <a href="/popular">Popularity</a> and <a href="/top_drops">Price Drop</a>.
         </p>
     </div>
 
@@ -508,7 +508,7 @@
     <div id="slide_falling">
         <h1 class="notopmargin">Discover Falling Prices</h1>
         <p>
-            Our free Amazon price tracker monitors millions of products and alerts you when prices drop, helping you decide when to buy.
+            Our free Ebay price tracker monitors millions of products and alerts you when prices drop, helping you decide when to buy.
         </p>
     </div>
 </div>
@@ -524,7 +524,7 @@
             <div id="carousel_text">
                 <h1 class="notopmargin" id="signup_head">Discover Falling Prices</h1>
                 <p id="signup_body">
-                    Our free Amazon price tracker monitors millions of products and alerts you when prices drop, helping you decide when to buy.
+                    Our free Ebay price tracker monitors millions of products and alerts you when prices drop, helping you decide when to buy.
                 </p>
             </div>
             <p class="centerAlign">
@@ -548,27 +548,27 @@
 
 <div class="yui3-g" id="homecolparent">
     <div class="yui3-u">
-        <h2><a href="/features#alerts">Amazon Price Drop Alerts</a></h2>
+        <h2><a href="/features#alerts">Ebay Price Drop Alerts</a></h2>
         <div class="yui3-g">
             <div class="yui3-u-1-3">
                 <div class="hpsprite hpsprite-moneyenvelope"></div>
             </div>
             <div class="yui3-u-2-3">
                 <p>
-                    Create Amazon price watches and get alerts via email and Twitter when prices drop.
+                    Create Ebay price watches and get alerts via email and Twitter when prices drop.
                 </p>
             </div>
         </div>
     </div>
     <div class="yui3-u" id="middlecol">
-        <h2><a href="/features#history">Amazon Price History Charts</a></h2>
+        <h2><a href="/features#history">Ebay Price History Charts</a></h2>
         <div class="yui3-g">
             <div class="yui3-u-1-3">
                 <div class="hpsprite hpsprite-charticon"></div>
             </div>
             <div class="yui3-u-2-3">
                 <p>
-                    View the price history of nearly seven million Amazon products.
+                    View the price history of nearly seven million Ebay products.
                 </p>
             </div>
         </div>
@@ -605,7 +605,7 @@
         <div class="yui3-g">
             <div class="yui3-u">
                 <blockquote>
-                    Ever since I discovered it a few weeks ago, I’ve looked at it before I bought anything on Amazon just to make sure I was at or near a historical low.
+                    Ever since I discovered it a few weeks ago, I’ve looked at it before I bought anything on Ebay just to make sure I was at or near a historical low.
                     <div class="hpsprite hpsprite-ctlogo"></div>
                 </blockquote>
             </div>
@@ -635,8 +635,8 @@
 
 
 
-<h2>Amazon.com  Discounts by Category</h2>
-<p>These lists are a great way to start your Amazon price tracking experience with camelcamelcamel.  Use the links below to find a product you want to buy at Amazon, then come back here and put the product's URL into our search box to look up its price history and/or create a price watch.</p>
+<h2>Ebay.com  Discounts by Category</h2>
+<p>These lists are a great way to start your Ebay price tracking experience with camelcamelcamel.  Use the links below to find a product you want to buy at Ebay, then come back here and put the product's URL into our search box to look up its price history and/or create a price watch.</p>
 <img src="https://www.assoc-amazon.com/e/ir?t=cameldiscounts-20&l=ur2&o=2" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
 <table class="dealsgrid">
 
@@ -645,7 +645,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Baby Products discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=165796011&pct-off=75-100&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Baby Products', 0); return(true);">Baby Products</a>
+            <a title="Ebay.com Baby Products discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=165796011&pct-off=75-100&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Baby Products', 0); return(true);">Baby Products</a>
         </td>
 
         <td>
@@ -657,7 +657,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Blu-ray &amp; DVD discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=2625373011&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Blu-ray &amp; DVD', 1); return(true);">Blu-ray &amp; DVD</a>
+            <a title="Ebay.com Blu-ray &amp; DVD discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=2625373011&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Blu-ray &amp; DVD', 1); return(true);">Blu-ray &amp; DVD</a>
         </td>
 
         <td>
@@ -669,7 +669,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Digital Cameras discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=281052&pct-off=50-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Digital Cameras', 2); return(true);">Digital Cameras</a>
+            <a title="Ebay.com Digital Cameras discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=281052&pct-off=50-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Digital Cameras', 2); return(true);">Digital Cameras</a>
         </td>
 
         <td>
@@ -685,7 +685,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Electronics discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172282&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Electronics', 3); return(true);">Electronics</a>
+            <a title="Ebay.com Electronics discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172282&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Electronics', 3); return(true);">Electronics</a>
         </td>
 
         <td>
@@ -697,7 +697,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com GPS discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172526&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'GPS', 4); return(true);">GPS</a>
+            <a title="Ebay.com GPS discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172526&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'GPS', 4); return(true);">GPS</a>
         </td>
 
         <td>
@@ -709,47 +709,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Home &amp; Kitchen discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=1055398&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Home &amp; Kitchen', 5); return(true);">Home &amp; Kitchen</a>
-        </td>
-
-        <td>
-            Save 75%+
-        </td>
-
-
-    </tr>
-
-
-
-    <tr>
-
-
-        <td class="right">
-            <a title="Amazon.com iPod &amp; MP3 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172623&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'iPod &amp; MP3', 6); return(true);">iPod &amp; MP3</a>
-        </td>
-
-        <td>
-            Save 75%+
-        </td>
-
-
-
-
-
-        <td class="right">
-            <a title="Amazon.com Video Games - 3DS discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=2622269011&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - 3DS', 7); return(true);">Video Games - 3DS</a>
-        </td>
-
-        <td>
-            Save 75%+
-        </td>
-
-
-
-
-
-        <td class="right">
-            <a title="Amazon.com Video Games - PS3 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14210751&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - PS3', 8); return(true);">Video Games - PS3</a>
+            <a title="Ebay.com Home &amp; Kitchen discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=1055398&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Home &amp; Kitchen', 5); return(true);">Home &amp; Kitchen</a>
         </td>
 
         <td>
@@ -765,7 +725,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Video Games - PSP discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=11075221&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - PSP', 9); return(true);">Video Games - PSP</a>
+            <a title="Ebay.com iPod &amp; MP3 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=172623&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'iPod &amp; MP3', 6); return(true);">iPod &amp; MP3</a>
         </td>
 
         <td>
@@ -777,7 +737,7 @@
 
 
         <td class="right">
-            <a title="Amazon.com Video Games - Wii discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14218901&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - Wii', 10); return(true);">Video Games - Wii</a>
+            <a title="Ebay.com Video Games - 3DS discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=2622269011&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - 3DS', 7); return(true);">Video Games - 3DS</a>
         </td>
 
         <td>
@@ -789,7 +749,47 @@
 
 
         <td class="right">
-            <a title="Amazon.com Video Games - Xbox 360 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14220161&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - Xbox 360', 11); return(true);">Video Games - Xbox 360</a>
+            <a title="Ebay.com Video Games - PS3 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14210751&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - PS3', 8); return(true);">Video Games - PS3</a>
+        </td>
+
+        <td>
+            Save 75%+
+        </td>
+
+
+    </tr>
+
+
+
+    <tr>
+
+
+        <td class="right">
+            <a title="Ebay.com Video Games - PSP discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=11075221&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - PSP', 9); return(true);">Video Games - PSP</a>
+        </td>
+
+        <td>
+            Save 75%+
+        </td>
+
+
+
+
+
+        <td class="right">
+            <a title="Ebay.com Video Games - Wii discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14218901&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - Wii', 10); return(true);">Video Games - Wii</a>
+        </td>
+
+        <td>
+            Save 75%+
+        </td>
+
+
+
+
+
+        <td class="right">
+            <a title="Ebay.com Video Games - Xbox 360 discounts" href="http://amazon.com/mn/search?_encoding=UTF8&node=14220161&pct-off=75-99&_encoding=UTF8&tag=cameldiscounts-20&linkCode=ur2&camp=1789&creative=390957" target="_blank" onclick="cancel_prop(event); camel_event('Discount Links', 'US', 'Video Games - Xbox 360', 11); return(true);">Video Games - Xbox 360</a>
         </td>
 
         <td>
@@ -819,7 +819,7 @@
 
 
         <p class="grey">
-            Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon at the time of purchase will apply to the purchase of this product.
+            Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Ebay at the time of purchase will apply to the purchase of this product.
 
             It is currently May 19, 2013 04:56 PM at the Camel Farm.
         </p>
@@ -831,55 +831,55 @@
         <p class="grey centerAlign">
             Countries:
 
-            <a href="http://ca.camelcamelcamel.com/" title="Track products from Amazon Canada">Canada</a>
+            <a href="http://ca.camelcamelcamel.com/" title="Track products from Ebay Canada">Canada</a>
 
 
             &middot;
 
 
-            <a href="http://cn.camelcamelcamel.com/" title="Track products from Amazon China">China</a>
+            <a href="http://cn.camelcamelcamel.com/" title="Track products from Ebay China">China</a>
 
 
             &middot;
 
 
-            <a href="http://fr.camelcamelcamel.com/" title="Track products from Amazon France">France</a>
+            <a href="http://fr.camelcamelcamel.com/" title="Track products from Ebay France">France</a>
 
 
             &middot;
 
 
-            <a href="http://de.camelcamelcamel.com/" title="Track products from Amazon Germany">Germany</a>
+            <a href="http://de.camelcamelcamel.com/" title="Track products from Ebay Germany">Germany</a>
 
 
             &middot;
 
 
-            <a href="http://it.camelcamelcamel.com/" title="Track products from Amazon Italy">Italy</a>
+            <a href="http://it.camelcamelcamel.com/" title="Track products from Ebay Italy">Italy</a>
 
 
             &middot;
 
 
-            <a href="http://jp.camelcamelcamel.com/" title="Track products from Amazon Japan">Japan</a>
+            <a href="http://jp.camelcamelcamel.com/" title="Track products from Ebay Japan">Japan</a>
 
 
             &middot;
 
 
-            <a href="http://es.camelcamelcamel.com/" title="Track products from Amazon Spain">Spain</a>
+            <a href="http://es.camelcamelcamel.com/" title="Track products from Ebay Spain">Spain</a>
 
 
             &middot;
 
 
-            <a href="http://uk.camelcamelcamel.com/" title="Track products from Amazon United Kingdom">United Kingdom</a>
+            <a href="http://uk.camelcamelcamel.com/" title="Track products from Ebay United Kingdom">United Kingdom</a>
 
 
             &middot;
 
 
-            <a href="http://camelcamelcamel.com/" title="Track products from Amazon United States">United States</a>
+            <a href="http://camelcamelcamel.com/" title="Track products from Ebay United States">United States</a>
 
 
 

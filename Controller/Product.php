@@ -46,16 +46,17 @@ class Controller_Product extends Core_Controller{
         if (Model_Product::checkExistProductByID($param['id'], $param['active'])){
             $param['tracked'] = TRUE;
             Controller_Product::getTrackedPriceOfProduct($param['id']);
+            $param['type_of_price'] = Model_Product::getPriceTypeOfProduct($param['id']);
+
+            $temp=array();
+            foreach ($param['type_of_price'] as $key => $value){
+                array_push($temp, sprintf("['%s' , '%s']", $key, $value));
+            }
+            $param['type_of_price'] = '[' . implode(',', $temp) . ']';
         }
 
         // call viewAction of each merchant's controller
-        $param['type_of_price'] = Model_Product::getPriceTypeOfProduct($param['id']);
 
-        $temp=array();
-        foreach ($param['type_of_price'] as $key => $value){
-            array_push($temp, sprintf("['%s' , '%s']", $key, $value));
-        }
-        $param['type_of_price'] = '[' . implode(',', $temp) . ']';
 
         $this->merchant_controller->viewAction($param);
 

@@ -32,7 +32,10 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
      */
     public function searchAction($param)
     {
-        echo "<pre>". "search action of ebay" . "</pre>";
+        if (DEBUG){
+            echo "<pre>". "search action of ebay" . "</pre>";
+        }
+
         $keyword = (isset($param['sq']) ? $param['sq'] : '' ) .(isset($param['sq2']) ? $param['sq2'] : '' );
         $this->view->setTemplate('Ebay/search_result');
 
@@ -62,7 +65,11 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
      */
     public function lookupAction($param)
     {
-        // TODO: Implement lookup() method.
+        if (!isset($param['id'])){
+            return null;
+        }
+
+        return (new Model_Ebay_Product())->lookup($param['id']);
     }
 
     /**
@@ -76,18 +83,26 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
             return indexAction($param);
         }
 
-        if (isset($_SESSION['product'][$param['id']])){
+        if (isset($_SESSION['products'][$param['id']])){
             // get product from session data (we've already saved it before)
-            $product = $_SESSION['product'][$param['id']];
+            $product = $_SESSION['products'][$param['id']];
         } else {
             $product = (new Model_Ebay_Product())->lookup($param['id']);
+            $_SESSION['product'] = $product;
         }
 
-        //TODO: ADD Tracking
+        // this product was already tracked
+        if ($param['tracked']){
+            $this->view->tracked = TRUE;
+        }
+        else {
+            $this->view->tracked = FALSE;
+        }
 
         // And prepare data for displaying
         $this->view->setTemplate('Ebay/Product');
         $this->view->product = $product;
+        $this->view->type_of_price = isset($param['type_of_price']) ? $param['type_of_price'] : ['ebay'=>'ebay'];
         $this->view->render();
 
     }
@@ -98,11 +113,19 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
      */
     public function updateDBAction($param)
     {
-        // TODO: Implement updateDBAction() method.
+        if (DEBUG){
+            echo "Ebay updates its product";
+        }
+        $model = new Model_Ebay_Product();
+        return $model->updateDB();
     }
 
     public function trackAction($product)
     {
-        // TODO: Implement trackAction() method.
+        if (DEBUG){
+            echo "Tracking of Ebay";
+        }
+        $model = new Model_Ebay_Product();
+        return $model->track($product);
     }
 }

@@ -13,6 +13,7 @@
 
 // only allow to access Index.php
 define('APP', TRUE);
+define('DEBUG', TRUE);
 define('DS', DIRECTORY_SEPARATOR);
 define('SERVER_ROOT', realpath(dirname(__FILE__)));
 
@@ -29,7 +30,7 @@ if (is_null($_SERVER['SCRIPT_NAME']))
 if (!isset($_SERVER['REQUEST_URI']) || is_null($_SERVER['REQUEST_URI']))
     //$_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/product/track?site=amazon&id=B00004Y3Q8&name=Conan%20the%20Destroyer%20[DVD]%20[1984]';
     //$_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/product/view?active=amazon&id=B00004Y3Q8';
-    $_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/Product/getPrice?type=amazon&id=B00004Y3Q8';
+    $_SERVER['REQUEST_URI'] = SERVER_ROOT. DS . 'index.php/product/track?site=ebay&id=290929314035&name=Alice + Olivia NEW Valeria White Silk Hip Twist Spaghetti Strap Cocktail Dress 8';
 // End for testing
 
 $base_url = 'http://' . $_SERVER['HTTP_HOST'] . str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']);

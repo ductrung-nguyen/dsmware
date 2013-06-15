@@ -6,6 +6,11 @@
  * Group: Hieu-Trung
 */
 
+if (!defined('SERVER_ROOT')){
+    define('DS', DIRECTORY_SEPARATOR);
+    define('SERVER_ROOT', realpath(dirname(__FILE__)));
+}
+
 require_once SERVER_ROOT . '/Lib/' . 'XmlHelper.php';
 
 /**

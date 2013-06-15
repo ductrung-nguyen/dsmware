@@ -140,7 +140,7 @@
             </div>
             <div class="yui3-u" style="width: 460px;">
                 <div id="search">
-                    <form onsubmit="return(check_sq($('sq')));" action="/index.php/amazon/home/search" style="display: inline;" method='get'>
+                    <form onsubmit="return(check_sq($('sq')));" action="/index.php/site/search" style="display: inline;" method='get'>
                         <input name="s2" id="s2" type="hidden" value="amazon" />
                         <input type="text" name="sq" id="sq" value="" onclick="check_clear(this);" onblur="check_blur(this);" title="Search for">
                         <input id="searchbutton" type="submit" value="Find Products">
@@ -392,7 +392,7 @@
 
         <div class="breadcrumbs">
 
-            <b>In:</b> <a title="<?echo 'Search for\'' . $data['keyword'] . '\'';?>" href='http://camelcamelcamel.com/search?sq=nikon+D7000+photography'>Photography</a> &raquo; <a title="Search for 'nikon D7000' in category 'Camera'" href='http://camelcamelcamel.com/search?sq=nikon+D7000+camera'>Camera</a> &raquo; Nikon
+            <b>In:</b> <a title="<?echo 'Search for\'' . $data['keyword'] . '\'';?>" href='<? echo BASE_URL . DS . "site/search?s=amazon&sq=" . $data['keyword']; ?>'>Photography</a> &raquo; <a title="Search for 'nikon D7000' in category 'Camera'" href='http://camelcamelcamel.com/search?sq=nikon+D7000+camera'>Camera</a> &raquo; Nikon
         </div>
 
         <div>
@@ -421,7 +421,7 @@
 
 
                     <div class="order_button">
-                        <a href="http://camelcamelcamel.com/product/06B10N0R4P2WXB91LPCK4/go" target="_blank" title="Click here to view this product at Amazon" onclick="camel_event('Retailer Product', 'US - Search', 'B0042X9LC4', 89695); return(true);"><img alt="view this item on at Amazon" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/button-amazon-large.png"></a>
+                        <a href="<? echo $item->detailURL ?>" target="_blank" title="Click here to view this product at Amazon" onclick="camel_event('Retailer Product', 'US - Search', 'B0042X9LC4', 89695); return(true);"><img alt="view this item on at Amazon" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/button-amazon-large.png"></a>
                     </div>
 
     </td>
@@ -432,19 +432,19 @@
 
         <?  if (isset($item->price['amazon'])) { ?>
             <div class="price0">
-                <a title="View the Amazon price product page for <?= $item->name?>" href="/product/B0042X9LC4?active=amazon">Amazon</a>
+                <a title="View the Amazon price product page for <?= $item->name?>" href="<? echo BASE_URL . DS . 'index.php/product/view?active=amazon&id='. $item->ASIN; ?>">Amazon</a>
             </div>
         <? } ?>
 
         <?  if (isset($item->price['new'])) { ?>
             <div class="price1">
-                <a title="View the 3rd party new price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=new">3rd Party New</a>
+                <a title="View the 3rd party new price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="<? echo BASE_URL . DS . 'index.php/product/view?active=amazon&id='. $item->ASIN; ?>">3rd Party New</a>
             </div>
         <? } ?>
 
         <?  if (isset($item->price['used'])) { ?>
             <div class="price2">
-                <a title="View the 3rd party used price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="/product/B0042X9LC4?active=used">3rd Party Used</a>
+                <a title="View the 3rd party used price product page for Nikon D7000 16.2MP DX-Format CMOS Digital SLR with 3.0-Inch LCD (Body Only)" href="<? echo BASE_URL . DS . 'index.php/product/view?active=amazon&id='. $item->ASIN; ?>">3rd Party Used</a>
             </div>
         <? } ?>
 

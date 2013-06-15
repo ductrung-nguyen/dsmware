@@ -107,12 +107,18 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
      */
     public function updateDBAction($param)
     {
-        // TODO: Implement updateDBAction() method.
+        if (DEBUG){
+            echo "Amazon updates its product";
+        }
+        $model = new Model_Amazon_Product();
+        return $model->updateDB();
     }
 
     public function trackAction($product)
     {
-        echo "Tracking of Amazon";
+        if (DEBUG){
+            echo "Tracking of Amazon";
+        }
         $model = new Model_Amazon_Product();
         return $model->track($product);
     }

@@ -4,7 +4,7 @@
  * User : loveallufev
  * Date:  5/29/13
  * Group: Hieu-Trung
-*/
+ */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -13,9 +13,9 @@
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="Author" content="Daniel Green / Cosmic Shovel, Inc." />
-<meta name="description" content="Nikon D7000 For Dummies at camelcamelcamel: Amazon price tracker, Amazon price history charts, price watches, and price drop alerts." />
-<meta name="keywords" content="Title: Nikon D7000 For Dummies, Ean: 9781118012024, Isbn: 111801202X, Author: Julie Adair King, Asin: 111801202X, Product group: Book, Category: Paperback, Amazon,price watch,price tracking,price history charts,price drop alerts,product,tracking,price,changes,alerts,notifications,notify,tracker,products,prices,watch,watching,track,history" />
-<meta name="title" content="Nikon D7000 For Dummies | Amazon price tracker / tracking, Amazon price history charts, Amazon price watches, Amazon price drop alerts | camelcamelcamel.com" />
+<meta name="description" content="Nikon D7000 For Dummies at camelcamelcamel: Ebay price tracker, Ebay price history charts, price watches, and price drop alerts." />
+<meta name="keywords" content="Title: Nikon D7000 For Dummies, Ean: 9781118012024, Isbn: 111801202X, Author: Julie Adair King, Asin: 111801202X, Product group: Book, Category: Paperback, Ebay,price watch,price tracking,price history charts,price drop alerts,product,tracking,price,changes,alerts,notifications,notify,tracker,products,prices,watch,watching,track,history" />
+<meta name="title" content="Nikon D7000 For Dummies | Ebay price tracker / tracking, Ebay price history charts, Ebay price watches, Ebay price drop alerts | camelcamelcamel.com" />
 
 <meta property="og:site_name" content="camelcamelcamel.com"/>
 
@@ -31,13 +31,111 @@
 <meta property="og:image" content="http://ecx.images-amazon.com/images/I/51F9NvzZ3cL.jpg"/>
 <meta property="og:title" content="Nikon D7000 For Dummies"/>
 <meta property="og:description"
-      content="Amazon price tracking &amp; price history for Nikon D7000 For Dummies"/>
+      content="Ebay price tracking &amp; price history for Nikon D7000 For Dummies"/>
 
 
 <title><? echo $data['product']->name; ?></title>
 
 <meta http-equiv="last-modified" content="Sun May 19 10:42:04 UTC 2013" />
 <meta name="google-site-verification" content="bqUwKhoYeT_MzX9y98lARmF4Q1ZfE8Wl_V9h6sSLleo" />
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+<script type="text/javascript">
+        (function($){ // encapsulate jQuery
+
+            $(function() {
+                var seriesOptions = [],
+                    yAxisOptions = [],
+                    seriesCounter = 0,
+                //names = [['MSFT','MSFT'], ['AAPL','AAPL'], ['GOOG','Google']],
+                    names = <? echo $data['type_of_price']; ?>,
+                    colors = Highcharts.getOptions().colors;
+
+                $.each(names, function(i, name) {
+
+
+                    var url = '<? echo BASE_URL . DS . "index.php/Product/getPrice?type="; ?>' +  name[0].toLowerCase()  + <? echo "'&id=" .$data['product']->ASIN . "'"; ?>;
+
+                    function process(data) {
+                        seriesOptions[i] = {
+                            name: name[1],
+                            data: data
+                        };
+
+                        // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                        // we keep a counter and create the chart when all the data is loaded.
+                        seriesCounter++;
+
+                        if (seriesCounter == names.length) {
+                            createChart();
+                        }
+                    }
+
+                    $.ajax({
+                        type:'GET',
+                        url:url,
+                        dataType:'jsonp',
+                        timeout: 5000,
+                        success: process,
+                        error: function(data){
+                            // error on loading data
+                            alert('error');
+                        }
+                    }); //end of $.ajax
+                });
+
+
+
+                // create the chart when all data is loaded
+                function createChart() {
+
+                    $('#chartarea').highcharts('StockChart', {
+                        chart: {
+                        },
+
+                        rangeSelector: {
+                            selected: 4
+                        },
+
+                        yAxis: {
+                            labels: {
+                                formatter: function() {
+                                    return (this.value > 0 ? '+' : '') + this.value + '%';
+                                }
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 2,
+                                color: 'silver'
+                            }]
+                        },
+
+                        plotOptions: {
+                            series: {
+                                compare: 'percent'
+                            }
+                        },
+
+                        tooltip: {
+                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                            valueDecimals: 2
+                        },
+
+                        series: seriesOptions
+                    });
+                }
+
+            });
+        })(jQuery);
+</script>
+
+<script src="<? echo BASE_URL . DS . 'design/js/'?>highstock.js"></script>
+<script src="<? echo BASE_URL . DS . 'design/js' ?>exporting.js"></script>
 
 
 <style>
@@ -944,8 +1042,24 @@ input.highlight {
 </style>
 
 <script type="text/javascript">
+    function track(productID, name, site, information){
+        alert('Track');
+        $.post("<? echo BASE_URL . DS . 'index.php/product/track'?>",
+            {
+                name:name,
+                ASIN:productID,
+                site: site,
+                info: information
+            },
+            function(data,status){
+                alert("Data: " + data + "\nStatus: " + status);
+            });
+    }
+</script>
+
+<script type="text/javascript">
 var g_camel_loaded = false;
-var g_clear_def = "Enter Amazon URL or keywords to find products";
+var g_clear_def = "Enter Ebay URL or keywords to find products";
 var g_user_msg_updater = null;
 var g_delayed_images = new Array();
 var g_onload = new Array();
@@ -1159,7 +1273,7 @@ function onStart()
     );
 
     new Tip('sss_used',
-        'Fulfilled by Amazon and qualifies for <b>FREE</b> Super Saver Shipping',
+        'Fulfilled by Ebay and qualifies for <b>FREE</b> Super Saver Shipping',
         {
             width: 'auto',
             stem: 'bottomMiddle',
@@ -1175,7 +1289,7 @@ function onStart()
 // main tabs
 
     g_main_tab = "summary";
-    g_sub_tab = "amazon";
+    g_sub_tab = "ebay";
 
     g_main_tab_filter = new Filter(g_main_tab_filters, "active", Array(new Array("summary", "summary"), new Array("details", "details"), new Array("sales_rank", "sales_rank")), Array("summary"));
     g_main_tab_filters.addFilter(g_main_tab_filter);
@@ -1199,7 +1313,7 @@ function onStart()
     // price type tabs
 
 
-    g_sub_tab_filter = new Filter(g_main_tab_filters, "active", Array(new Array("amazon", "amazon"), new Array("new", "new"), new Array("used", "used")), Array("amazon"));
+    g_sub_tab_filter = new Filter(g_main_tab_filters, "active", Array(new Array("ebay", "ebay"), new Array("new", "new"), new Array("used", "used")), Array("ebay"));
     g_sub_tab_filter.setElementPrefix("sub_");
     g_sub_tab_filters.addFilter(g_sub_tab_filter);
     g_sub_tab_filters.callback = function(filter_list) {
@@ -1273,8 +1387,8 @@ function onStart()
 
     $("toggle_tp_all").removeClassName("on");
 
-    price_field_opts = new Array(new Array("amazon", "amazon"), new Array("new", "new"), new Array("used", "used"));
-    vals = new Array("amazon");
+    price_field_opts = new Array(new Array("ebay", "ebay"), new Array("new", "new"), new Array("used", "used"));
+    vals = new Array("ebay");
     price_field_opts_vals = vals;
 
 // price types
@@ -1596,12 +1710,12 @@ _gaq.push(['_trackPageLoadTime']);
     <div id="um">
         <div class="yui3-g">
             <div class="yui3-u-1-8">
-                <h1 id="h1al"><a id="h1a" href="/" title="Nikon D7000 For Dummies | Amazon price tracker / tracking, Amazon price history charts, Amazon price watches, Amazon price drop alerts | camelcamelcamel.com">Nikon D7000 For Dummies | Amazon price tracker / tracking, Amazon price history charts, Amazon price watches, Amazon price drop alerts | camelcamelcamel.com</a></h1>
+                <h1 id="h1al"><a id="h1a" href="/" title="Nikon D7000 For Dummies | Ebay price tracker / tracking, Ebay price history charts, Ebay price watches, Ebay price drop alerts | camelcamelcamel.com">Nikon D7000 For Dummies | Ebay price tracker / tracking, Ebay price history charts, Ebay price watches, Ebay price drop alerts | camelcamelcamel.com</a></h1>
             </div>
             <div class="yui3-u-1-2 grey smalltext leftAlign retailer_tabs">
 
 
-                <a href="http://camelcamelcamel.com/" class="selected"><span class="flagsprite-z-amazon" title="camelcamelcamel: Free Amazon price tracker, price history charts, and price drop alerts.">Amazon Price Tracker</span></a>
+                <a href="http://camelcamelcamel.com/" class="selected"><span class="flagsprite-z-amazon" title="camelcamelcamel: Free Ebay price tracker, price history charts, and price drop alerts.">Ebay Price Tracker</span></a>
 
                 <a href="http://camelbuy.com/" class=""><span class="flagsprite-z-bestbuy" title="camelbuy: Free Best Buy price tracker, price history charts, and price drop alerts.">BestBuy Price Tracker</span></a>
 
@@ -1616,23 +1730,23 @@ _gaq.push(['_trackPageLoadTime']);
                     <li><a title="You are viewing the U.S. locale" class="qmparent" href="/locales" style="padding-top: 10px; padding-left: 10px; padding-right: 10px;"><span class="flagsprite-US"><!-- // --></span></a>
                         <ul class="nobullets flagsprites" style="margin-top: -3px; line-height: 30px;">
 
-                            <li><a href="http://ca.camelcamelcamel.com/" title="Track products from Amazon Canada"><span class="flagsprite-CA"><!-- // --></span> Canada</a></li>
+                            <li><a href="http://ca.camelcamelcamel.com/" title="Track products from Ebay Canada"><span class="flagsprite-CA"><!-- // --></span> Canada</a></li>
 
-                            <li><a href="http://cn.camelcamelcamel.com/" title="Track products from Amazon China"><span class="flagsprite-CN"><!-- // --></span> China</a></li>
+                            <li><a href="http://cn.camelcamelcamel.com/" title="Track products from Ebay China"><span class="flagsprite-CN"><!-- // --></span> China</a></li>
 
-                            <li><a href="http://fr.camelcamelcamel.com/" title="Track products from Amazon France"><span class="flagsprite-FR"><!-- // --></span> France</a></li>
+                            <li><a href="http://fr.camelcamelcamel.com/" title="Track products from Ebay France"><span class="flagsprite-FR"><!-- // --></span> France</a></li>
 
-                            <li><a href="http://de.camelcamelcamel.com/" title="Track products from Amazon Germany"><span class="flagsprite-DE"><!-- // --></span> Germany</a></li>
+                            <li><a href="http://de.camelcamelcamel.com/" title="Track products from Ebay Germany"><span class="flagsprite-DE"><!-- // --></span> Germany</a></li>
 
-                            <li><a href="http://it.camelcamelcamel.com/" title="Track products from Amazon Italy"><span class="flagsprite-IT"><!-- // --></span> Italy</a></li>
+                            <li><a href="http://it.camelcamelcamel.com/" title="Track products from Ebay Italy"><span class="flagsprite-IT"><!-- // --></span> Italy</a></li>
 
-                            <li><a href="http://jp.camelcamelcamel.com/" title="Track products from Amazon Japan"><span class="flagsprite-JP"><!-- // --></span> Japan</a></li>
+                            <li><a href="http://jp.camelcamelcamel.com/" title="Track products from Ebay Japan"><span class="flagsprite-JP"><!-- // --></span> Japan</a></li>
 
-                            <li><a href="http://es.camelcamelcamel.com/" title="Track products from Amazon Spain"><span class="flagsprite-ES"><!-- // --></span> Spain</a></li>
+                            <li><a href="http://es.camelcamelcamel.com/" title="Track products from Ebay Spain"><span class="flagsprite-ES"><!-- // --></span> Spain</a></li>
 
-                            <li><a href="http://uk.camelcamelcamel.com/" title="Track products from Amazon United Kingdom"><span class="flagsprite-UK"><!-- // --></span> United Kingdom</a></li>
+                            <li><a href="http://uk.camelcamelcamel.com/" title="Track products from Ebay United Kingdom"><span class="flagsprite-UK"><!-- // --></span> United Kingdom</a></li>
 
-                            <li><a href="http://camelcamelcamel.com/" title="Track products from Amazon United States"><span class="flagsprite-US"><!-- // --></span> United States</a></li>
+                            <li><a href="http://camelcamelcamel.com/" title="Track products from Ebay United States"><span class="flagsprite-US"><!-- // --></span> United States</a></li>
 
                         </ul></li>
 
@@ -1702,7 +1816,7 @@ _gaq.push(['_trackPageLoadTime']);
                     <ul id="qm0" class="qmmc flagsprites">
 
 
-                        <li><a class="qmparent qmactive" href="/products" title="Find products to track">Amazon Products</a>
+                        <li><a class="qmparent qmactive" href="/products" title="Find products to track">Ebay Products</a>
 
                             <ul id="productsdrop">
                                 <li><a href="/products" title="Find products to track">Browse</a></li>
@@ -1790,7 +1904,7 @@ _gaq.push(['_trackPageLoadTime']);
         <h1 class="notopmargin">
       <span class="smalltext grey">
 
-          Amazon price history for
+          Ebay price history for
 
       </span>
             <br />
@@ -1827,14 +1941,14 @@ _gaq.push(['_trackPageLoadTime']);
         <p class="rightAlign">
 
         <span class="" style="font-size: 2em;" style="display: block:">
-            <?  if (isset($data['product']->price['amazon'])) { ?>
-              <span class="green"><? echo $data['product']->price['amazon']['FormattedPrice']?></span></span>
-                <span class="smalltext grey" style="display: block;">Amazon Price</span>
-            <? } elseif (isset($data['product']->price['amazon'])) { ?>
-                <span class="green"><? echo $data['product']->price['new']['FormattedPrice'] ?></span></span>
+            <?  if (isset($data['product']->price['ebay'])) { ?>
+            <span class="green"><? echo $data['product']->price['ebay']->formattedPrice?></span></span>
+            <span class="smalltext grey" style="display: block;">Ebay Price</span>
+            <? } elseif (isset($data['product']->price['ebay'])) { ?>
+                <span class="green"><? echo $data['product']->price['new']->formattedPrice ?></span></span>
                 <span class="smalltext grey" style="display: block;">3rd Party New Price</span>
-            <? } elseif (isset($data['product']->price['amazon'])) { ?>
-                <span class="green"><? echo $data['product']->price['used']['FormattedPrice'] ?></span></span>
+            <? } elseif (isset($data['product']->price['ebay'])) { ?>
+                <span class="green"><? echo $data['product']->price['used']->formattedPrice ?></span></span>
                 <span class="smalltext grey" style="display: block;">3rd Party Used Price</span>
             <? } ?>
 
@@ -1847,11 +1961,27 @@ _gaq.push(['_trackPageLoadTime']);
 
         <div class="big_buttons clearfix">
             <div class="button retailer_link">
-                <a title="View the product page at Amazon" href="<? echo $data['product']->detailURL; ?>" onclick="camel_event('Retailer Product', 'US - Product Page', '111801202X - Amazon', 1638); return(true);" target="_blank">
+                <a title="View the product page at Ebay" href="<? echo $data['product']->detailURL; ?>" onclick="camel_event('Retailer Product', 'US - Product Page', '111801202X - Ebay', 1638); return(true);" target="_blank">
                     Buy
                 </a>
                 <div class="clearfix"><!-- // --></div>
             </div>
+
+            <? if ($data['tracked']) {?>
+                <div class="button retailer_link">
+                    <a title="This product has been tracked"  >
+                        Tracked
+                    </a>
+                    <div class="clearfix"><!-- // --></div>
+                </div>
+            <? } else {?>
+                <div class="button retailer_link">
+                    <a title="Track this product" href='<? echo BASE_URL . DS ."index.php/product/track?site=". $data['product']->merchant. "&id=" . $data['product']->ASIN . "&name=" . str_replace("'", "&#39;",$data['product']->name) ?>' >
+                        Track
+                    </a>
+                    <div class="clearfix"><!-- // --></div>
+                </div>
+            <? } ?>
 
 
             <div class="clearfix"><!-- // --></div>
@@ -1869,555 +1999,88 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-<h2 id="tracks">Create  Amazon price watches for: <a href="http://camelcamelcamel.com/Nikon-D7000-Dummies-Julie-Adair/product/111801202X"><? $data['product']->name ?></a></h2>
+<h2 id="tracks">Create  Ebay price watches for: <a href="<? echo $data['product']->detailURL; ?>"><? echo $data['product']->name; ?></a></h2>
 
 
 <div id="header_tracker">
-<div id="watch_forms">
-<table>
-<thead>
+    <div id="watch_forms">
+        <table>
+            <thead>
 
-<tr><th class="text_left">Price Type</th><th>Desired Price</th><th>Current Price</th><th>Email</th><th>Twitter</th><th>Public / Direct (<a href="/features#twitter">?</a>)</th><th colspan="2">Submit</th></tr>
+            <tr><th class="text_left">Price Type</th><th>Current Price</th></tr>
 
-</thead>
-<tbody>
+            </thead>
+            <tbody>
+
+            <? if (isset($data['product']->price['ebay'])) {?>
+                <tr>
+                    <!--form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="ebay" id="typeprice_amazon" /-->
+
+                    <td class="text_left"><div class="pricetype pricetype0 on square"><!-- // --></div> Ebay</td>
+                    <td>
+                        <span class="green"><? echo $data['product']->price['ebay']->formattedPrice; ?></span>
+                        <span id="sss_amazon" class="sss"><a href="/support/sss">SSS</a></span>
+
+                    </td>
+                    <!--/form-->
+                </tr>
+            <? }?>
 
 
 
 
 
 
-<? if (isset($data['product']->price['amazon'])) {?>
-<tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="amazon" id="typeprice_amazon" />
-
-        <td class="text_left"><div class="pricetype pricetype0 on square"><!-- // --></div> Amazon</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_amazon" onfocus="change_sub_tab('amazon');" value="" />
 
 
+            <? if (isset($data['product']->price['new'])) {?>
+                <tr>
+                    <form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="new" id="typeprice_new" />
 
-            <a href="#" id="tip_link_dp_amazon"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_amazon" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>Amazon Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.62" onclick="$('dp_amazon').value = '14.62'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=16.37" onclick="$('dp_amazon').value = '16.37'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.74" onclick="$('dp_amazon').value = '14.74'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.29" onclick="$('dp_amazon').value = '12.29'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=8.19" onclick="$('dp_amazon').value = '8.19'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=4.09" onclick="$('dp_amazon').value = '4.09'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.64" onclick="$('dp_amazon').value = '1.64'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.62" onclick="$('dp_amazon').value = '14.62'; return(false);">
-                                $14.62
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=16.37" onclick="$('dp_amazon').value = '16.37'; return(false);">
-                                $16.37
-                            </a>
+                        <td class="text_left"><div class="pricetype pricetype1 on square"><!-- // --></div> 3rd Party New</td>
+                        <td>
+                            <span class="green"><? echo $data['product']->price['new']->formattedPrice; ?></span>
 
                         </td>
+                    </form>
+                </tr>
+            <? } ?>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=14.74" onclick="$('dp_amazon').value = '14.74'; return(false);">
-                                $14.74
-                            </a>
 
-                        </td>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=12.29" onclick="$('dp_amazon').value = '12.29'; return(false);">
-                                $12.29
-                            </a>
 
-                        </td>
 
-                        <td class="centerAlign">
+            <? if (isset($data['product']->price['used'])) { ?>
+                <tr>
+                    <form method="post" action="/camels/new/111801202X?locale=US" >
+                        <input type="hidden" name="product_page_form" value="true" />
+                        <input type="hidden" name="type[]" value="used" id="typeprice_used" />
 
-                            <a href="?active=amazon&price=8.19" onclick="$('dp_amazon').value = '8.19'; return(false);">
-                                $8.19
-                            </a>
+                        <td class="text_left"><div class="pricetype pricetype2 on square"><!-- // --></div> 3rd Party Used</td>
+                        <td>
+                            <span class="green"><? echo $data['product']->price['used']->formattedPrice;?></span>
 
-                        </td>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=4.09" onclick="$('dp_amazon').value = '4.09'; return(false);">
-                                $4.09
-                            </a>
+
+                            <span id="sss_used" class="sss"><a href="/support/sss">SSS</a></span>
 
                         </td>
+                    </form>
+                </tr>
+            <? } ?>
 
-                        <td class="centerAlign">
 
-                            <a href="?active=amazon&price=1.64" onclick="$('dp_amazon').value = '1.64'; return(false);">
-                                $1.64
-                            </a>
 
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['amazon']['FormattedPrice']; ?></span>
-            <span id="sss_amazon" class="sss"><a href="/support/sss">SSS</a></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_amazon_0" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_amazon_0" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_amazon_0" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_amazon_0" value="false"  />
-        </td>
-
-
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1638);">Start Tracking</button></td>
-    </form>
-</tr>
-<? }?>
-
-
-
-
-
-
-
-
-<? if (isset($data['product']->price['new'])) {?>
-<tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="new" id="typeprice_new" />
-
-        <td class="text_left"><div class="pricetype pricetype1 on square"><!-- // --></div> 3rd Party New</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_new" onfocus="change_sub_tab('new');" value="" />
-
-
-
-            <a href="#" id="tip_link_dp_new"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_new" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>3rd Party New Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.48" onclick="$('dp_new').value = '7.48'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.29" onclick="$('dp_new').value = '14.29'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.87" onclick="$('dp_new').value = '12.87'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=10.72" onclick="$('dp_new').value = '10.72'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.15" onclick="$('dp_new').value = '7.15'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=3.58" onclick="$('dp_new').value = '3.58'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.43" onclick="$('dp_new').value = '1.43'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.48" onclick="$('dp_new').value = '7.48'; return(false);">
-                                $7.48
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.29" onclick="$('dp_new').value = '14.29'; return(false);">
-                                $14.29
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=12.87" onclick="$('dp_new').value = '12.87'; return(false);">
-                                $12.87
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=10.72" onclick="$('dp_new').value = '10.72'; return(false);">
-                                $10.72
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.15" onclick="$('dp_new').value = '7.15'; return(false);">
-                                $7.15
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=3.58" onclick="$('dp_new').value = '3.58'; return(false);">
-                                $3.58
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=1.43" onclick="$('dp_new').value = '1.43'; return(false);">
-                                $1.43
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['new']['FormattedPrice']; ?></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_new_1" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_new_1" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_new_1" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_new_1" value="false"  />
-        </td>
-
-
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1430);">Start Tracking</button></td>
-    </form>
-</tr>
-<? } ?>
-
-
-
-
-
-
-
-<? if (isset($data['product']->price['used'])) { ?>
-<tr>
-    <form method="post" action="/camels/new/111801202X?locale=US" >
-        <input type="hidden" name="product_page_form" value="true" />
-        <input type="hidden" name="type[]" value="used" id="typeprice_used" />
-
-        <td class="text_left"><div class="pricetype pricetype2 on square"><!-- // --></div> 3rd Party Used</td>
-        <td>$ <input class="price " type="text" name="price" id="dp_used" onfocus="change_sub_tab('used');" value="" />
-
-
-
-            <a href="#" id="tip_link_dp_used"><img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/tag_green.png" style="margin-bottom: -3px;"></a>
-
-            <div id="example_prices_dp_used" style="display: none;">
-
-                <table width="100%" style="margin: 0; padding: 0;">
-                    <thead>
-                    <tr class="odd">
-                        <th>3rd Party Used Price Discount</th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=9.99" onclick="$('dp_used').value = '9.99'; return(false);" class="grey">
-                                Lowest Price Ever
-                            </a>
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=14.42" onclick="$('dp_used').value = '14.42'; return(false);" class="grey">
-                                -$0.01
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=12.99" onclick="$('dp_used').value = '12.99'; return(false);" class="grey">
-                                -10%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=10.82" onclick="$('dp_used').value = '10.82'; return(false);" class="grey">
-                                -25%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=7.21" onclick="$('dp_used').value = '7.21'; return(false);" class="grey">
-                                -50%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=3.61" onclick="$('dp_used').value = '3.61'; return(false);" class="grey">
-                                -75%
-                            </a>
-
-                        </th>
-
-                        <th>
-
-                            <a href="?active=amazon&price=1.44" onclick="$('dp_used').value = '1.44'; return(false);" class="grey">
-                                -90%
-                            </a>
-
-                        </th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <tr class="odd">
-                        <td class="rightAlign">Set Desired Price</td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=9.99" onclick="$('dp_used').value = '9.99'; return(false);">
-                                $9.99
-                            </a>
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=14.42" onclick="$('dp_used').value = '14.42'; return(false);">
-                                $14.42
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=12.99" onclick="$('dp_used').value = '12.99'; return(false);">
-                                $12.99
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=10.82" onclick="$('dp_used').value = '10.82'; return(false);">
-                                $10.82
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=7.21" onclick="$('dp_used').value = '7.21'; return(false);">
-                                $7.21
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=3.61" onclick="$('dp_used').value = '3.61'; return(false);">
-                                $3.61
-                            </a>
-
-                        </td>
-
-                        <td class="centerAlign">
-
-                            <a href="?active=amazon&price=1.44" onclick="$('dp_used').value = '1.44'; return(false);">
-                                $1.44
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-        </td>
-        <td>
-            <span class="green"><? echo $data['product']->price['used']['FormattedPrice'];?></span>
-
-
-
-
-            <span id="sss_used" class="sss"><a href="/support/sss">SSS</a></span>
-
-        </td>
-
-
-        <td><input class="" type="text" name="email" id="email_price_used_2" value="" /></td>
-        <td>
-            @ <input class="twitter_user " type="text" name="twitter_user" id="twitter_user_price_used_2" value="" />
-        </td>
-        <td>
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_true_price_used_2" value="true" checked="checked" />
-            /
-            <input type="radio" name="twitter_is_public" id="twitter_is_public_false_price_used_2" value="false"  />
-        </td>
-
-
-        <td colspan="2"><button class="full blue" type="submit" onclick="camel_event('Track Product', 'US - Product Page', '111801202X', 1443);">Start Tracking</button></td>
-    </form>
-</tr>
-<? } ?>
-
-
-
-</tbody>
-</table>
-</div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <style>.popup_tooltip_icon { margin-bottom: -3px; }</style>
@@ -2439,8 +2102,8 @@ _gaq.push(['_trackPageLoadTime']);
     <div id="shareparent">
         <div id="sharelabel">Share:</div>
 
-        <a class="share_button twizzler" href="https://twitter.com/share?url=http%3A%2F%2Fcamelcamelcamel.com%2FNikon-D7000-Dummies-Julie-Adair%2Fproduct%2F111801202X%3Factive%3Damazon&amp;text=Nikon%20D7000%20For%20Dummies%20-%20Amazon%20price%20history%3A" target="_blank" onclick="camel_event('Share Product', 'Twitter', 'US - 111801202X', null); return(true);">Twitter</a>
-        <a class="share_button tastebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fcamelcamelcamel.com%2FNikon-D7000-Dummies-Julie-Adair%2Fproduct%2F111801202X%3Factive%3Damazon&amp;t=Nikon%20D7000%20For%20Dummies%20-%20Amazon%20price%20history%3A" target="_blank" onclick="camel_event('Share Product', 'Facebook', 'US - 111801202X', null); return(true);">Facebook</a>
+        <a class="share_button twizzler" href="https://twitter.com/share?url=http%3A%2F%2Fcamelcamelcamel.com%2FNikon-D7000-Dummies-Julie-Adair%2Fproduct%2F111801202X%3Factive%3Damazon&amp;text=Nikon%20D7000%20For%20Dummies%20-%20Ebay%20price%20history%3A" target="_blank" onclick="camel_event('Share Product', 'Twitter', 'US - 111801202X', null); return(true);">Twitter</a>
+        <a class="share_button tastebook" href="https://www.facebook.com/sharer.php?u=http%3A%2F%2Fcamelcamelcamel.com%2FNikon-D7000-Dummies-Julie-Adair%2Fproduct%2F111801202X%3Factive%3Damazon&amp;t=Nikon%20D7000%20For%20Dummies%20-%20Ebay%20price%20history%3A" target="_blank" onclick="camel_event('Share Product', 'Facebook', 'US - 111801202X', null); return(true);">Facebook</a>
         <a class="share_button gplussen" href="https://plusone.google.com/_/+1/confirm?hl=en&amp;url=http%3A%2F%2Fcamelcamelcamel.com%2FNikon-D7000-Dummies-Julie-Adair%2Fproduct%2F111801202X%3Factive%3Damazon" target="_blank" onclick="camel_event('Share Product', 'Google Plus', 'US - 111801202X', null); return(true);">Google+</a>
     </div>
 </div>
@@ -2457,218 +2120,41 @@ _gaq.push(['_trackPageLoadTime']);
 <script src="http://d1i0o2gnhzh6dj.cloudfront.net/javascripts/slider/dhtmlxslider.js"></script>
 
 <div class="yui3-g" id="chartarea">
-    <div class="yui3-u-4-5">
-        <img id="lt_chart" src="http://charts.camelcamelcamel.com/us/111801202X/amazon.png?force=1&zero=0&w=725&h=440&desired=false&legend=1&ilt=1&tp=all&fo=0" height="440" width="725" alt="Amazon price history chart for Nikon D7000 For Dummies">
-    </div>
-    <div class="yui3-u-1-5">
-        <div class="controlbox radioboxen">
-            <h4>
-                Date Range
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt2" style="visibility: hidden; width: 16px;" width="16">
-            </h4>
-            <div id="dateslider"></div>
-            <div class="yui3-g togglelink">
-
-
-
-                <div class="yui3-u-1-5 leftAlign">
-                    <a title="1m - view data going back to Apr 19, 2013" id="toggle_tp_1m" href="?active=summary&tp=1m" class="off" style="font-size: 1em !important;">
-                        1m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 centerAlign">
-                    <a title="3m - view data going back to Feb 19, 2013" id="toggle_tp_3m" href="?active=summary&tp=3m" class="off" style="font-size: 1em !important;">
-                        3m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="6m - view data going back to Nov 19, 2012" id="toggle_tp_6m" href="?active=summary&tp=6m" class="off" style="font-size: 1em !important;">
-                        6m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="1y - view data going back to May 19, 2012" id="toggle_tp_1y" href="?active=summary&tp=1y" class="off" style="font-size: 1em !important;">
-                        1y
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="All - view data going back to Dec 02, 2010" id="toggle_tp_all" href="?active=summary&tp=all" class="on" style="font-size: 1em !important;">
-                        All
-                    </a>
-                </div>
-
-
-
-
-            </div>
-        </div>
-        <div class="controlbox">
-            <h4>
-                Price Type
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt" style="visibility: hidden; width: 16px;" width="16">
-            </h4>
-
-
-
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype0 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon" onclick="toggle_price('amazon'); return(false);">
-                            Amazon
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_amazon" href="?active=summary&cpf[]=amazon" title="Toggle this price type's display in the chart" class="togglebtn on">
-                            On
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype1 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon&cpf[]=new" onclick="toggle_price('new'); return(false);">
-                            3rd Party New
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_new" href="?active=summary&cpf[]=amazon&cpf[]=new" title="Toggle this price type's display in the chart" class="togglebtn off">
-                            Off
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype2 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon&cpf[]=used" onclick="toggle_price('used'); return(false);">
-                            3rd Party Used
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_used" href="?active=summary&cpf[]=amazon&cpf[]=used" title="Toggle this price type's display in the chart" class="togglebtn off">
-                            Off
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="controlbox">
-            <h4>
-                Chart Options
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt4" style="visibility: hidden;">
-            </h4>
-
-
-
-            <div class="yui3-g" style="margin-bottom: 1em;">
-                <div class="yui3-u-3-4">
-                    <div style="padding-top: 4px;">
-                        <a href="?active=summary&chart=1" class="togglelink" onclick="toggle_closeup_view('summary'); return(false);">
-                            Close-up View
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <a title="Turn the chart's close-up view off" id="toggle_zero_summary_0" href="?active=summary&chart=1" class="togglebtn on">
-                        On
-                    </a>
-                </div>
-            </div>
-
-
-
-            <div class="yui3-g">
-                <div class="yui3-u-3-4">
-                    <div style="padding-top: 4px;">
-                        <a href="?active=summary&fo=1" class="togglelink" onclick="toggle_outlier_filtering('summary'); return(false);">
-                            Remove Extreme Values
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <a title="Turn outlier filtering on" id="toggle_fo_1" href="?active=summary&fo=1" class="togglebtn off" onclick="toggle_outlier_filtering('summary'); return(false);">
-                        Off
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
 <div class="tabs" id="pricetabs">
 
-    <? if (isset($data['data']->price['amazon'])) { ?>
-    <a href="?active=amazon" title="Detailed Amazon price history for the Amazon Price" class="selected pricetype pricetype0 on" id="toggle_active_sub_amazon">
-        Amazon
+    <? if (isset($data['data']->price['ebay'])) { ?>
+        <a href="?active=amazon" title="Detailed Ebay price history for the Ebay Price" class="selected pricetype pricetype0 on" id="toggle_active_sub_amazon">
+            Ebay
 
-        -
-        <? echo $data['product']->price['amazon']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['ebay']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 
     <? if (isset($data['data']->price['new'])) { ?>
-    <a href="?active=new" title="Detailed Amazon price history for the 3rd Party New Price" class=" pricetype pricetype1 off" id="toggle_active_sub_new">
-        3rd Party New
+        <a href="?active=new" title="Detailed Ebay price history for the 3rd Party New Price" class=" pricetype pricetype1 off" id="toggle_active_sub_new">
+            3rd Party New
 
-        -
-        <? echo $data['product']->price['new']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['new']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 
-    <? if (isset($data['data']->price['amazon'])) { ?>
-    <a href="?active=used" title="Detailed Amazon price history for the 3rd Party Used Price" class=" pricetype pricetype2 off" id="toggle_active_sub_used">
-        3rd Party Used
+    <? if (isset($data['data']->price['ebay'])) { ?>
+        <a href="?active=used" title="Detailed Ebay price history for the 3rd Party Used Price" class=" pricetype pricetype2 off" id="toggle_active_sub_used">
+            3rd Party Used
 
-        -
-        <? echo $data['product']->price['used']['FormattedPrice'];?>
+            -
+            <? echo $data['product']->price['used']->formattedPrice;?>
 
-    </a>
+        </a>
     <? } ?>
 
 
@@ -2696,7 +2182,7 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <h3 class="notopmargin">Amazon Price History</h3>
+                <h3 class="notopmargin">Ebay Price History</h3>
 
 
                 <table width="100%">
@@ -2821,7 +2307,7 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-    <p class="msg_bar"><small>This is the price charged for New products when Amazon itself is the seller.</small></p>
+    <p class="msg_bar"><small>This is the price charged for New products when Ebay itself is the seller.</small></p>
 
 
 
@@ -3142,7 +2628,7 @@ _gaq.push(['_trackPageLoadTime']);
 <div id="section_sales_rank" style="display: none;">
 <div class="yui3-g" id="sales_rank_pane">
     <div class="yui3-u-4-5">
-        <img id="sr_chart" src="http://charts.camelcamelcamel.com/us/111801202X/sales-rank.png?force=1&zero=0&w=725&h=440&legend=1&ilt=1&tp=all&fo=0" height="440" width="725" alt="Amazon sales rank history chart for Nikon D7000 For Dummies">
+        <img id="sr_chart" src="http://charts.camelcamelcamel.com/us/111801202X/sales-rank.png?force=1&zero=0&w=725&h=440&legend=1&ilt=1&tp=all&fo=0" height="440" width="725" alt="Ebay sales rank history chart for Nikon D7000 For Dummies">
     </div>
     <div class="yui3-u-1-5">
         <div class="controlbox radioboxen">
@@ -3932,35 +3418,9 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '0321766547 - Amazon', 1593); return(false);" href="http://camelcamelcamel.com/Nikon-D7000-Snapshots-Great-Shots/product/0321766547?active=price_amazon"><div class="img_box"><img id="img_627802_0" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '0321766547 - Ebay', 1593); return(false);" href="http://camelcamelcamel.com/Nikon-D7000-Snapshots-Great-Shots/product/0321766547?active=price_amazon"><div class="img_box"><img id="img_627802_0" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
 
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '0321766547 - Amazon', 1593); return(false);" title="Price history for Nikon D7000: From Snapshots to Great Shots" href="http://camelcamelcamel.com/Nikon-D7000-Snapshots-Great-Shots/product/0321766547?active=price_amazon">Nikon D7000: From Snapshots to Great Shots</a>
-
-                </h3>
-
-
-
-
-
-            </div>
-        </td>
-
-
-
-
-
-
-
-
-
-        <td class="deal_top_outer ">
-            <div class="deal_top_inner no_price">
-
-
-
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1454701315 - Amazon', 1204); return(false);" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-D7000/product/1454701315?active=price_amazon"><div class="img_box"><img id="img_627802_1" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
-
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1454701315 - Amazon', 1204); return(false);" title="Price history for Magic Lantern Guides: Nikon D7000" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-D7000/product/1454701315?active=price_amazon">Magic Lantern Guides: Nikon D7000</a>
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '0321766547 - Ebay', 1593); return(false);" title="Price history for Nikon D7000: From Snapshots to Great Shots" href="http://camelcamelcamel.com/Nikon-D7000-Snapshots-Great-Shots/product/0321766547?active=price_amazon">Nikon D7000: From Snapshots to Great Shots</a>
 
                 </h3>
 
@@ -3984,35 +3444,9 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1933952806 - Amazon', 1950); return(false);" href="http://camelcamelcamel.com/Mastering-Nikon-D7000-Darrell-Young/product/1933952806?active=price_amazon"><div class="img_box"><img id="img_627802_2" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1454701315 - Ebay', 1204); return(false);" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-D7000/product/1454701315?active=price_amazon"><div class="img_box"><img id="img_627802_1" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
 
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1933952806 - Amazon', 1950); return(false);" title="Price history for Mastering the Nikon D7000" href="http://camelcamelcamel.com/Mastering-Nikon-D7000-Darrell-Young/product/1933952806?active=price_amazon">Mastering the Nikon D7000</a>
-
-                </h3>
-
-
-
-
-
-            </div>
-        </td>
-
-
-
-
-
-
-
-
-
-        <td class="deal_top_outer ">
-            <div class="deal_top_inner no_price">
-
-
-
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0049FVMF4 - Amazon', 4632); return(false);" href="http://camelcamelcamel.com/Nikon-CF-DC-3-Semi-soft-Digital-Camera/product/B0049FVMF4?active=price_amazon"><div class="img_box"><img id="img_627802_3" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
-
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0049FVMF4 - Amazon', 4632); return(false);" title="Price history for Nikon CF-DC-3 Semi-soft Case for Nikon D7000 Digital SLR Camera" href="http://camelcamelcamel.com/Nikon-CF-DC-3-Semi-soft-Digital-Camera/product/B0049FVMF4?active=price_amazon">Nikon CF-DC-3 Semi-soft Case for Nikon D7000 Digital SLR Camera</a>
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1454701315 - Ebay', 1204); return(false);" title="Price history for Magic Lantern Guides: Nikon D7000" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-D7000/product/1454701315?active=price_amazon">Magic Lantern Guides: Nikon D7000</a>
 
                 </h3>
 
@@ -4036,9 +3470,61 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0045DNU6Y - Amazon', ); return(false);" href="http://camelcamelcamel.com/Nikon-Digital-18-105mm-70-300mm-Accessory/product/B0045DNU6Y?active=price_amazon"><div class="img_box"><img id="img_627802_4" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1933952806 - Ebay', 1950); return(false);" href="http://camelcamelcamel.com/Mastering-Nikon-D7000-Darrell-Young/product/1933952806?active=price_amazon"><div class="img_box"><img id="img_627802_2" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
 
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0045DNU6Y - Amazon', ); return(false);" title="Price history for Nikon D7000 Digital SLR Camera &amp; 18-105mm VR + 70-300mm Lens + 32GB Card + Filters + Case + Accessory Kit" href="http://camelcamelcamel.com/Nikon-Digital-18-105mm-70-300mm-Accessory/product/B0045DNU6Y?active=price_amazon">Nikon D7000 Digital SLR Camera &amp; 18-105mm VR + 70-3 ... m Lens + 32GB Card + Filters + Case + Accessory Kit</a>
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1933952806 - Ebay', 1950); return(false);" title="Price history for Mastering the Nikon D7000" href="http://camelcamelcamel.com/Mastering-Nikon-D7000-Darrell-Young/product/1933952806?active=price_amazon">Mastering the Nikon D7000</a>
+
+                </h3>
+
+
+
+
+
+            </div>
+        </td>
+
+
+
+
+
+
+
+
+
+        <td class="deal_top_outer ">
+            <div class="deal_top_inner no_price">
+
+
+
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0049FVMF4 - Ebay', 4632); return(false);" href="http://camelcamelcamel.com/Nikon-CF-DC-3-Semi-soft-Digital-Camera/product/B0049FVMF4?active=price_amazon"><div class="img_box"><img id="img_627802_3" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0049FVMF4 - Ebay', 4632); return(false);" title="Price history for Nikon CF-DC-3 Semi-soft Case for Nikon D7000 Digital SLR Camera" href="http://camelcamelcamel.com/Nikon-CF-DC-3-Semi-soft-Digital-Camera/product/B0049FVMF4?active=price_amazon">Nikon CF-DC-3 Semi-soft Case for Nikon D7000 Digital SLR Camera</a>
+
+                </h3>
+
+
+
+
+
+            </div>
+        </td>
+
+
+
+
+
+
+
+
+
+        <td class="deal_top_outer ">
+            <div class="deal_top_inner no_price">
+
+
+
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0045DNU6Y - Ebay', ); return(false);" href="http://camelcamelcamel.com/Nikon-Digital-18-105mm-70-300mm-Accessory/product/B0045DNU6Y?active=price_amazon"><div class="img_box"><img id="img_627802_4" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', 'B0045DNU6Y - Ebay', ); return(false);" title="Price history for Nikon D7000 Digital SLR Camera &amp; 18-105mm VR + 70-300mm Lens + 32GB Card + Filters + Case + Accessory Kit" href="http://camelcamelcamel.com/Nikon-Digital-18-105mm-70-300mm-Accessory/product/B0045DNU6Y?active=price_amazon">Nikon D7000 Digital SLR Camera &amp; 18-105mm VR + 70-3 ... m Lens + 32GB Card + Filters + Case + Accessory Kit</a>
 
                 </h3>
 
@@ -4069,9 +3555,9 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1600597211 - Amazon', 1796); return(false);" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-Companion/product/1600597211?active=price_amazon"><div class="img_box"><img id="img_627802_5" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1600597211 - Ebay', 1796); return(false);" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-Companion/product/1600597211?active=price_amazon"><div class="img_box"><img id="img_627802_5" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
 
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1600597211 - Amazon', 1796); return(false);" title="Price history for Magic Lantern Guides: Nikon D7000 CLS Flash Companion" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-Companion/product/1600597211?active=price_amazon">Magic Lantern Guides: Nikon D7000 CLS Flash Companion</a>
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1600597211 - Ebay', 1796); return(false);" title="Price history for Magic Lantern Guides: Nikon D7000 CLS Flash Companion" href="http://camelcamelcamel.com/Magic-Lantern-Guides-Nikon-Companion/product/1600597211?active=price_amazon">Magic Lantern Guides: Nikon D7000 CLS Flash Companion</a>
 
                 </h3>
 
@@ -4095,9 +3581,9 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1435459423 - Amazon', 2198); return(false);" href="http://camelcamelcamel.com/David-Buschs-Nikon-Digital-Photography/product/1435459423?active=price_amazon"><div class="img_box"><img id="img_627802_6" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
+                <a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1435459423 - Ebay', 2198); return(false);" href="http://camelcamelcamel.com/David-Buschs-Nikon-Digital-Photography/product/1435459423?active=price_amazon"><div class="img_box"><img id="img_627802_6" alt="product image" src="http://d1i0o2gnhzh6dj.cloudfront.net/images/thumbna.png" /></div></a>
 
-                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1435459423 - Amazon', 2198); return(false);" title="Price history for David Busch's Nikon D7000 Guide to Digital SLR Photography" href="http://camelcamelcamel.com/David-Buschs-Nikon-Digital-Photography/product/1435459423?active=price_amazon">David Busch's Nikon D7000 Guide to Digital SLR Photography</a>
+                <h3><a onclick="camel_out(this, 'Camel Product', 'US - Product Page Similar Items', '1435459423 - Ebay', 2198); return(false);" title="Price history for David Busch's Nikon D7000 Guide to Digital SLR Photography" href="http://camelcamelcamel.com/David-Buschs-Nikon-Digital-Photography/product/1435459423?active=price_amazon">David Busch's Nikon D7000 Guide to Digital SLR Photography</a>
 
                 </h3>
 
@@ -4142,7 +3628,7 @@ _gaq.push(['_trackPageLoadTime']);
 
 
         <p class="grey">
-            Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Amazon at the time of purchase will apply to the purchase of this product.
+            Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on Ebay at the time of purchase will apply to the purchase of this product.
 
             It is currently May 19, 2013 06:59 PM at the Camel Farm.
         </p>
@@ -4154,55 +3640,55 @@ _gaq.push(['_trackPageLoadTime']);
         <p class="grey centerAlign">
             Countries:
 
-            <a href="http://ca.camelcamelcamel.com/" title="Track products from Amazon Canada">Canada</a>
+            <a href="http://ca.camelcamelcamel.com/" title="Track products from Ebay Canada">Canada</a>
 
 
             &middot;
 
 
-            <a href="http://cn.camelcamelcamel.com/" title="Track products from Amazon China">China</a>
+            <a href="http://cn.camelcamelcamel.com/" title="Track products from Ebay China">China</a>
 
 
             &middot;
 
 
-            <a href="http://fr.camelcamelcamel.com/" title="Track products from Amazon France">France</a>
+            <a href="http://fr.camelcamelcamel.com/" title="Track products from Ebay France">France</a>
 
 
             &middot;
 
 
-            <a href="http://de.camelcamelcamel.com/" title="Track products from Amazon Germany">Germany</a>
+            <a href="http://de.camelcamelcamel.com/" title="Track products from Ebay Germany">Germany</a>
 
 
             &middot;
 
 
-            <a href="http://it.camelcamelcamel.com/" title="Track products from Amazon Italy">Italy</a>
+            <a href="http://it.camelcamelcamel.com/" title="Track products from Ebay Italy">Italy</a>
 
 
             &middot;
 
 
-            <a href="http://jp.camelcamelcamel.com/" title="Track products from Amazon Japan">Japan</a>
+            <a href="http://jp.camelcamelcamel.com/" title="Track products from Ebay Japan">Japan</a>
 
 
             &middot;
 
 
-            <a href="http://es.camelcamelcamel.com/" title="Track products from Amazon Spain">Spain</a>
+            <a href="http://es.camelcamelcamel.com/" title="Track products from Ebay Spain">Spain</a>
 
 
             &middot;
 
 
-            <a href="http://uk.camelcamelcamel.com/" title="Track products from Amazon United Kingdom">United Kingdom</a>
+            <a href="http://uk.camelcamelcamel.com/" title="Track products from Ebay United Kingdom">United Kingdom</a>
 
 
             &middot;
 
 
-            <a href="http://camelcamelcamel.com/" title="Track products from Amazon United States">United States</a>
+            <a href="http://camelcamelcamel.com/" title="Track products from Ebay United States">United States</a>
 
 
 

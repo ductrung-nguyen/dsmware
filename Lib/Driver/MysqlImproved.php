@@ -102,6 +102,7 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
      */
     public function fetch($type = 'object')
     {
+        $rows = NULL;
         if (isset($this->result))
         {
             switch ($type)
@@ -110,6 +111,8 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
 
                     //fetch a row as array
                     //$row = mysqli_fetch_array($this->result, MYSQLI_NUM);
+                    if (!$this->result)
+                        return NULL;
                     while($row = mysqli_fetch_array($this->result, MYSQLI_ASSOC))
                     {
                         $rows[] = $row;
@@ -132,7 +135,7 @@ class Lib_Driver_MysqlImproved extends Lib_Database{
             return $rows;
         }
 
-        return FALSE;
+        return NULL;
     }
 
     /**

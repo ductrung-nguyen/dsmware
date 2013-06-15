@@ -154,7 +154,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
     }
 
     /**
-     * Add a product for tracking
+     * Add a product for tracking (it doesn't update the new prices of product)
      * @param $product
      * @return mixed
      */
@@ -203,6 +203,70 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
      */
     static function updateDB()
     {
-        // TODO: Implement updateDB() method.
+        try{
+            $model = new Core_Model();
+            $model->getDB()->connect();
+
+            // Get all product and the latest prices (amazon, 3rd Amazon New, 3rd Used)
+            $sql = "SELECT ProductID, Name, Price, PriceType FROM Tracking as t1, Product"
+            ." WHERE ProductCode=ProductID and Website='amazon' "
+                ." and Time >= (SELECT Max(Time) FROM Tracking as t2 WHERE t1.ProductID=t2.ProductID and t1.PriceType=t2.PriceType)"
+            ." ORDER BY ProductID";
+            $model->getDB()->prepare($sql);
+            $model->getDB()->query();
+
+            $results = $model->getDB()->fetch('array');
+
+
+
+            $product_model = new Model_Amazon_Product();
+            $price_categories = array('amazon'=>'amazon', 'new' => 'amazon-new', 'used'=>'amazon-used');
+            $lastID="#$@!#####";
+            $p = null;
+            if (isset($results)){
+                // Update products
+                foreach ($results as $row){
+                    if ($lastID != $row['ProductID']){
+                        $p = $product_model->lookup($row['ProductID']);
+                        $lastID = $row['ProductID'];
+                    }
+                    if (isset($p)){
+                        // If there is any update
+
+                        // add current price into table Tracking
+                        foreach (array_keys($price_categories) as $price_key)
+                        {
+                            if (isset($p->price[$price_key])
+                                && ( $p->price[$price_key]->price/100.0 != $row['Price'])
+                                && ($price_categories[$price_key] == $row['PriceType'])
+                            ){
+                                $query = sprintf("INSERT INTO Tracking(ProductID, PriceType, Price, FormattedPrice)".
+                                    " VALUE ('%s', '%s' , %f, '%s')",
+                                    $p->ASIN,
+                                    $price_categories[$price_key],
+                                    $p->price[$price_key]->price/100.0,
+                                    $p->price[$price_key]->formattedPrice
+                                );
+
+                                $model->getDB()->prepare($query);
+                                $model->getDB()->query();
+                                if (DEBUG){
+                                    echo "Update product " . $p->name . " with price type: " . $price_categories[$price_key] . " OK  "
+                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price) . " \n";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $model->getDB()->disconnect();
+
+            return TRUE;
+        }
+        catch (Exception $e)
+        {
+            return FALSE;
+        }
     }
 }
