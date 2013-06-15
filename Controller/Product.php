@@ -49,6 +49,14 @@ class Controller_Product extends Core_Controller{
         }
 
         // call viewAction of each merchant's controller
+        $param['type_of_price'] = Model_Product::getPriceTypeOfProduct($param['id']);
+
+        $temp=array();
+        foreach ($param['type_of_price'] as $key => $value){
+            array_push($temp, sprintf("['%s' , '%s']", $key, $value));
+        }
+        $param['type_of_price'] = '[' . implode(',', $temp) . ']';
+
         $this->merchant_controller->viewAction($param);
 
 
@@ -104,6 +112,30 @@ class Controller_Product extends Core_Controller{
 
     public static function getTrackedPriceOfProduct($productID){
         Model_Product::getTrackedPrices($productID);
+    }
+
+    public function getPriceAction($param){
+        if (!isset($param['id']) || (!isset($param['type']))){
+            return null;
+        }
+
+        $p = Model_Product::getTrackedPricesByType($param['id'], $param['type'])->price;
+
+        header('Content-type: application/json');
+        echo $_GET['callback'] . '(';
+        echo "[";
+        $temp = array();
+        foreach($p[$param['type']] as $time=>$price){
+            array_push($temp, sprintf("[%d, %f]", Lib_Utility::wp_mktime($time)*1000, $price));
+        }
+        $temp = implode(',', $temp);
+        echo $temp;
+        //echo json_encode($p[$param['type']]);
+        echo "]";
+        echo ");";
+
+
+        return;
     }
 
 }

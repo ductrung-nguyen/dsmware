@@ -40,6 +40,104 @@
 <meta name="google-site-verification" content="bqUwKhoYeT_MzX9y98lARmF4Q1ZfE8Wl_V9h6sSLleo" />
 
 
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+<script type="text/javascript">
+        (function($){ // encapsulate jQuery
+
+            $(function() {
+                var seriesOptions = [],
+                    yAxisOptions = [],
+                    seriesCounter = 0,
+                //names = [['MSFT','MSFT'], ['AAPL','AAPL'], ['GOOG','Google']],
+                    names = <? echo $data['type_of_price']; ?>,
+                    colors = Highcharts.getOptions().colors;
+
+                $.each(names, function(i, name) {
+
+
+                    var url = '<? echo BASE_URL . DS . "index.php/Product/getPrice?type="; ?>' +  name[0].toLowerCase()  + <? echo "'&id=" .$data['product']->ASIN . "'"; ?>;
+
+                    function process(data) {
+                        seriesOptions[i] = {
+                            name: name[1],
+                            data: data
+                        };
+
+                        // As we're loading the data asynchronously, we don't know what order it will arrive. So
+                        // we keep a counter and create the chart when all the data is loaded.
+                        seriesCounter++;
+
+                        if (seriesCounter == names.length) {
+                            createChart();
+                        }
+                    }
+
+                    $.ajax({
+                        type:'GET',
+                        url:url,
+                        dataType:'jsonp',
+                        timeout: 5000,
+                        success: process,
+                        error: function(data){
+                            // error on loading data
+                            alert('error');
+                        }
+                    }); //end of $.ajax
+                });
+
+
+
+                // create the chart when all data is loaded
+                function createChart() {
+
+                    $('#chartarea').highcharts('StockChart', {
+                        chart: {
+                        },
+
+                        rangeSelector: {
+                            selected: 4
+                        },
+
+                        yAxis: {
+                            labels: {
+                                formatter: function() {
+                                    return (this.value > 0 ? '+' : '') + this.value + '%';
+                                }
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 2,
+                                color: 'silver'
+                            }]
+                        },
+
+                        plotOptions: {
+                            series: {
+                                compare: 'percent'
+                            }
+                        },
+
+                        tooltip: {
+                            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                            valueDecimals: 2
+                        },
+
+                        series: seriesOptions
+                    });
+                }
+
+            });
+        })(jQuery);
+</script>
+
+<script src="<? echo BASE_URL . DS . 'design/js/'?>highstock.js"></script>
+<script src="<? echo BASE_URL . DS . 'design/js' ?>exporting.js"></script>
+
+
 <style>
 #outer_frame {
     width: 946px;
@@ -942,8 +1040,6 @@ input.highlight {
 
 
 </style>
-
-<script src="<? echo BASE_URL . DS . 'design/js/jquery-1.10.0.min.js' ?>" ></script>
 
 <script type="text/javascript">
     function track(productID, name, site, information){
@@ -1903,7 +1999,7 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-<h2 id="tracks">Create  Amazon price watches for: <a href="http://camelcamelcamel.com/Nikon-D7000-Dummies-Julie-Adair/product/111801202X"><? $data['product']->name ?></a></h2>
+<h2 id="tracks">Create  Amazon price watches for: <a href="<? echo $data['product']->detailURL; ?>"><? echo $data['product']->name; ?></a></h2>
 
 
 <div id="header_tracker">
@@ -2024,183 +2120,6 @@ _gaq.push(['_trackPageLoadTime']);
 <script src="http://d1i0o2gnhzh6dj.cloudfront.net/javascripts/slider/dhtmlxslider.js"></script>
 
 <div class="yui3-g" id="chartarea">
-    <div class="yui3-u-4-5">
-        <img id="lt_chart" src="http://charts.camelcamelcamel.com/us/111801202X/amazon.png?force=1&zero=0&w=725&h=440&desired=false&legend=1&ilt=1&tp=all&fo=0" height="440" width="725" alt="Amazon price history chart for Nikon D7000 For Dummies">
-    </div>
-    <div class="yui3-u-1-5">
-        <div class="controlbox radioboxen">
-            <h4>
-                Date Range
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt2" style="visibility: hidden; width: 16px;" width="16">
-            </h4>
-            <div id="dateslider"></div>
-            <div class="yui3-g togglelink">
-
-
-
-                <div class="yui3-u-1-5 leftAlign">
-                    <a title="1m - view data going back to Apr 19, 2013" id="toggle_tp_1m" href="?active=summary&tp=1m" class="off" style="font-size: 1em !important;">
-                        1m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 centerAlign">
-                    <a title="3m - view data going back to Feb 19, 2013" id="toggle_tp_3m" href="?active=summary&tp=3m" class="off" style="font-size: 1em !important;">
-                        3m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="6m - view data going back to Nov 19, 2012" id="toggle_tp_6m" href="?active=summary&tp=6m" class="off" style="font-size: 1em !important;">
-                        6m
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="1y - view data going back to May 19, 2012" id="toggle_tp_1y" href="?active=summary&tp=1y" class="off" style="font-size: 1em !important;">
-                        1y
-                    </a>
-                </div>
-
-
-                <div class="yui3-u-1-5 rightAlign">
-                    <a title="All - view data going back to Dec 02, 2010" id="toggle_tp_all" href="?active=summary&tp=all" class="on" style="font-size: 1em !important;">
-                        All
-                    </a>
-                </div>
-
-
-
-
-            </div>
-        </div>
-        <div class="controlbox">
-            <h4>
-                Price Type
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt" style="visibility: hidden; width: 16px;" width="16">
-            </h4>
-
-
-
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype0 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon" onclick="toggle_price('amazon'); return(false);">
-                            Amazon
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_amazon" href="?active=summary&cpf[]=amazon" title="Toggle this price type's display in the chart" class="togglebtn on">
-                            On
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype1 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon&cpf[]=new" onclick="toggle_price('new'); return(false);">
-                            3rd Party New
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_new" href="?active=summary&cpf[]=amazon&cpf[]=new" title="Toggle this price type's display in the chart" class="togglebtn off">
-                            Off
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="yui3-g" style="margin-bottom: 5px; height: 40px;">
-
-                <div class="yui3-u-1-8">
-                    <div style="padding-top: 8px;">
-                        <div class="pricetype pricetype2 on square"><!-- // --></div>
-                    </div>
-                </div>
-                <div class="yui3-u-5-8">
-                    <div style="padding-top: 4px;">
-                        <a class="togglelink" href="?active=summary&cpf[]=amazon&cpf[]=used" onclick="toggle_price('used'); return(false);">
-                            3rd Party Used
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <div >
-                        <a id="toggle_id_used" href="?active=summary&cpf[]=amazon&cpf[]=used" title="Toggle this price type's display in the chart" class="togglebtn off">
-                            Off
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="controlbox">
-            <h4>
-                Chart Options
-                <img src="http://d1i0o2gnhzh6dj.cloudfront.net/images/loading.gif" id="loadthrob_lt4" style="visibility: hidden;">
-            </h4>
-
-
-
-            <div class="yui3-g" style="margin-bottom: 1em;">
-                <div class="yui3-u-3-4">
-                    <div style="padding-top: 4px;">
-                        <a href="?active=summary&chart=1" class="togglelink" onclick="toggle_closeup_view('summary'); return(false);">
-                            Close-up View
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <a title="Turn the chart's close-up view off" id="toggle_zero_summary_0" href="?active=summary&chart=1" class="togglebtn on">
-                        On
-                    </a>
-                </div>
-            </div>
-
-
-
-            <div class="yui3-g">
-                <div class="yui3-u-3-4">
-                    <div style="padding-top: 4px;">
-                        <a href="?active=summary&fo=1" class="togglelink" onclick="toggle_outlier_filtering('summary'); return(false);">
-                            Remove Extreme Values
-                        </a>
-                    </div>
-                </div>
-                <div class="yui3-u-1-4 rightAlign">
-                    <a title="Turn outlier filtering on" id="toggle_fo_1" href="?active=summary&fo=1" class="togglebtn off" onclick="toggle_outlier_filtering('summary'); return(false);">
-                        Off
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 

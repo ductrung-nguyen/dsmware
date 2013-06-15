@@ -97,6 +97,7 @@ class Controller_Amazon_Home extends Controller_MerchantAbstract {
         // And prepare data for displaying
         $this->view->setTemplate('Amazon/Product');
         $this->view->product = $product;
+        $this->view->type_of_price = $param['type_of_price'];
         $this->view->render();
     }
 
