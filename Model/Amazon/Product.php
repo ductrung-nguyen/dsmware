@@ -255,10 +255,10 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
                                 $model->getDB()->query();
                                 if (DEBUG){
                                     echo "Update product " . $p->name . " with price type: " . $price_categories[$price_key] . " OK  "
-                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price) . " \n";
+                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price/100.0) . " \n";
                                 }
                                 $log .= "Update product " . $p->name . " with price type: " . $price_categories[$price_key] . " OK  "
-                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price) . " \n";
+                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price/100.0) . " \n";
                             }
                         }
                     }

@@ -432,7 +432,7 @@
             </div>
             <div class="yui3-u" style="width: 460px;">
                 <div id="search">
-                    <form onsubmit="return(check_sq($('sq')));" action="/index.php/site/search" style="display: inline;" method="get">
+                    <form onsubmit="return(check_sq($('sq')));" action="<? echo BASE_URL; ?>/index.php/site/search" style="display: inline;" method="get">
                         <input id="s" type="hidden" name='s' value="amazon" />
                         <input type="text" name="sq" id="sq" value="" onclick="check_clear(this);" onblur="check_blur(this);" title="Search for">
                         <input id="searchbutton" type="submit" value="Find Products">

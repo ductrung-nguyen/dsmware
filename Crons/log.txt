@@ -16,3 +16,48 @@ Update product Conan the Destroyer [DVD] [1984] with price type: amazon-new OK  
 Products from Controller_Ebay_Home have been updated!
 -------------------------------------
 
+June 16, 2013, 12:06 pm
+Products from Controller_Amazon_Home have been updated!
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:07 pm
+
+Products from Controller_Amazon_Home have been updated!
+
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:07 pm
+
+Products from Controller_Amazon_Home have been updated!
+
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:27 pm
+
+Products from Controller_Amazon_Home have been updated!
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon-new OK   ||| Old price:3.89  New Price:385 
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon OK   ||| Old price:8.01  New Price:674 
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon-used OK   ||| Old price:3.89  New Price:385 
+
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:27 pm
+
+Products from Controller_Amazon_Home have been updated!
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon OK   ||| Old price:8.01  New Price:674 
+
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:28 pm
+
+Products from Controller_Amazon_Home have been updated!
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon OK   ||| Old price:8.01  New Price:674 
+
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+

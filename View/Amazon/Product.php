@@ -1835,7 +1835,7 @@ _gaq.push(['_trackPageLoadTime']);
             </div>
             <div class="yui3-u" style="width: 460px;">
                 <div id="search">
-                    <form onsubmit="return(check_sq($('sq')));" action="/index.php/site/search" style="display: inline;" method="get">
+                    <form onsubmit="return(check_sq($('sq')));" action="<? echo BASE_URL; ?>/index.php/site/search" style="display: inline;" method="get">
 
 
 
