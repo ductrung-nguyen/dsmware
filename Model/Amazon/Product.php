@@ -205,6 +205,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
      */
     public function updateDB()
     {
+        $log='';
         try{
             $model = new Core_Model();
             $model->getDB()->connect();
@@ -256,6 +257,8 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
                                     echo "Update product " . $p->name . " with price type: " . $price_categories[$price_key] . " OK  "
                                     ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price) . " \n";
                                 }
+                                $log .= "Update product " . $p->name . " with price type: " . $price_categories[$price_key] . " OK  "
+                                    ." ||| Old price:". (string)($row['Price']) . "  New Price:" . (string)($p->price[$price_key]->price) . " \n";
                             }
                         }
                     }
@@ -264,7 +267,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
 
             $model->getDB()->disconnect();
 
-            return TRUE;
+            return $log;
         }
         catch (Exception $e)
         {

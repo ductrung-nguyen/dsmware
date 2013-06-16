@@ -20,8 +20,8 @@ $log = date("F j, Y, g:i a") . "\n";
 
 foreach ($config['modules']['merchant'] as $merchant){
     $controller = new $merchant['class'];
-    $controller->updateDBAction(NULL);
     $log .= "Products from " . $merchant['class'] . " have been updated!\n";
+    $log .= $controller->updateDBAction(NULL);
 }
 
 $log .= "-------------------------------------\n\n";

@@ -4,3 +4,15 @@ June 16, 2013, 12:49 am
 June 16, 2013, 12:50 am
 
 
+June 16, 2013, 12:01 pm
+Products from Controller_Amazon_Home have been updated!
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
+June 16, 2013, 12:02 pm
+Products from Controller_Amazon_Home have been updated!
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon OK   ||| Old price:6.01  New Price:674 
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon-new OK   ||| Old price:3.02  New Price:385 
+Products from Controller_Ebay_Home have been updated!
+-------------------------------------
+
