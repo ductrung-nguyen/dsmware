@@ -26,20 +26,24 @@ class Controller_Site extends Core_Controller {
 
         // set template is home.php and render
         $this->view->setTemplate('home');
+        $this->view->currentMerchant = 'amazon';
+        $this->view->merchants = array_keys(Core::$config['modules']['merchant']);
         $this->view->render();
     }
 
     public function searchAction($param){
         // the right parameters such as s=searchingSite & sq=keyword
-
-        echo "<pre>". "search of site". "</pre>";
-        //echo $param['s']; die;
-
+        if (DEBUG){
+            echo "<pre>". "search of site". "</pre>";
+            //echo $param['s']; die;
+        }
         // doesn't declare searching site
         if ((!isset($param['s'])) && (!isset($param['s2']))){
             $this->indexAction($param);
             return;
         }
+
+        $merchant = (isset($param['s']) ? $param['s'] : '' ) .(isset($param['s2']) ? $param['s2'] : '' );
 
 
         // key keyword from textbox has id='sq' OR id='sq2'
@@ -47,8 +51,8 @@ class Controller_Site extends Core_Controller {
 
         // if there is a searching site in config file
         //var_dump(Core::$config['modules']); die;
-        if (isset(Core::$config['modules']['merchant'][$param['s']]['class'])){
-            $this->merchant_controller = new Core::$config['modules']['merchant'][$param['s']]['class']();
+        if (isset(Core::$config['modules']['merchant'][$merchant]['class'])){
+            $this->merchant_controller = new Core::$config['modules']['merchant'][$merchant]['class']();
             //echo "aa"; die;
         }
 

@@ -20,6 +20,11 @@ class Controller_Index extends Core_Controller {
 
         // set template is home.php and render
         $this->view->setTemplate('home');
+
+        $this->view->merchants = array_keys(Core::$config['modules']['merchant']);
+        $this->view->currentMerchant = 'amazon';
+        
         $this->view->render();
+
     }
 }

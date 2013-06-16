@@ -9,6 +9,12 @@
 
 class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
+    public function __construct(){
+        parent::__construct();
+        $this->view->currentMerchant = 'ebay';
+        $this->view->merchants = array_keys(Core::$config['modules']['merchant']);
+    }
+
     /**
      * Display index page
      * @param $param
@@ -16,12 +22,17 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
      */
     public function indexAction($param)
     {
-        echo "<pre>" . "index action of ebay" . "</pre>";
+        if (DEBUG)
+        {
+            echo "<pre>" . "index action of ebay" . "</pre>";
+        }
         $this->view->title = 'Ebay Product Tracking';
         $this->view->header = (new Core_View('header'))->render(FALSE);
         $this->view->footer = (new Core_View('footer'))->render(FALSE);
         $this->view->body = 'Some stuff';
         $this->view->setTemplate('Ebay/Home');
+
+
         $this->view->render();
     }
 

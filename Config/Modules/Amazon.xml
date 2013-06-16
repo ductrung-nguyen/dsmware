@@ -10,6 +10,7 @@
                 <AWS_API_SECRET_KEY>V74QKYKzkneXhwwhpiD/472iXWeKYcoTrKYYlylB</AWS_API_SECRET_KEY>
                 <AWS_ASSOCIATE_TAG>mmifas-20</AWS_ASSOCIATE_TAG>
                 <AWS_ANOTHER_ASSOCIATE_TAG></AWS_ANOTHER_ASSOCIATE_TAG>
+                <logo>http://www.louisebatz.org/Files/Images/amazon_logo.jpg</logo>
             </amazon>
         </merchant>
     </modules>

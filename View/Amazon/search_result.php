@@ -15,14 +15,11 @@
                 <h1 id="h1al"><a id="h1a" href="/" title="nikon D7000 | Amazon Product Search | camelcamelcamel.com">nikon D7000 | Amazon Product Search | camelcamelcamel.com</a></h1>
             </div>
             <div class="yui3-u-1-2 grey smalltext leftAlign retailer_tabs">
-
-
-                <a href="http://camelcamelcamel.com/" class="selected"><span class="flagsprite-z-amazon" title="camelcamelcamel: Free Amazon price tracker, price history charts, and price drop alerts.">Amazon Price Tracker</span></a>
-
-                <a href="http://camelbuy.com/" class=""><span class="flagsprite-z-bestbuy" title="camelbuy: Free Best Buy price tracker, price history charts, and price drop alerts.">BestBuy Price Tracker</span></a>
-
-                <a href="http://camelegg.com/" class=""><span class="flagsprite-z-newegg" title="camelegg: Free Newegg price tracker, price history charts, and price drop alerts.">Newegg Price Tracker</span></a>
-
+                <? if (!isset($data['currentMerchant'])) $data['currentMerchant'] = 'amazon';?>
+                <? if (isset($data['merchants'])) {?>
+                    <? foreach ($data['merchants'] as $merchant) {?>
+                        <a href="<? echo BASE_URL . DS . 'index.php/site/search?s=' . $merchant?>" <? if ($merchant == $data['currentMerchant']) echo 'class="selected"'; ?> ><span class="flagsprite-z-amazon" style="background: url(<? echo '\'' .BASE_URL . DS .'design/images/' . $merchant . '_logo.png' . '\''; ?>) repeat scroll left 32px top / 32px 32px transparent !important;" title="camelcamelcamel: Free <? echo ucfirst($merchant);?> price tracker, price history charts, and price drop alerts."><? echo ucfirst($merchant); ?> Price Tracker</span></a>
+                    <? } } ?>
 
                 <div class="clearfix"><!-- // --></div>
             </div>
@@ -215,7 +212,7 @@
 
     </p>
 
-    <form onsubmit="return(check_sq($('sq2')));" action="/index.php/site/search" method='get'>
+    <form onsubmit="return(check_sq($('sq2')));" action="<?echo BASE_URL;?>/index.php/site/search" method='get'>
         <input id="s" name="s" type="hidden" value="amazon" />
         <input type="text" name="sq2" id="sq2" value="<?=$data['keyword']?>">
         <input type="submit" value="Find Products">

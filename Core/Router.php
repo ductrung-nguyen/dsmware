@@ -79,6 +79,9 @@ class Core_Router {
         }
         */
 
+        if (strlen($_SERVER['REQUEST_URI']) < strlen($_SERVER['SCRIPT_NAME'])){
+            $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'] . DS;
+        }
         $uri = str_replace($_SERVER['SCRIPT_NAME'] . DS, '', $_SERVER['REQUEST_URI']);
 
         // The uri will be like: /controller/action?param1=x&param2=y
@@ -96,7 +99,11 @@ class Core_Router {
 
         self::$action = (empty($action)) ? 'index' : $action;
 
+        if (empty($parsed))
+            return;
+
         $parsed = explode('&' , array_shift($parsed));
+
         self::$param = array();
         foreach ($parsed as $argument)
         {
