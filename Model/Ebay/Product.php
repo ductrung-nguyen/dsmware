@@ -183,7 +183,7 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
      * Update new price of products which users have already added into database
      * @return mixed
      */
-    static function updateDB()
+    public function updateDB()
     {
         try{
             $model = new Core_Model();

@@ -113,6 +113,8 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
 
             $response = $amazonEcs->country('fr')->category('All')->responseGroup('OfferListings,Large,Images')->lookup($productID);
 
+            if (!isset($response['Items']['Item']))
+                return NULL;
             $item = $response['Items']['Item'];
                 $p = new Model_Product();
                 $p->setName($item['ItemAttributes']['Title'])
@@ -201,7 +203,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
      * Update new price of products which users have already added into database
      * @return mixed
      */
-    static function updateDB()
+    public function updateDB()
     {
         try{
             $model = new Core_Model();

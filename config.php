@@ -48,7 +48,7 @@ $module_config_file = glob(SERVER_ROOT . '/Config/Modules/*.xml' );
 $first = true;
 foreach ($module_config_file as $f) {
     $temp = "";
-    $temp = XmlToArray(simplexml_load_file($f))['modules'];
+    $temp = XmlToArray(simplexml_load_file($f)); $temp = $temp['modules'];
 
     //var_dump($temp['merchant']); echo "<br /> </br />";
 

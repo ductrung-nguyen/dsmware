@@ -33,5 +33,5 @@ abstract class Model_MerchantAbstract extends Core_Model {
      * Update new price of products which users have already added into database
      * @return mixed
      */
-    abstract static function updateDB();
+    abstract function updateDB();
 }
