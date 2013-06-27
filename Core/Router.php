@@ -10,6 +10,7 @@ defined('APP') or die('access denied');
 
 /**
  * Class Core_Router : Route for all request
+ * Process url to get name of controller and action and fire action method
  */
 class Core_Router {
     /**
@@ -32,6 +33,11 @@ class Core_Router {
      */
     public static $module;
 
+
+    /**
+     * This function will start system (we;ve already read configuration before)
+     * It gets name of controller, action and create corresponding controller and fires its action method
+     */
     public static function loader(){
         self::getController();
         $classname = '';
@@ -55,6 +61,9 @@ class Core_Router {
 
     }
 
+    /**
+     * Get controller from url (information is saved in global variable $_SERVER)
+     */
     private static function getController(){
         /*
         //fetch the passed request

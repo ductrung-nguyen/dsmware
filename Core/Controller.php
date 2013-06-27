@@ -7,7 +7,13 @@
 */
 defined('APP') or die('Access Denied');
 
+/**
+ * Class Core_Controller: Abstract class for controller
+ */
 abstract class Core_Controller {
+    /**
+     * @var Core_View : responsible to display output content
+     */
     protected  $view;
 
     public function __construct(){

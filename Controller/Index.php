@@ -8,6 +8,11 @@
 
 
 class Controller_Index extends Core_Controller {
+
+    /**
+     * Display Index page when url is /index.php
+     * @param $param
+     */
     public function indexAction($param){
 
         // set title for page

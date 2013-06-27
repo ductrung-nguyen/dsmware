@@ -8,7 +8,14 @@
 
 
 class Model_Price {
+    /**
+     * @var $price: price in float type
+     */
     public $price;
+
+    /**
+     * @var $formattedPrice: price with currency
+     */
     public $formattedPrice;
 
     /**

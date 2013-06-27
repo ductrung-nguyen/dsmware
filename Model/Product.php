@@ -7,16 +7,58 @@
 */
 
 
+/**
+ * Class Model_Product : store information of product
+ */
 class Model_Product {
+
+    /**
+     * @var $name: Name of product
+     */
     public $name;
+    /**
+     * @var $tags: Tags of product
+     */
     public $tags;
+
+    /**
+     * @var $detailURL: URL to see details of product
+     */
     public $detailURL;
+
+    /**
+     * @var $images: images of product
+     */
     public $images;
+
+    /**
+     * @var $thumbnail: Thumbnail of product
+     */
     public $thumbnail;
+
+    /**
+     * @var $ASIN: product ID
+     */
     public $ASIN;
+
+    /**
+     * @var $manufacture: manufacture
+     */
     public $manufacture;
+
+    /**
+     * @var $price: price of product
+     */
     public $price;
+
+    /**
+     * @var $currency
+     */
     public $currency;
+
+    /**
+     * @var Merchant who sells this product
+     */
     public $merchant;
 
     public function setName($name){

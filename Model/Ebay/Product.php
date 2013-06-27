@@ -9,6 +9,11 @@
 
 class Model_Ebay_Product extends Model_MerchantAbstract {
 
+    /**
+     * Search product by keywork on Ebay's site
+     * @param $keyword
+     * @return array|Model_Product|null
+     */
     public function search($keyword)
     {
 
@@ -69,6 +74,11 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
         return null;
     }
 
+    /**
+     * Look up information of individual product on Ebay's site
+     * @param $productID
+     * @return mixed|Model_Product|null
+     */
     public function lookup($productID)
     {
         error_reporting(E_ALL);  // Turn on all errors, warnings and notices for easier debugging
@@ -99,24 +109,24 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
             // If the response was loaded, parse it and build links
             $item = $resp->Item;
                     $p = new Model_Product();
-                    $p->setName($item->Title)
-                        ->setASIN($item->ItemID)
+                    $p->setName((string)($item->Title))
+                        ->setASIN((string)($item->ItemID))
                         ->setMerchant('ebay');
                     ;
 
 
                     if (isset($item->GalleryURL)){
-                        $p->setImages($item->GalleryURL);
+                        $p->setImages((string)($item->GalleryURL));
                     }
 
                     if (isset($item->ViewItemURLForNaturalSearch)){
-                        $p->setDetailURL($item->ViewItemURLForNaturalSearch);
+                        $p->setDetailURL((string)($item->ViewItemURLForNaturalSearch));
                     }
 
                     if (isset($item->CurrentPrice)) {
                         $p->addPrice('ebay',
-                            new Model_Price($item->CurrentPrice,
-                                $item->CurrentPrice . " USD"));
+                            new Model_Price((string)($item->CurrentPrice),
+                                (string)($item->CurrentPrice) . (isset($item->CurrentPrice->attributes()['currencyId']) ? $item->CurrentPrice->attributes()['currencyId'] : " USD")));
                     }
 
             /*
@@ -136,9 +146,9 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
     }
 
     /**
-     * Add a product for tracking
+     * Add a product for tracking (it doesn't update the new prices of product) to local database
      * @param $product
-     * @return mixed
+     * @return TRUE or FALSE
      */
     public function track($product)
     {
@@ -181,7 +191,7 @@ class Model_Ebay_Product extends Model_MerchantAbstract {
 
     /**
      * Update new price of products which users have already added into database
-     * @return mixed
+     * @return TRUE or FALSE
      */
     public function updateDB()
     {

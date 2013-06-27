@@ -61,3 +61,16 @@ Update product Conan the Destroyer [DVD] [1984] with price type: amazon OK   |||
 Products from Controller_Ebay_Home have been updated!
 -------------------------------------
 
+June 17, 2013, 8:51 pm
+
+Products from Controller_Amazon_Home have been updated!
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon-new OK   ||| Old price:3.77  New Price:3.78 
+Update product Conan the Destroyer [DVD] [1984] with price type: amazon-used OK   ||| Old price:3.77  New Price:3.78 
+Update product HP Office A4 Multifunctional Paper 80gsm with price type: amazon-new OK   ||| Old price:5.63  New Price:5.52 
+Update product Nike Mens Black Tracksuit bottoms Size S with price type: amazon OK   ||| Old price:19.99  New Price:40 
+
+Products from Controller_Ebay_Home have been updated!
+Update product Nokia Lumia 920 - 32GB - Black (Unlocked) Mint Condition with price type: ebay OK   ||| Old price:329  New Price:429.0 
+Update product ULTRA SOFT PLUSH MICRO FLEECE THROW BLANKET QUEEN KING 8 COLORS with price type: ebay OK   ||| Old price:26.99  New Price:22.94 
+-------------------------------------
+

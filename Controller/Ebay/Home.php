@@ -7,8 +7,14 @@
 */
 
 
+/**
+ * Class Controller_Ebay_Home : Main class of Ebay Merchant
+ */
 class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
+    /**
+     * Constructor
+     */
     public function __construct(){
         parent::__construct();
         $this->view->currentMerchant = 'ebay';
@@ -17,8 +23,8 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
     /**
      * Display index page
-     * @param $param
-     * @return mixed
+     * @param $param : we don't need any parameter here
+     * @return nothing, but flush HTML output to client
      */
     public function indexAction($param)
     {
@@ -39,7 +45,7 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
     /**
      * Search products by keyword
      * @param $param : array of parameters (depend on the interface, such as $param['textbox1']...)
-     * @return mixed
+     * @return nothing, but flush HTML output to client screen
      */
     public function searchAction($param)
     {
@@ -71,8 +77,8 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
     /**
      * Look up a product by given product code
-     * @param $param
-     * @return mixed
+     * @param $param : contain id of product which need to look up
+     * @return Model_Product
      */
     public function lookupAction($param)
     {
@@ -86,7 +92,7 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
     /**
      * View detail of a product (include graph of prices)
      * @param $param['id'] : product code
-     * @return mixed
+     * @return nothing, but flush HTML output to client screen
      */
     public function viewAction($param)
     {
@@ -120,7 +126,7 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
 
     /**
      * Update price for all tracked products of this merchant
-     * @return mixed
+     * @return TRUE or FALSE
      */
     public function updateDBAction($param)
     {
@@ -131,6 +137,11 @@ class Controller_Ebay_Home extends Controller_MerchantAbstract {
         return $model->updateDB();
     }
 
+    /**
+     * Track new product
+     * @param $product : product which we want to track
+     * @return TRUE or FALSE
+     */
     public function trackAction($product)
     {
         if (DEBUG){

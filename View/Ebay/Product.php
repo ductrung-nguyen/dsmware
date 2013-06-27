@@ -1840,7 +1840,7 @@ _gaq.push(['_trackPageLoadTime']);
 
 
 
-
+                        <input id="s" name="s" type="hidden" value="ebay" />
                         <input type="text" name="sq" id="sq" value="" onclick="check_clear(this);" onblur="check_blur(this);" title="Search for">
                         <input id="searchbutton" type="submit" value="Find Products">
                     </form>

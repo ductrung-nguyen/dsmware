@@ -9,6 +9,9 @@
 defined('APP') or die('Access denied');
 
 class Core {
+    /**
+     * @var $config: contains configuration of system
+     */
     public static $config;
 
     /**
@@ -66,6 +69,10 @@ class Core {
         }
     }
 
+    /**
+     * Include a configuration file by uri
+     * @param $url_pattern : pattern of uri, such as Config_Amazon_Setting
+     */
     public static function includeConfigFile($url_pattern){
         $url_pattern = ucwords(str_replace('_', DS, $url_pattern));
         $classFile = SERVER_ROOT . DS . $url_pattern . '.php';

@@ -6,9 +6,13 @@
  * Group: Hieu-Trung
 */
 
-
 class Model_Amazon_Product extends Model_MerchantAbstract {
 
+    /**
+     * Search product by keywork on Amazon site
+     * @param $keyword
+     * @return array|Model_Product|null
+     */
     public function search($keyword)
     {
         Core::includeConfigFile('Configs_Modules_Amazon_Settings');
@@ -85,6 +89,11 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
         return null;
     }
 
+    /**
+     * Look up information of individual product on Amazon's site
+     * @param $productID
+     * @return mixed|Model_Product|null
+     */
     public function lookup($productID)
     {
         Core::includeConfigFile('Configs_Modules_Amazon_Settings');
@@ -156,9 +165,9 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
     }
 
     /**
-     * Add a product for tracking (it doesn't update the new prices of product)
+     * Add a product for tracking (it doesn't update the new prices of product) to local database
      * @param $product
-     * @return mixed
+     * @return TRUE or FALSE
      */
     public function track($product)
     {
@@ -201,7 +210,7 @@ class Model_Amazon_Product extends Model_MerchantAbstract {
 
     /**
      * Update new price of products which users have already added into database
-     * @return mixed
+     * @return TRUE or FALSE
      */
     public function updateDB()
     {

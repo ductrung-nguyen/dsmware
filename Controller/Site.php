@@ -14,6 +14,7 @@ class Controller_Site extends Core_Controller {
     /**
      * Display the default page of Site control (such as show the main homepage...)
      * @param $param
+     * @return nothing, but flush HTML output to client
      */
     public function indexAction($param){
         // set title for page
@@ -31,6 +32,11 @@ class Controller_Site extends Core_Controller {
         $this->view->render();
     }
 
+    /**
+     * Search products by keyword
+     * @param $param : array of parameters (depend on the interface, such as $param['textbox1']...)
+     * @return no-return, but flush HTML output to client
+     */
     public function searchAction($param){
         // the right parameters such as s=searchingSite & sq=keyword
         if (DEBUG){

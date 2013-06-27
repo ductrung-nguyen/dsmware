@@ -8,6 +8,9 @@
 
 defined('APP') or die('Access denied');
 
+/**
+ * Class Core_View: class which responsible to display output
+ */
 class Core_View {
 
     /**
@@ -54,6 +57,11 @@ class Core_View {
         }
     }
 
+    /**
+     * Set template for output
+     * The template will be: /View/$template.php, for example: /View/Amazon/product.php
+     * @param $template: name of template file (contain html + php code to display)
+     */
     public function setTemplate($template){
         //compose file name
         $file = SERVER_ROOT . '/View/' . $template . '.php';
