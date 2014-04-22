@@ -6,8 +6,8 @@
                 <active>true</active>
                 <codepool>amazon</codepool>
                 <class>Controller_Amazon_Home</class>
-                <AWS_API_KEY>AKIAJFPRH7S6FI6JM32Q</AWS_API_KEY>
-                <AWS_API_SECRET_KEY>/472iXWeKYcoTrKYYlylB</AWS_API_SECRET_KEY>
+                <AWS_API_KEY></AWS_API_KEY>
+                <AWS_API_SECRET_KEY></AWS_API_SECRET_KEY>
                 <AWS_ASSOCIATE_TAG>mmifas-20</AWS_ASSOCIATE_TAG>
                 <AWS_ANOTHER_ASSOCIATE_TAG></AWS_ANOTHER_ASSOCIATE_TAG>
                 <logo>http://www.louisebatz.org/Files/Images/amazon_logo.jpg</logo>
